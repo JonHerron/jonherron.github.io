@@ -1,0 +1,17 @@
+﻿<site title="BaseUI: %PAGE%" menu="true" indexFirst="true">
+  <page id="index" src="swf/index.swf" bytes="39854">
+    <asset id="baseUI" src="xml/baseUI.xml" bytes="495"/>
+    <asset id="background" src="bitmap/jhp-000.jpg" bytes="1077733"/>
+	<asset id="siteFonts" src="swf/siteFonts.swf" fonts="MankSansMedium,PFRondaSeven,Bend2Squares" bytes="25263" />
+    <page id="nav" src="swf/nav.swf" depth="top" bytes="42480">
+	  <asset id="logo" src="bitmap/logo.png"/>
+      <asset id="background" src="bitmap/jhp-000.jpg" bytes="1077733"/>
+      <page id="home" title="Home" src="swf/pages/home.swf" menu="true" bytes="39079">
+        <asset id="background" src="bitmap/jhp-000.jpg" bytes="1077733"/>
+      </page>
+      <page id="default" title="Default" src="swf/pages/default.swf" menu="true" bytes="39105">
+        <asset id="background" src="bitmap/jhp-000.jpg" bytes="1077733"/>
+      </page>
+    </page>
+  </page>
+</site>
