@@ -5,13 +5,101 @@
 	<title>404 Error</title>
 </head>
 <style>
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700italic);
+
+* { padding: 0; margin: 0; }
+body { background: #1abc9c; font-family: 'Lato', sans-serif; text-transform: uppercase; letter-spacing: 1px;}
+ 
+header {
+    text-align: justify;
+    height: 8em;
+    padding: 2em 5%;
+    background: #2c3e50;
+    color: #fff;
+}
+
+header h1,
+header nav {
+    display: inline-block;
+}
+ 
+header h1 {
+    height: 100%;
+}
+ 
+header h1::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;  
+    height: 100%;
+}
+
+header::after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+}
+ 
+header > div,
+header > div::before,
+header nav,
+header > div h1 {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+}
+ 
+header > div {
+    height: 100%;
+}
+ 
+header > div::before {
+    content: '';
+    height: 100%;
+}
+ 
+header > div h1 {
+    font-size: 3em;
+    font-style: italic;
+}
+ 
+header nav a {
+    padding: 0 0.6em;
+    white-space: nowrap;
+}
+ 
+header nav a:last-child {
+    padding-right: 0;
+}
+ 
+@media screen and (max-width: 720px){
+     
+    header {
+        height: auto;
+    }
+     
+    header > div,
+    header > div h1,
+    header nav {
+        height: auto;
+        width: auto;
+        display: block;
+        text-align: center;
+    }
+     
+}
+
 html { 
    width:100%; 
    height:100%; 
    background:url(bitmap/404.jpg) center center no-repeat;
 }
+
 </style>
 <body>
-
+<header>
+    <div><h1>Jon Herron</h1></div>
+    <nav><a>First Link</a><a>Second Link</a><a>Third Link</a></nav>
+</header>
 </body>
 </html>
