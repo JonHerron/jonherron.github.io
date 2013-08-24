@@ -1,0 +1,124 @@
+@import url(http://fonts.googleapis.com/css?family=Lora);
+
+html
+{
+	font-family: "Lora", Georgia, serif;
+	font-size: 60%;
+	line-height: 2;
+}
+
+body
+{
+	color: hsl(0, 75%, 10%);
+	background-image:url(../../bitmap/wild_oliva.png);
+	margin: 0 auto;
+	padding: 5px;
+	top: 0;
+	bottom: 0;
+}
+
+.honeycomb
+{
+	margin: 0 auto;
+	text-align: center;
+	/* border:#FF0000 dashed 1px; */
+}
+
+
+.hexagon:nth-child(even) { top: 65px; }
+
+
+.hexagon
+{
+	background-color: hsl(220, 75%, 75%);
+	position: relative;
+	display: inline-block;
+	margin: auto 20px;
+	text-align: center;
+}
+
+.hexagon,
+.hexagon::before,
+.hexagon::after
+{
+	width: 70px;
+	height: 120px;
+	border-radius: 25%/5%;
+}
+
+.hexagon::before
+{
+	background-color: inherit;
+	content: "";
+	position: absolute;
+	left: 0;
+	-webkit-transform: rotate(-60deg);
+	-moz-transform: rotate(-60deg);
+	-ms-transform: rotate(-60deg);
+	-o-transform: rotate(-60deg);
+	transform: rotate(-60deg);
+}
+
+.hexagon::after
+{
+	background-color: inherit;
+	content: "";
+	position: absolute;
+	left: 0;
+	-webkit-transform: rotate(60deg);
+	-moz-transform: rotate(60deg);
+	-ms-transform: rotate(60deg);
+	-o-transform: rotate(60deg);
+	transform: rotate(60deg);
+}
+
+.hexagon:hover
+{
+	cursor: pointer;
+	z-index: 105;
+	background-color: rgb(240,200,0);
+}
+
+.hexagon:active
+{
+	z-index: 110;
+}
+
+
+
+
+
+
+
+
+
+
+.hexagonSpacer
+{
+	position: relative;
+	display: inline-block;
+	width: 70px;
+	height: 120px;
+	margin: auto 20px;
+	/* border:#FF0000 dashed 2px; */
+}
+
+
+
+
+.hexagonContent
+{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	width: 120%;
+	font-size: 1.5rem;
+	line-height: 1.0;
+	z-index: 100;
+}
+
