@@ -1,71 +1,63 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>BaseUI</title>
-<script type="text/javascript" src="js/swfobject.js"></script>
-<script type="text/javascript" src="js/swfaddress.js"></script>
-<script type="text/javascript" src="js/swffit.js"></script>
-<script type="text/javascript">
+<title>JonHerron.co.uk</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
 
-	var params = {
-		quality: "high",
-		scale: "noscale",
-		wmode: "direct",
-		allowScriptAccess: "always",
-		allowFullScreen: "true",
-		allowFullScreenInteractive : "true",
-		bgcolor: "#999999"
-	};
+<!-- jQuery, -->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 
-	var flashvars = {
-		siteXML: "xml/site.xml"
-	};
+<!-- Fotorama -->
+<link href="css/font.css" rel="stylesheet">
+<link  href="css/fotorama.css" rel="stylesheet">
+<link href="css/site.css" rel="stylesheet">
+<script src="js/fotorama.js"></script>
 
-	var attributes = {
-		id: "flashcontent",
-		name: "flashcontent"
-	};
-
-	swfobject.embedSWF("main.swf", "flashcontent", "100%", "100%", "11.2.0", "expressInstall.swf", flashvars, params, attributes);
-	
-	swffit.fit("flashcontent",640,480); 
-	</script>
-<style type="text/css">
-	/*hide from ie on mac\*/
-	#flashcontent {
-
-	}
-	/* end hide */
-	body {
-		margin: 0;
-		padding: 0;
-		background-color: #333333;
-	}
-</style>
+<!-- Just don’t want to repeat this prefix in every img[src] -->
+<base href="bitmap/portfolio/large/">
 </head>
+
 <body>
-	
-	<div id="flashcontent">
-		<!--SEO-->
-		<div id="noflash">
-			Get <a href="http://www.adobe.com/go/getflash">Adobe Flash Player</a>.
-		</div>
-	</div>
-	
-	<script type="text/javascript">
-	
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-27003387-1']);
-	  _gaq.push(['_trackPageview']);
-	
-	  (function() {
-		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-	
-	</script>
-	
+<!-- Top overlay -->
+
+<section>
+	<nav> 
+		<span>JON HERRON&nbsp;&nbsp;</span> 
+		<a href="http://www.jonherron.co.uk/#001"><span data-hover="Home&nbsp;">Home&nbsp;</span></a> 
+		<a href="http://www.jonherron.co.uk/#002"><span data-hover="Photography&nbsp;">Photography&nbsp;</span></a> 
+		<a href="http://www.jonherron.co.uk/#003"><span data-hover="Stuff&nbsp;">Stuff&nbsp;</span></a> 
+		<a href="http://www.jonherron.co.uk/#004"><span data-hover="Things&nbsp;">Things&nbsp;</span></a> 
+		<a href="http://www.jonherron.co.uk/#005"><span data-hover="Contact&nbsp;">Contact&nbsp;</span></a> 
+	</nav>
+</section>
+
+<!-- Fotorama -->
+<div class="fotorama"
+	 data-width="100%"
+	 data-height="100%"
+	 data-fit="cover"
+	 data-nav="none"
+	 data-allow-full-screen="native"
+	 data-hash="true" 
+	 data-shuffle="false"> 
+		 <a href="jhp-000.jpg" id="000"></a> 
+		 <a href="jhp-001.jpg" id="001"></a> 
+		 <a href="jhp-002.jpg" id="002"></a> 
+		 <a href="jhp-003.jpg" id="003"></a> 
+		 <a href="jhp-004.jpg" id="004"></a> 
+		 <a href="jhp-005.jpg" id="005"></a> 
+		 <a href="jhp-006.jpg" id="006"></a> 
+		 <a href="jhp-007.jpg" id="007"></a> 
+		 <a href="jhp-008.jpg" id="008"></a> 
+		 <a href="jhp-009.jpg" id="009"></a> 
+		 <a href="jhp-010.jpg" id="010"></a> 
+	 </div>
+
+<!-- Bottom overlay -->
+<div class="footer"> 
+	<!-- © -->
+	<p>Photos by <a href="http://www.jonherron.co.uk/">Jon Herron</a></p>
+</div>
 </body>
 </html>

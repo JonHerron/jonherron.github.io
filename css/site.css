@@ -1,0 +1,71 @@
+body
+{
+	margin: 0; overflow: hidden; background: #000; position: relative; color: #fff;
+	// Reset margins to remove any gap
+}
+
+a
+{
+	color: #fff;
+}
+
+.footer, section {
+  position: absolute; z-index: 20; padding: 0; 
+}
+
+.footer
+{
+	bottom: 0px; right: 10px; font-size:0.8em 
+}
+
+section {
+  overflow: hidden;
+  color:#3d3d3d;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: rgba(30, 30, 30, 0.15);
+}
+
+nav {
+  font-size: 1.6em;
+}
+
+span {
+  color:#FFF;
+}
+
+/* Effect: same word slide in */
+nav a {
+  overflow: hidden;
+  padding: 5;
+  line-height: 2em;
+}
+
+nav a span {
+  position: relative;
+  display: inline-block;
+  color: #DDD;
+  -webkit-transition: -webkit-transform 0.3s;
+  -moz-transition: -moz-transform 0.3s;
+  transition: transform 0.3s;
+}
+
+nav a span::before {
+  position: absolute;
+  display: inline-block;
+  top: 100%;
+  content: attr(data-hover);
+  color: #EEE;
+  -webkit-transform: translate3d(0,0,0);
+  -moz-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+}
+
+nav a:hover span,
+nav a:focus span {
+  -webkit-transform: translateY(-100%);
+  -moz-transform: translateY(-100%);
+  transform: translateY(-100%);
+}
+
+/* Effect: same word slide in and border bottom */
