@@ -6,7 +6,8 @@
 <meta name="viewport" content="width=device-width">
 
 <!-- jQuery, -->
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<!--<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+--><script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js'></script>
 
 <!-- Fotorama -->
 <link href="css/font.css" rel="stylesheet">
@@ -15,7 +16,9 @@
 <script src="js/fotorama.js"></script>
 
 <!-- Just don’t want to repeat this prefix in every img[src] -->
-<base href="bitmap/portfolio/large/">
+<!-- <base href="bitmap/portfolio/large/"> -->
+<style type="text/css">
+</style>
 </head>
 
 <body>
@@ -23,14 +26,40 @@
 
 <section>
 	<nav> 
-		<span>JON HERRON&nbsp;&nbsp;</span> 
+		<span class="logo">JON HERRON&nbsp;&nbsp;</span> 
 		<a href="http://www.jonherron.co.uk/#001"><span data-hover="Home&nbsp;">Home&nbsp;</span></a> 
-		<a href="http://www.jonherron.co.uk/#002"><span data-hover="Photography&nbsp;">Photography&nbsp;</span></a> 
+		<a href="experiments/AnimatedResponsiveImageGrid/index.html"><span data-hover="Grid&nbsp;">Grid&nbsp;</span></a> 
 		<a href="http://www.jonherron.co.uk/#003"><span data-hover="Stuff&nbsp;">Stuff&nbsp;</span></a> 
 		<a href="http://www.jonherron.co.uk/#004"><span data-hover="Things&nbsp;">Things&nbsp;</span></a> 
 		<a href="http://www.jonherron.co.uk/#005"><span data-hover="Contact&nbsp;">Contact&nbsp;</span></a> 
 	</nav>
 </section>
+
+
+
+<div class="wrap">
+  <div class="hovereff"></div>
+  <div class="art">
+    <h3>Lorem</h3>
+     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat consectetur dui, non tempor tortor congue nec. In sodales laoreet lorem ut dapibus.</p>
+  </div>
+    <div class="art">
+       <h3>Quisque</h3>
+       <p>Quisque sit amet purus ut lorem lobortis dignissim. Pellentesque aliquet purus eget turpis facilisis, sit amet faucibus sapien aliquet. Vivamus condimentum nisi et gravida tempor. Praesent malesuada pulvinar magna, feugiat consequat odio lobortis et. Vestibulum hendrerit congue arcu non lobortis. Sed ultrices dolor quis vulputate commodo. In magna nisl, condimentum eget dapibus eu, consequat nec tortor. Aliquam erat volutpat. Sed eu ultrices mi, sed mollis sem. Suspendisse tristique, nisi sit amet consequat congue, diam nisl hendrerit felis, in accumsan nunc sapien egestas felis.</p>
+  </div>
+    <div class="art">
+       <h3>Aliquam</h3>
+       <p>Aliquam auctor pulvinar sem quis aliquet.</p>
+  </div>
+    <div class="art">
+       <h3>Porttitor</h3>
+       <p>Ut porttitor id est nec volutpat. In quam mauris, luctus sit amet turpis id, venenatis lobortis metus. Donec convallis egestas laoreet.</p>
+  </div>
+      
+</div>
+
+
+
 
 <!-- Fotorama -->
 <div class="fotorama"
@@ -41,17 +70,17 @@
 	 data-allow-full-screen="native"
 	 data-hash="true" 
 	 data-shuffle="false"> 
-		 <a href="jhp-000.jpg" id="000"></a> 
-		 <a href="jhp-001.jpg" id="001"></a> 
-		 <a href="jhp-002.jpg" id="002"></a> 
-		 <a href="jhp-003.jpg" id="003"></a> 
-		 <a href="jhp-004.jpg" id="004"></a> 
-		 <a href="jhp-005.jpg" id="005"></a> 
-		 <a href="jhp-006.jpg" id="006"></a> 
-		 <a href="jhp-007.jpg" id="007"></a> 
-		 <a href="jhp-008.jpg" id="008"></a> 
-		 <a href="jhp-009.jpg" id="009"></a> 
-		 <a href="jhp-010.jpg" id="010"></a> 
+		 <a href="bitmap/portfolio/large/jhp-000.jpg" id="000"></a> 
+		 <a href="bitmap/portfolio/large/jhp-001.jpg" id="001"></a> 
+		 <a href="bitmap/portfolio/large/jhp-002.jpg" id="002"></a> 
+		 <a href="bitmap/portfolio/large/jhp-003.jpg" id="003"></a> 
+		 <a href="bitmap/portfolio/large/jhp-004.jpg" id="004"></a> 
+		 <a href="bitmap/portfolio/large/jhp-005.jpg" id="005"></a> 
+		 <a href="bitmap/portfolio/large/jhp-006.jpg" id="006"></a> 
+		 <a href="bitmap/portfolio/large/jhp-007.jpg" id="007"></a> 
+		 <a href="bitmap/portfolio/large/jhp-008.jpg" id="008"></a> 
+		 <a href="bitmap/portfolio/large/jhp-009.jpg" id="009"></a> 
+		 <a href="bitmap/portfolio/large/jhp-010.jpg" id="010"></a> 
 	 </div>
 
 <!-- Bottom overlay -->
@@ -59,5 +88,8 @@
 	<!-- © -->
 	<p>Photos by <a href="http://www.jonherron.co.uk/">Jon Herron</a></p>
 </div>
+
+
+  <script src="js/index.js"></script>
 </body>
 </html>
