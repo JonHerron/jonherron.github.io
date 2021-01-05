@@ -1,4 +1,4 @@
 jonherron.github.io
 ===================
 
-Just some site experimental templates in various languages
+Just some site with experimental templates using various languages
