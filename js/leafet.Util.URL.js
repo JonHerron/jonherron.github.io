@@ -103,6 +103,7 @@ L.Util.URL = L.Util.extend({
         }, document.title, locationSearchToUpdateTo + location.hash);
 
         // attribution
+        console.log("this.options.showInAttribution", this);
         if(this.options.showInAttribution) L.Util.URL.map.attributionControl.setPrefix(location.href);
 
     },
