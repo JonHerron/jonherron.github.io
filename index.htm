@@ -1,95 +1,45 @@
 <!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
+
 <head>
-<title>JonHerron.co.uk</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<!-- jQuery, -->
-<!--<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
---><script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js'></script>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Fotorama -->
-<link href="css/font.css" rel="stylesheet">
-<link  href="css/fotorama.css" rel="stylesheet">
-<link href="css/site.css" rel="stylesheet">
-<script src="js/fotorama.js"></script>
 
-<!-- Just don’t want to repeat this prefix in every img[src] -->
-<!-- <base href="bitmap/portfolio/large/"> -->
-<style type="text/css">
-</style>
+    <!-- Bootstrap 5.0.0 -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" crossorigin="anonymous"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" />
+
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+
+
+    <link rel="stylesheet" href="./index.css">
+
+
+    <title>Leaflet.URL</title>
 </head>
 
 <body>
-<!-- Top overlay -->
-
-<section>
-	<nav> 
-		<span class="logo">JON HERRON&nbsp;&nbsp;</span> 
-		<a href="http://www.jonherron.co.uk/#001"><span data-hover="Home&nbsp;">Home&nbsp;</span></a> 
-		<a href="experiments/AnimatedResponsiveImageGrid/index.html"><span data-hover="Grid&nbsp;">Grid&nbsp;</span></a> 
-		<a href="http://www.jonherron.co.uk/#003"><span data-hover="Stuff&nbsp;">Stuff&nbsp;</span></a> 
-		<a href="http://www.jonherron.co.uk/#004"><span data-hover="Things&nbsp;">Things&nbsp;</span></a> 
-		<a href="http://www.jonherron.co.uk/#005"><span data-hover="Contact&nbsp;">Contact&nbsp;</span></a> 
-	</nav>
-</section>
-
-
-
-<div class="wrap">
-  <div class="hovereff"></div>
-  <div class="art">
-    <h3>Lorem</h3>
-     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat consectetur dui, non tempor tortor congue nec. In sodales laoreet lorem ut dapibus.</p>
-  </div>
-    <div class="art">
-       <h3>Quisque</h3>
-       <p>Quisque sit amet purus ut lorem lobortis dignissim. Pellentesque aliquet purus eget turpis facilisis, sit amet faucibus sapien aliquet. Vivamus condimentum nisi et gravida tempor. Praesent malesuada pulvinar magna, feugiat consequat odio lobortis et. Vestibulum hendrerit congue arcu non lobortis. Sed ultrices dolor quis vulputate commodo. In magna nisl, condimentum eget dapibus eu, consequat nec tortor. Aliquam erat volutpat. Sed eu ultrices mi, sed mollis sem. Suspendisse tristique, nisi sit amet consequat congue, diam nisl hendrerit felis, in accumsan nunc sapien egestas felis.</p>
-  </div>
-    <div class="art">
-       <h3>Aliquam</h3>
-       <p>Aliquam auctor pulvinar sem quis aliquet.</p>
-  </div>
-    <div class="art">
-       <h3>Porttitor</h3>
-       <p>Ut porttitor id est nec volutpat. In quam mauris, luctus sit amet turpis id, venenatis lobortis metus. Donec convallis egestas laoreet.</p>
-  </div>
-      
-</div>
-
-
-
-
-<!-- Fotorama -->
-<div class="fotorama"
-	 data-width="100%"
-	 data-height="100%"
-	 data-fit="cover"
-	 data-nav="none"
-	 data-allow-full-screen="native"
-	 data-hash="true" 
-	 data-shuffle="false"> 
-		 <a href="bitmap/portfolio/large/jhp-000.jpg" id="000"></a> 
-		 <a href="bitmap/portfolio/large/jhp-001.jpg" id="001"></a> 
-		 <a href="bitmap/portfolio/large/jhp-002.jpg" id="002"></a> 
-		 <a href="bitmap/portfolio/large/jhp-003.jpg" id="003"></a> 
-		 <a href="bitmap/portfolio/large/jhp-004.jpg" id="004"></a> 
-		 <a href="bitmap/portfolio/large/jhp-005.jpg" id="005"></a> 
-		 <a href="bitmap/portfolio/large/jhp-006.jpg" id="006"></a> 
-		 <a href="bitmap/portfolio/large/jhp-007.jpg" id="007"></a> 
-		 <a href="bitmap/portfolio/large/jhp-008.jpg" id="008"></a> 
-		 <a href="bitmap/portfolio/large/jhp-009.jpg" id="009"></a> 
-		 <a href="bitmap/portfolio/large/jhp-010.jpg" id="010"></a> 
-	 </div>
-
-<!-- Bottom overlay -->
-<div class="footer"> 
-	<!-- © -->
-	<p>Photos by <a href="http://www.jonherron.co.uk/">Jon Herron</a></p>
-</div>
-
-
-  <script src="js/index.js"></script>
+    <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div id="mapid"></div>
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <script src="js/leafet.Util.URL.js" async defer></script>
+    <script src="./index.js" async defer></script>
 </body>
+
 </html>
