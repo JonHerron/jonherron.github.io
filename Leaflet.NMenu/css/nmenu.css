@@ -1,0 +1,280 @@
+:root {
+
+    --defaultBackgroundColour: rgb(211, 183, 144);
+    --defaultTextColour: rgba(66, 21, 4, 1);
+
+    --defaultBorderColour: rgba(167, 129, 77, 0.7);
+    --defaultBorderOptions: solid 2px var(--defaultBorderColour);
+
+    --defaultHighlightedTextColour: rgba(200, 200, 200, 1);
+
+    --defaultNonHoveredLinkColour: rgba(200, 200, 200, 0.7);
+    --defaultHoveredLinkColour: rgba(255, 255, 255, 1);
+
+    --defaultNonActiveLinkColour: rgba(200, 200, 200, 0.4);    
+    --defaultActiveLinkColour: var(--defaultHoveredLinkColour);
+
+    --defaultMainMenuBackgroundColour: rgb(167, 132, 84);
+    --defaultMainMenuTextColour: var(--defaultTextColour);
+    --defaultMainMenuBorderOptions: solid 2px var(--defaultBorderColour);
+
+    --defaultSubMenuBackgroundColour: rgb(161, 136, 100);
+    --defaultSubMenuTextColour: var(--defaultTextColour);
+
+    --webkitScrollbarWidth: 5px;
+
+    --webkitScrollbarNonHoveredButtonColor: var(--defaultNonHoveredLinkColour); 
+    --webkitScrollbarHoveredButtonColor: var(--defaultHoveredLinkColour);
+
+    --webkitScrollbarNonHoveredThumbColor: var(--defaultNonHoveredLinkColour);    
+    --webkitScrollbarHoveredThumbColor: var(--defaultHoveredLinkColour);
+
+    --webkitScrollbarTrackColor: var(----defaultNonActiveLinkColour);
+
+    --defaultFontFamily: "RDRLino", Arial, Helvetica, sans-serif;
+    --defaultFont: 12pt var(--defaultFontFamily);
+    
+    --alternativeFont: 8pt var(--defaultFontFamily);
+
+    --transitionDefaults: all 0.1s ease;
+
+
+
+
+
+
+
+
+
+    --defaultBackgroundHighlightColour: rgba(167, 129, 77, 1);
+
+    --defaultBackgroundHoverColour: rgba(167, 129, 77, 0.7);
+    --defaultBackgroundNonHoveredColour: rgba(167, 129, 77, 0.4);
+
+
+
+    --defaultTextHighlightColour: rgb(255, 255, 255);
+
+    --markerBorderOptions: solid 2px var(--defaultBorderColour);
+
+
+}
+
+::-webkit-scrollbar {
+    width: var(--webkitScrollbarWidth);
+}
+
+::-webkit-scrollbar-button {
+    width: var(--webkitScrollbarWidth);
+    height: 0px;
+    /* background-color: rgba(0, 0, 0, 0.5);
+    border: 1px dotted rgba(0, 0, 0, 0.25); */
+
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px dotted rgba(0, 0, 0, 0.25);
+    width: var(--webkitScrollbarWidth);
+}
+
+
+::-webkit-scrollbar-track {
+    border-radius: 0px;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-left: 1px dotted rgba(0, 0, 0, 0.25);
+    border-right: 1px dotted rgba(0, 0, 0, 0.25);
+    width: var(--webkitScrollbarWidth);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(defaultFontFamily);
+
+}
+
+* {
+    box-sizing: border-box;
+    outline: 0;
+    text-decoration: none;
+
+}
+
+
+a {
+    outline: 0;
+    text-decoration: none;
+    font-family: 'RDRLino', Courier, monospace;
+    color: var(--defaultNonHighlightedTextColour);
+}
+
+a:hover,
+a:active {
+    color: var(--defaultHighlightedTextColour);
+}
+
+ul {
+    list-style-type: none;
+}
+
+ul,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 32px;
+    font-family: 'RDRLino', Courier, monospace;
+    left:5px;
+    top:15px;
+    mix-blend-mode: screen;
+}
+
+
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 16px;
+    font-family: 'RDRLino', Courier, monospace;
+    margin-top: 5px;
+}
+
+
+p {
+    font-size: 12px;
+
+}
+
+.blended {
+    background-image: url(../../img/AR_400x400.jpg);
+    background-color: red;
+    background-blend-mode: multiply;
+    height: 120px;
+    background-size: contain;
+}
+
+#nmenu-ul-container>li>a:hover {
+    color: #ffffff;
+}
+
+#nmenu {
+    /* height: 100vh; */
+    background-color: rgb(128, 128, 128);
+}
+
+#nmenu-ul-container>li>div {
+    padding-right: 15px;
+    padding-left: 5px;
+    background-color: rgb(128, 128, 128);
+    color: rgb(209, 209, 209);
+}
+
+#nmenu-ul-container>li>ul>li {
+    margin-left: 5px;
+}
+
+#nmenu-ul-container>li>ul>li>a:hover {
+    color: #ffffff;
+}
+
+#nmenu-ul-container>li>ul {
+    background-color: rgb(128, 128, 128);
+    color: rgb(209, 209, 209);
+}
+
+#nmenu-ul-container>li>ul>li>a {
+    color: rgb(209, 209, 209);
+}
+
+#nmenu-ul-container>li>ul>li>a:hover {
+    color: #ffffff;
+}
+
+
+
+#nmenu-ul-container>li>ul>li>ul>li>a {
+    color: rgb(209, 209, 209);
+
+}
+
+
+#nmenu-ul-container>li>ul>li>ul>li>a:hover {
+    color: #ffffff;
+
+}
+
+
+#nmenu-ul-container>li>ul>li>ul>li:not(:empty) {
+    margin-left: 0px;
+}
+
+
+
+
+
+.nmenu-accordian {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: auto;
+}
+
+.nmenu-accordian .leafet-nmenu-accordian-item {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    padding-bottom: 0px;
+}
+
+.leafet-nmenu-accordian-trigger {
+    margin: 0;
+    position: relative;
+    padding: 5px;
+    width: 250px;
+    color: #bdbdbd;
+    font-weight: 400;
+    display: block;
+    font-weight: 500;
+    background-color: #262626;
+    cursor: pointer;
+    /* transition: var(--transitionDefaults); */
+
+    left: 0px;
+}
+
+
+
+
+
+.nmenu-accordian-panel {
+    width: 250px;
+    color: #262626;
+    transition: var(--transitionDefaults);
+    opacity: 0;
+    height: auto;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0px 10px 0px 10px;
+}
+
+.nmenu-accordian .leafet-nmenu-accordian-item.active .leafet-nmenu-accordian-trigger {
+    color: #fff;
+}
+
+
+
+.nmenu-accordian .leafet-nmenu-accordian-item.active .nmenu-accordian-panel {
+    display: relative;
+    padding: 0px;
+    opacity: 1;
+    /*  height: 30px;*/
+    max-height: 900px;
+}
+
+.nmenu-accordian-panel {}

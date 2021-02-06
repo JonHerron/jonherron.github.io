@@ -161,7 +161,7 @@ L.NMenu = L.Class.extend({
 
         nMenuDIV.appendChild(menuDIV);
 
-        document.body.insertBefore(nMenuDIV, this.containers.mapDIVElement);
+        this.containers.mapDIVElement.parentNode.insertBefore(nMenuDIV, this.containers.mapDIVElement);
 
     },
     _checkNMenuOptions: function () {
@@ -297,7 +297,7 @@ L.NMenu = L.Class.extend({
 
         // tCmeDS.setProperty('--scrollbar-background', "#FF0");
 
-        tCmeDS.height = '100vh';
+        tCmeDS.height = '100%';
         tCmeDS.display = 'block';
         // tCmeDS.backgroundColor = "#FF0";
         tCmeDS.position = 'absolute';
@@ -310,9 +310,9 @@ L.NMenu = L.Class.extend({
         let tCmaDS = this.containers.mapDIVElement.style;
         tCmaDS.overflowX = 'hidden';
         tCmaDS.overflowY = 'hidden';
-        tCmaDS.height = '100vh';
+        tCmaDS.height = '100%';
         tCmaDS.transition = 'width 0.1s ease-in-out';
-        tCmaDS.width = 'calc(100vw - 250px)';
+        tCmaDS.width = 'calc(100% - 250px)';
         // tCmeDS.transitionTimingFunction = 'ease-in-out';
 
 
@@ -327,7 +327,7 @@ L.NMenu = L.Class.extend({
     _menuHiddenStyles: function () {
 
         let tCmeDS = this.containers.menuDIVElement.style;
-        tCmeDS.height = '100vh';
+        tCmeDS.height = '100%';
         tCmeDS.display = 'block';
         // tCmeDS.backgroundColor = "#FF0";
         tCmeDS.position = 'absolute';
@@ -341,8 +341,8 @@ L.NMenu = L.Class.extend({
         let tCmaDS = this.containers.mapDIVElement.style;
         tCmaDS.overflowX = 'hidden';
         tCmaDS.overflowY = 'hidden';
-        tCmaDS.height = '100vh';
-        tCmaDS.width = '100vw';
+        tCmaDS.height = '100%';
+        tCmaDS.width = '100%';
         tCmaDS.left = '0';
         tCmaDS.transition = 'left 0.1s ease-in-out';
 
