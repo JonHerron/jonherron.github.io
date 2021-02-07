@@ -51,8 +51,8 @@ section {
 .main.card {
   background-color: #fff;
   border-radius: 10px;
-  border: 1px dashed rgba(128, 128, 128, 0.7);
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+  border: 1px dashed rgba(43, 43, 43, 0.89);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   margin: 10px;
   flex-grow: 1;
   min-height: 400px;
@@ -63,11 +63,11 @@ section {
 }
 
 .card {
-  background-color: #fff;
-  border-radius: 10px;
-  border: 1px dashed rgba(128, 128, 128, 0.7);
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
-  margin: 10px;
+  background-color: rgb(185, 185, 185);
+  border-radius: 2px;
+  border: 1px dashed rgba(0, 0, 0, 0.7);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+  margin: 5px;
   flex-grow: 1;
   flex-basis: 200px;
   overflow: hidden;
