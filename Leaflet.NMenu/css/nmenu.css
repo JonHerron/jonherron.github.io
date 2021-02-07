@@ -152,9 +152,9 @@ p {
 }
 
 .blended {
-    background-image: url(../../img/AR_400x400.jpg);
+    background-image: url(../img/banner.png);
     background-color: red;
-    background-blend-mode: multiply;
+    background-blend-mode:saturation;
     height: 120px;
     background-size: contain;
 }
