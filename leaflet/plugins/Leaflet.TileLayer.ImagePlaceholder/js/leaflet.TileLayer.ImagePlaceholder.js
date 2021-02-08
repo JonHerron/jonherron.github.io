@@ -1,4 +1,4 @@
-L.TileLayer.Imageholder = L.TileLayer.extend({
+L.TileLayer.ImagePlaceholder = L.TileLayer.extend({
 
     options: {
         imageholder: {
@@ -95,7 +95,7 @@ L.TileLayer.Imageholder = L.TileLayer.extend({
         let crazyCheck;
         let gifCheck;
 
-        ihOptions = this.imageholderOptions = L.TileLayer.prototype.options.imageholder ? L.TileLayer.prototype.options.imageholder : L.TileLayer.Imageholder.prototype.options.imageholder;
+        ihOptions = this.imageholderOptions = L.TileLayer.prototype.options.imageholder ? L.TileLayer.prototype.options.imageholder : L.TileLayer.ImagePlaceholder.prototype.options.imageholder;
 
         tileRes = ihOptions.tileResolution ? ihOptions.tileResolution : 512;
 
@@ -301,6 +301,6 @@ L.TileLayer.addInitHook(function () {
     console.log("addInitHook", this);
 });
 
-L.tileLayer.imageholder = function (opts) {
-    return new L.TileLayer.Imageholder(opts);
+L.tileLayer.imageplaceholder = function (opts) {
+    return new L.TileLayer.ImagePlaceholder(opts);
 };

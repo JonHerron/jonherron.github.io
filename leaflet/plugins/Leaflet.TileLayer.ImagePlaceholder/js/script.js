@@ -71,21 +71,21 @@ let placeholderTile_Options = {
 };
 
 
-let placeholderTileLayer1 = L.tileLayer.imageholder('loremFlickr', placeholderTile_Options);
+let placeholderTileLayer1 = L.tileLayer.imageplaceholder('loremFlickr', placeholderTile_Options);
 // let placeholderTileLayer2 = L.tileLayer.imageholder('fillMurray');
 
 let baseLayers = {
-    "Fake Img": L.tileLayer.imageholder('fakeImg'),
+    "Fake Img": L.tileLayer.imageplaceholder('fakeImg'),
     "Lorem Flickr": placeholderTileLayer1,
-    "Lorem Picsum": L.tileLayer.imageholder('loremPicsum'),
-    "Fill Murray": L.tileLayer.imageholder('fillMurray'),
-    "Place Cage": L.tileLayer.imageholder('placeCage'),
-    "Steven SeGALLERY": L.tileLayer.imageholder('stevenSegallery'),
-    "Dummy Image": L.tileLayer.imageholder('dummyImage'),
-    "Place Kitten": L.tileLayer.imageholder('placeKitten'),
-    "Place Beard": L.tileLayer.imageholder('placeBeard'),
-    "Place Img": L.tileLayer.imageholder('placeImg'),
-    "Place Bear": L.tileLayer.imageholder('placeBear')
+    "Lorem Picsum": L.tileLayer.imageplaceholder('loremPicsum'),
+    "Fill Murray": L.tileLayer.imageplaceholder('fillMurray'),
+    "Place Cage": L.tileLayer.imageplaceholder('placeCage'),
+    "Steven SeGALLERY": L.tileLayer.imageplaceholder('stevenSegallery'),
+    "Dummy Image": L.tileLayer.imageplaceholder('dummyImage'),
+    "Place Kitten": L.tileLayer.imageplaceholder('placeKitten'),
+    "Place Beard": L.tileLayer.imageplaceholder('placeBeard'),
+    "Place Img": L.tileLayer.imageplaceholder('placeImg'),
+    "Place Bear": L.tileLayer.imageplaceholder('placeBear')
     
 };
 
