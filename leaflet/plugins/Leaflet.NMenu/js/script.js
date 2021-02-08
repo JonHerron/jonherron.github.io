@@ -77,10 +77,16 @@ let darkmatterLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabe
     useCache: true
 });
 
+var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+	maxZoom: 20,
+	attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+});
+
 let baseLayers = {
     "Stamen Default": stamenLayer,
     "Stamen Toner": stamenTonerLayer,
-    "CartoDB Darkmatter" : darkmatterLayer
+    "CartoDB Darkmatter" : darkmatterLayer,
+    "Stadia AlidadeSmoothDark": Stadia_AlidadeSmoothDark
 };
 
 L.control.layers(baseLayers).addTo(mymap);
