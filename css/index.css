@@ -1,11 +1,11 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
-@import url("https://fonts.googleapis.com/css?family=Cardo:400i|Rubik:400,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Yusei+Magic&display=swap');
 
 :root {
   --d: 700ms;
   --e: cubic-bezier(0.19, 1, 0.22, 1);
-  --font-sans: "Rubik", sans-serif;
-  --font-serif: "Cardo", serif;
+  --font-serif: 'Merriweather', serif;
+  --font-sans: 'Yusei Magic', sans-serif;
 }
 
 * {
@@ -20,6 +20,7 @@ body {
 body {
   display: grid;
   place-items: center;
+  background-color: #636363;
 }
 
 .page-content {
@@ -53,7 +54,7 @@ body {
   text-align: center;
   color: whitesmoke;
   background-color: whitesmoke;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 2px 2px rgba(0, 0, 0, 0.1), 0 4px 4px rgba(0, 0, 0, 0.1), 0 8px 8px rgba(0, 0, 0, 0.1), 0 16px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
 }
 
 @media (min-width: 600px) {
@@ -90,19 +91,19 @@ body {
 }
 
 .card:nth-child(1):before {
-  background-image: url(https://picsum.photos/200/300?random=1&grayscale&blur=2);
+  background-image: url(https://loremflickr.com/g/320/240/animal,dog,cat/all?random=1);
 }
 
 .card:nth-child(2):before {
-  background-image: url(https://picsum.photos/200/300?random=2&grayscale&blur=2);
+  background-image: url(https://loremflickr.com/g/320/240/animal,dog,cat/all?random=2);
 }
 
 .card:nth-child(3):before {
-  background-image: url(https://picsum.photos/200/300?random=3&grayscale&blur=2);
+  background-image: url(https://loremflickr.com/g/320/240/animal,dog,cat/all?random=3);
 }
 
 .card:nth-child(4):before {
-  background-image: url(https://picsum.photos/200/300?random=4&grayscale&blur=2);
+  background-image: url(https://loremflickr.com/g/320/240/animal,dog,cat/all?random=4);
 }
 
 .content {
@@ -111,13 +112,13 @@ body {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding: 1rem;
+  padding: 0.5rem;
   transition: transform var(--d) var(--e);
   z-index: 1;
 }
 
 .content>*+* {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .title {
@@ -147,7 +148,7 @@ body {
 }
 
 .btn:hover {
-  background-color: #0d0d0d;
+  background-color: #ecdd0a;
 }
 
 .btn:focus {
@@ -177,7 +178,7 @@ body {
 
   .card:hover:before,
   .card:focus-within:before {
-    transform: translateY(-4%);
+    transform: translateY(-3%);
   }
 
   .card:hover:after,

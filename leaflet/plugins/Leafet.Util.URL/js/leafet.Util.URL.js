@@ -68,10 +68,15 @@ L.Util.URL = L.Util.extend({
         }
         return updatedParams;
     },
-    updateParameter: function (parameter, value, remove) {
-        let deleteCheck = remove ? remove : false;
+    updateParameter: function (parameter, value, decimals) {
 
-        if (!deleteCheck) L.Util.URL.parameters[parameter] = value;
+
+        if (typeof value === 'number') {
+            // console.log("woo a number");
+            value = this.formatNumber(value, decimals);
+        }
+
+        L.Util.URL.parameters[parameter] = value;
 
         //update URL
         let locationSearchToUpdateTo = '?';
@@ -117,14 +122,14 @@ L.Util.URL = L.Util.extend({
 
 
         // attribution
-       // console.log("this.map.url.options.showInAttribution", this.map.url.options.showInAttribution);
+        // console.log("this.map.url.options.showInAttribution", this.map.url.options.showInAttribution);
 
         if (this.map.url.options.showInAttribution) {
             let attHTML = "<a id='attributionPrefix' href='#'>" + location.origin + location.pathname + locationSearchToUpdateTo + location.hash + "</a>";
             // console.log(attHTML);
             L.Util.URL.map.attributionControl.setPrefix(attHTML);
             let prefixElement = L.DomUtil.get('attributionPrefix');
-           // console.log(prefixElement);
+            // console.log(prefixElement);
 
         }
 
@@ -167,12 +172,12 @@ L.Util.URL = L.Util.extend({
         } else if (ev.type == 'moveend') {
             // console.log(consoleText + "moveend ev.target._lastCenter ~", ev);
 
-            L.Util.URL.updateParameter('lat', ev.target.url.map.getCenter().lat);
-            L.Util.URL.updateParameter('lng', ev.target.url.map.getCenter().lng);
+            L.Util.URL.updateParameter('lat', ev.target.getCenter().lat, 5);
+            L.Util.URL.updateParameter('lng', ev.target.getCenter().lng, 5);
 
         } else if (ev.type == 'zoomend') {
             // console.log(consoleText + "zoomend ev.target._zoom ~", ev.target._zoom);
-            L.Util.URL.updateParameter('zoom', ev.target._zoom);
+            L.Util.URL.updateParameter('zoom', ev.target.getZoom());
         } else if (ev.type == 'zoomlevelschange') {
             //console.log(consoleText + "zoomlevelschange ev ~", ev);
         } else if (ev.type == 'baselayerschange') {
@@ -191,7 +196,7 @@ L.Util.URL = L.Util.extend({
             // L.Util.URL.updateParameter('mapID', ev.layer._leaflet_id);
 
         } else if (ev.type == 'click') {
-          //  console.log(consoleText + "click ev ~", ev);
+            //  console.log(consoleText + "click ev ~", ev);
             // L.Util.URL.updateParameter('popUpID', ev.popup._source._leaflet_id);
             // WHY THE F DOES THE MAP ID Change here?
             // L.Util.URL.updateParameter('mapID', ev.layer._leaflet_id);
@@ -205,6 +210,12 @@ L.Util.URL = L.Util.extend({
     changeHandler: function (ev) {
         // console.log("changeHandler -- ev.target ~", ev.target);
         //
+    },
+    formatNumber: function (num, decimals) {
+        return num.toLocaleString({
+            minimumFractionDigits: decimals ? decimals : 3,
+            maximumFractionDigits: decimals ? decimals : 3
+        });
     }
 
 
@@ -238,7 +249,7 @@ L.Class.addInitHook(function () {
 
 
 L.Map.addInitHook(function () {
-    console.log("UTIL.URL!! -- L.Map.addInitHook @@ : ", this); // this refers to the map in the scope
+    console.log("@@ L.Util.URL -- L.Map.addInitHook @@ : ", this); // this refers to the map in the scope
     // this.myOwnAddinHook = this;
 
     L.setOptions(this, this.options);
@@ -287,7 +298,7 @@ L.Map.addInitHook(function () {
 
     this.addEventListener('click', L.Util.URL.eventHandler);
 
-    
+
     this.url = L.Util.URL;
 
 

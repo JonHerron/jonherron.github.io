@@ -11,7 +11,7 @@
     --defaultNonHoveredLinkColour: rgba(200, 200, 200, 0.7);
     --defaultHoveredLinkColour: rgba(255, 255, 255, 1);
 
-    --defaultNonActiveLinkColour: rgba(200, 200, 200, 0.4);    
+    --defaultNonActiveLinkColour: rgba(200, 200, 200, 0.4);
     --defaultActiveLinkColour: var(--defaultHoveredLinkColour);
 
     --defaultMainMenuBackgroundColour: rgb(167, 132, 84);
@@ -23,20 +23,20 @@
 
     --webkitScrollbarWidth: 5px;
 
-    --webkitScrollbarNonHoveredButtonColor: var(--defaultNonHoveredLinkColour); 
+    --webkitScrollbarNonHoveredButtonColor: var(--defaultNonHoveredLinkColour);
     --webkitScrollbarHoveredButtonColor: var(--defaultHoveredLinkColour);
 
-    --webkitScrollbarNonHoveredThumbColor: var(--defaultNonHoveredLinkColour);    
+    --webkitScrollbarNonHoveredThumbColor: var(--defaultNonHoveredLinkColour);
     --webkitScrollbarHoveredThumbColor: var(--defaultHoveredLinkColour);
 
     --webkitScrollbarTrackColor: var(----defaultNonActiveLinkColour);
 
-    --defaultFontFamily: "RDRLino", Arial, Helvetica, sans-serif;
+    --defaultFontFamily: font-family: 'Yusei Magic', sans-serif;
     --defaultFont: 12pt var(--defaultFontFamily);
-    
+
     --alternativeFont: 8pt var(--defaultFontFamily);
 
-    --transitionDefaults: all 0.1s ease;
+    --transitionDefaults: all 0.3s ease;
 
 
 
@@ -88,75 +88,24 @@
     width: var(--webkitScrollbarWidth);
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: var(defaultFontFamily);
 
-}
-
-* {
-    box-sizing: border-box;
-    outline: 0;
-    text-decoration: none;
-
-}
-
-
-a {
-    outline: 0;
-    text-decoration: none;
-    font-family: 'RDRLino', Courier, monospace;
-    color: var(--defaultNonHighlightedTextColour);
-}
-
-a:hover,
-a:active {
-    color: var(--defaultHighlightedTextColour);
-}
-
-ul {
-    list-style-type: none;
-}
-
-ul,
-li {
-    margin: 0;
-    padding: 0;
-}
-
-h1 {
-    font-size: 32px;
-    font-family: 'RDRLino', Courier, monospace;
-    left:5px;
-    top:15px;
-    mix-blend-mode: screen;
-}
-
-
-
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-size: 16px;
-    font-family: 'RDRLino', Courier, monospace;
-    margin-top: 5px;
-}
-
-
-p {
-    font-size: 12px;
-
-}
 
 .blended {
     background-image: url(../img/banner.png);
     background-color: red;
-    background-blend-mode:saturation;
+    background-blend-mode: saturation;
     height: 120px;
     background-size: contain;
+
+
+}
+
+.blended h1 {
+    font-size: 25px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 120px;
+    /* The same as .blended div height */
 }
 
 #nmenu-ul-container>li>a:hover {
@@ -166,6 +115,7 @@ p {
 #nmenu {
     /* height: 100vh; */
     background-color: rgb(128, 128, 128);
+    transition: var(--transitionDefaults);
 }
 
 #nmenu-ul-container>li>div {
@@ -255,7 +205,7 @@ p {
 .nmenu-accordian-panel {
     width: 250px;
     color: #262626;
-    transition: var(--transitionDefaults);
+
     opacity: 0;
     height: auto;
     max-height: 0;

@@ -153,7 +153,7 @@ L.NMenu = L.Class.extend({
         L.DomUtil.addClass(menuDIV, L.NMenu.N_MENU_BANNER_CONTAINER);
         L.DomUtil.addClass(menuDIV, 'blended');
         testContent = document.createElement("h1");
-        testContent.textContent = "LEAFET N MENU";
+        testContent.textContent = "LEAFET 'N' MENU";
         menuDIV.appendChild(testContent);
 
         this.containers.menuDIVElement = nMenuDIV = document.createElement("div");
