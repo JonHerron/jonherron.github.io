@@ -9,6 +9,13 @@ L.Util.URL = L.Util.extend({
         GET_PARAMETERS_ARRAY_FROM: 'arrayFrom',
         GET_PARAMETERS_VIA_REGEX: 'viaRegex'
     },
+
+    myPublicVariable: 'Just a string',
+    myOtherPublicVariable: ['an', 'array'],
+    myFinalPublicVariable: {
+        some: 'weird',
+        unknown: 'object'
+    },
     gotoRandomHistoryItem: function () {
         var historyItems = L.Util.URL.location.history;
         var item = historyItems[Math.floor(Math.random() * historyItems.length)];
@@ -16,6 +23,7 @@ L.Util.URL = L.Util.extend({
             randomHistoryItem: item
         }, document.title, item);
     },
+
     gotoHistoryItem: function () {
         var historyItems = L.Util.URL.location.history;
         // var item = items[Math.floor(Math.random() * items.length)];
@@ -70,6 +78,8 @@ L.Util.URL = L.Util.extend({
         for (const [key, value] of Object.entries(L.Util.URL.parameters)) {
             locationSearchToUpdateTo += `${key}=${value}` + '&';
         }
+
+        //history things
         locationSearchToUpdateTo = locationSearchToUpdateTo.substring(0, locationSearchToUpdateTo.length - 1); // snip that last pesky &
 
         L.Util.URL.location.previousURL = location.href;
@@ -82,6 +92,7 @@ L.Util.URL = L.Util.extend({
 
         L.Util.URL.location.history.currentHistoryIndex = isNaN(L.Util.URL.location.history.currentHistoryIndex) ? 0 : L.Util.URL.location.history.currentHistoryIndex + 1;
 
+        //local/session storage things
         // console.log(L.Util.URL.location.history.currentHistoryIndex);
         // localStorage.setItem("lat", ev.latlng.lat);
         // localStorage.setItem("lng", ev.latlng.lng);
@@ -98,14 +109,31 @@ L.Util.URL = L.Util.extend({
         //update url
 
         //update url
-        history.replaceState({
-            parameter: value
-        }, document.title, locationSearchToUpdateTo + location.hash);
+        if (this.map.url.options.showInURL) {
+            history.replaceState({
+                parameter: value
+            }, document.title, locationSearchToUpdateTo + location.hash);
+        }
+
 
         // attribution
-        console.log("this.options.showInAttribution", this);
-        if(this.options.showInAttribution) L.Util.URL.map.attributionControl.setPrefix(location.href);
+       // console.log("this.map.url.options.showInAttribution", this.map.url.options.showInAttribution);
 
+        if (this.map.url.options.showInAttribution) {
+            let attHTML = "<a id='attributionPrefix' href='#'>" + location.origin + location.pathname + locationSearchToUpdateTo + location.hash + "</a>";
+            // console.log(attHTML);
+            L.Util.URL.map.attributionControl.setPrefix(attHTML);
+            let prefixElement = L.DomUtil.get('attributionPrefix');
+           // console.log(prefixElement);
+
+        }
+
+    },
+    clickToCopy: function (elementID) {
+        let copyText = document.getElementById(elementID);
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
     },
     updateParameters: function (options) {
         if (options) {
@@ -162,6 +190,12 @@ L.Util.URL = L.Util.extend({
             // WHY THE F DOES THE MAP ID Change here?
             // L.Util.URL.updateParameter('mapID', ev.layer._leaflet_id);
 
+        } else if (ev.type == 'click') {
+          //  console.log(consoleText + "click ev ~", ev);
+            // L.Util.URL.updateParameter('popUpID', ev.popup._source._leaflet_id);
+            // WHY THE F DOES THE MAP ID Change here?
+            // L.Util.URL.updateParameter('mapID', ev.layer._leaflet_id);
+
         } else {
             // console.log(consoleText + " ev ~", ev);
         }
@@ -193,7 +227,7 @@ var URLUtil = L.Class.extend({
 
 L.Class.addInitHook(function () {
     // Setting some initial parameters, functions, etc
-    console.log("UTIL.URL!! -- L.Class.addInitHook @@ : ");
+    console.log("UTIL.URL!! -- L.Class.addInitHook @@ : ", this);
     L.Util.URL.isActive = true;
     this.on('zoomlevelschange', L.Util.URL.eventHandler, this); // Fired when the number of zoomlevels on the map is changed due to adding or removing a layer.
     // this.setAttribute("id", "leaflet-util-url-id-" + L.stamp(this));
@@ -204,8 +238,15 @@ L.Class.addInitHook(function () {
 
 
 L.Map.addInitHook(function () {
-    console.log("UTIL.URL!! -- L.Map.addInitHook @@ : ");    // this refers to the map in the scope
+    console.log("UTIL.URL!! -- L.Map.addInitHook @@ : ", this); // this refers to the map in the scope
     // this.myOwnAddinHook = this;
+
+    L.setOptions(this, this.options);
+
+    // this.options.urlOptions = this.url.options;
+
+
+
     let locationOptions = {
         history: [],
         currentURL: '',
@@ -219,6 +260,7 @@ L.Map.addInitHook(function () {
     // console.log("L.Map.addInitHook @@ : ", L.Util.URL);
     // this.setAttribute("id", "leaflet-util-url-id-" + L.stamp(this));
     L.Util.URL.map = this;
+    L.Util.URL.options = this.options.urlOptions;
     L.Util.URL.location = locationOptions;
 
     // L.Util.URL.parameters = L.Util.URL.getURLParameters();
@@ -243,36 +285,11 @@ L.Map.addInitHook(function () {
     this.on('popupopen', L.Util.URL.eventHandler, this); // Fired when a popup is opened in the map
     this.on('popupclose', L.Util.URL.eventHandler, this); // Fired when a popup in the map is closed
 
+    this.addEventListener('click', L.Util.URL.eventHandler);
 
-    // done, set L.Util.URL to L.util.url for possible? compatibility, seems weird to have to do it this way though
+    
     this.url = L.Util.URL;
-    // console.log("Did the url have any parameters? If so, they should be here, \n However if more have been set programatically they may also should here, depending upon 'when' they were set\n ", this.url.parameters);
-    // console.log("they can also be acessed and set/updated via your 'map' var, so... ''map.url.parameters'', ''map.url.updateParameter('lat', '-12.3')'', etc...");
-    // console.log("... or via L.Util.URL... then the equivalent, so... ''L.Util.URL.parameters'', ''L.Util.URL.updateParameter('lat', '-12.3')'', etc...");
-    // console.log("... ''L.Util.URL.map'' is also available as a property and refers to the current ''map'' property...");
-    // console.log("-= ==================================== =-");
-    // console.log("-= myMapVar.map.urlUtilities.parameters =-", this.url.parameters);
-    // console.log("-= ==================================== =-");
-    console.log("this.options", this.options);
 
-    //handle whether to load URL params, passed params, or just set it to a default value
-    if (this.url.parameters) {
-        console.log("Set map to any available url parameters");
-        if (this.url.parameters.zoom) {
-            console.log("Set zoom");
-            L.Util.URL.updateParameter("zoom", this.url.parameters.zoom);
-        }
-        if (this.url.parameters.lat && (this.url.parameters.lng || this.url.parameters.lon)) {
-            console.log("set lat/lng");
-        }
-        if (this.url.parameters.mapID) {
-            console.log("set MapID");
-        }
-    } else if (this.options) {
-
-    } else {
-
-    }
 
 });
 

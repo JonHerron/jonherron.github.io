@@ -75,12 +75,23 @@ L.TileLayer.ImagePlaceholder = L.TileLayer.extend({
 
     },
 
+    imagePlaceholder: {
+        options: {
+            loremPicsum: {
+                defaultURL: 'https://picsum.photos',
+                fileExtension: '.jpg'
+            },
+            loremFlickr: {
+                defaultURL: 'https://loremflickr.com'
+            }
+        }
+    },
+    potentialTypes: ['loremPicsum', 'fillMurray', 'dummyImage', 'loremFlickr'],
     initialize: function (type, options) {
 
         options = L.setOptions(this, options);
         // console.log('initialize this', this);
         // console.log('initialize options', options);
-        let potentialTypes = ['loremPicsum', 'fillMurray', 'dummyImage', 'loremFlickr'];
         let imageType = type ? type : 'loremPicsum';
 
         let ihOptions;
