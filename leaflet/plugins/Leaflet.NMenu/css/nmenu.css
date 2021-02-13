@@ -38,6 +38,8 @@
 
     --transitionDefaults: all 0.3s ease;
 
+    --bannerImageURL: url(../img/banner.png);
+
 
 
 
@@ -74,7 +76,7 @@
 
 ::-webkit-scrollbar-thumb {
     border-radius: 0px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgb(48, 47, 47);
     border: 1px dotted rgba(0, 0, 0, 0.25);
     width: var(--webkitScrollbarWidth);
 }
@@ -91,9 +93,10 @@
 
 
 .blended {
-    background-image: url(../img/banner.png);
+    /* background-image: var(bannerImageURL); */
+    background-image: url(../img/tile.png);
     background-color: red;
-    background-blend-mode: saturation;
+    background-blend-mode:multiply;
     height: 120px;
     background-size: contain;
 
@@ -105,6 +108,7 @@
     text-align: center;
     vertical-align: middle;
     line-height: 120px;
+    color:#fff;
     /* The same as .blended div height */
 }
 
