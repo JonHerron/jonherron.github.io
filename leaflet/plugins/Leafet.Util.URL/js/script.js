@@ -1,18 +1,7 @@
 
-let urlOptions = {
-    showInURL: true,
-    showInAttribution: true
-};
+let mapOptions = {};
 
-let mapOptions = {
-    urlOptions : urlOptions
-};
-
-let mymap = L.map('map', mapOptions).setView([54.91418099296834, -1.3817024230957031], 15);
-
-
-
-
+let mymap = L.map('map', mapOptions);
 
 let stamenLayer = L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png', {
     maxZoom: 18,
@@ -37,4 +26,28 @@ let baseLayers = {
 
 L.control.layers(baseLayers).addTo(mymap);
 
+let paramOptions = {
+    showParameters: {
+        zoom: true,
+        lat: true,
+        lng: true,
+        lon: false,
+        mapID: true
+    },
+    parameterOptions: {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 14, // max 16,
+        showInURL: true,
+        showInAttribution: true
+    }
+}
+
+L.Util.URL.changeDefaults(paramOptions);
+
 stamenLayer.addTo(mymap);
+
+let lat = L.Util.URL.parameters.lat ? L.Util.URL.parameters.lat : 54.91418099296834;
+let lng = L.Util.URL.parameters.lng ? L.Util.URL.parameters.lng : -1.3817024230957031;
+let zm = L.Util.URL.parameters.zm ? L.Util.URL.parameters.zm : 15;
+
+mymap.setView([lat, lng], zm);

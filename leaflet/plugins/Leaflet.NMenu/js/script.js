@@ -1,5 +1,9 @@
 
 
+function menuHandler(e) {
+    console.log('Event - ', e.type, e);
+};
+
 let nmenu = {
     path: 'menu-ajax.htm',
 
@@ -43,9 +47,13 @@ let mapOptions = {
     zoomControl: true
 };
 
-let mymap = L.map('map', mapOptions).setView([54.91418099296834, -1.3817024230957031], 15);
+let mymap = L.map('map', mapOptions);
 
-
+mymap.on(L.NMenu.N_MENU_CLOSED, menuHandler);
+mymap.on(L.NMenu.N_MENU_OPEN, menuHandler);
+mymap.on(L.NMenu.N_MENU_PARENT_ITEM_OPEN, menuHandler);
+mymap.on(L.NMenu.N_MENU_PARENT_ITEM_CLOSED, menuHandler);
+mymap.on(L.NMenu.N_MENU_CHILD_ITEM_CLOSED, menuHandler);
 
 
 
@@ -92,3 +100,7 @@ let baseLayers = {
 L.control.layers(baseLayers).addTo(mymap);
 
 darkmatterLayer.addTo(mymap);
+
+
+
+mymap.setView([54.91418099296834, -1.3817024230957031], 15);

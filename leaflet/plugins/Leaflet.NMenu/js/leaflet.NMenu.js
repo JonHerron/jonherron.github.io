@@ -63,10 +63,12 @@ L.NMenu = L.Class.extend({
         N_MENU_COLLAPSE: 'leaflet-nmenu-collapse',
         N_MENU_COLLAPSED: 'leaflet-nmenu-collapsed',
         N_MENU_COLLAPSING: 'leaflet-nmenu-collapsing',
-        N_MENU_SHOW: 'leaflet-nmenu-show',
-        N_MENU_HIDE: 'leaflet-nmenu-hide',
-        N_MENU_VISIBLE: 'leaflet-nmenu-visible',
-        N_MENU_HIDDEN: 'leaflet-nmenu-hidden',
+        N_MENU_OPEN: 'leaflet-nmenu-open',
+        N_MENU_CLOSED: 'leaflet-nmenu-closed',
+        N_MENU_PARENT_ITEM_OPEN: 'leaflet-nmenu-parent-item-open',
+        N_MENU_PARENT_ITEM_CLOSED: 'leaflet-nmenu-parent-item-closed',
+        N_MENU_CHILD_ITEM_OPEN: 'leaflet-nmenu-child-item-open',
+        N_MENU_CHILD_ITEM_CLOSED: 'leaflet-nmenu-child-item-closed',
 
         NMENU_MENU_TRIGGER: 'leaflet-nmenu-menu-trigger',
         NMENU_PARENT_TRIGGER: 'leaflet-nmenu-parent-trigger',
@@ -107,10 +109,9 @@ L.NMenu = L.Class.extend({
     },
     _setupComplete_Initialise: function (method) {
         console.log("Loading or setup of '" + method + "' completed...", this);
-        // this._checkMenuDOM();
-        // this.accordianToggle(this.containers.menuULElement, false);
-        this.accordianToggle('nmenu-accordian');
-        // $("#nmenu-accordian a").click(this.accordianMultiLevelToggle);
+
+        this.accordianToggle(L.NMenu.N_MENU_ROOT);
+
         console.log("L.NMenu.N_MENU ", L.NMenu.N_MENU);
         console.log("L.NMenu this", this);
     },
@@ -168,53 +169,6 @@ L.NMenu = L.Class.extend({
         
 
 
-/* <li class="nmenu-accordian-mainmenu-item active">
-  <a class="nmenu-accordian-trigger" href="#Leaflet.NMenu">
-    <i class="bi bi-camera-fill"></i> Profile <span></span>
-  </a>
-  <div class="nmenu-accordian-panel">
-    <h4>Lorem ipsum dolor sit amet.</h4>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium minima dolores assumenda id.
-      Porro consequuntur at dolor eum, neque labore!</p>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur non sint sequi ipsa laudantium, a
-      iure rem vel nemo soluta temporibus, consectetur at corrupti aspernatur maxime, iusto neque
-      blanditiis deleniti.</p>
-  </div>
-</li> 
-
-            menuConfig: {
-                parentTrigger: 'li',
-                subMenu: 'ul',
-                toggle: true,
-                triggerElement: 'a'
-            }
-
-
-            menuItems: {
-                ParentMenuItem1: {
-                    SubItem1_1: '<a href="#SubItem1_1Hash"><i class="bi bi-alarm-fill"></i>Link 1_1</a>',
-                    SubItem1_2: '<a href="#SubItem1_2Hash"><i class="bi bi-envelope-fill"></i>Link 1_2</a>'
-                },
-                ParentMenuItem2: {
-                    SubItem2_1: '<a href="#SubItem2_1Hash"><i class="bi bi-alarm-fill"></i>Link 2_1</a>',
-                    SubItem2_2: '<a href="#SubItem2_2Hash"><i class="bi bi-envelope-fill"></i>Link 2_2</a>'
-                },
-                ParentMenuItem3: {
-                    ParentMenuItem3_ChildMenuItem1: {
-                        ChildMenuItem1_SubItem1_1: '<a href="#ChildMenuItem1_SubItem1_1Hash"><i class="bi bi-alarm-fill"></i>ChildMenuItem1_Link 1_1</a>',
-                        ChildMenuItem1_SubItem1_2: '<a href="#ChildMenuItem1_SubItem1_2Hash"><i class="bi bi-envelope-fill"></i>ChildMenuItem1_Link 1_2</a>'
-                    },
-                    SubItem3_2: '<a href="#SubItem3_2Hash"><i class="bi bi-envelope-fill"></i>Link 3_2</a>'
-                }
-            },
-
-*/
-
-        // create 'li' or parentrigger
-        // create 'a' or triggerElement
-        // potentially create 'ul' or submenu
-        // alternatively create 'div' or submenu
-
         let nMenuOpts = this.nMenuOptions ? this.nMenuOptions : {};
 
         console.log("this.nMenuOptions", this.nMenuOptions);
@@ -243,7 +197,7 @@ L.NMenu = L.Class.extend({
     },
     _createMenuDOM: function () {
 
-        L.DomUtil.addClass(this.containers.menuDIVElement, L.NMenu.N_MENU_VISIBLE);
+        L.DomUtil.addClass(this.containers.menuDIVElement, L.NMenu.N_MENU_OPEN);
 
         this.containers.menuULElement = L.DomUtil.create('ul', L.NMenu.N_MENU_CONTAINER_UL, this.containers.menuDIVElement);
         L.DomUtil.addClass(this.containers.menuULElement, L.NMenu.N_MENU);
@@ -375,19 +329,21 @@ L.NMenu = L.Class.extend({
     },
     toggleMenu: function (ev) {
 
-        console.log("TOGGLE ev", ev);
-        console.log("TOGGLE this", this);
+        // console.log("TOGGLE ev", ev);
+        // console.log("TOGGLE this", this);
 
         if (this.isVisible) {
 
             this.nMenu._menuVisibleStyles();
 
             this.isVisible = false;
+            this.nMenu.map.fire(L.NMenu.N_MENU_OPEN, {menu: this.nMenu});
         } else {
 
             this.nMenu._menuHiddenStyles();
 
             this.isVisible = true;
+            this.nMenu.map.fire(L.NMenu.N_MENU_CLOSED, {menu: this.nMenu});
         }
 
         this.invalidateSize();
@@ -404,11 +360,14 @@ L.NMenu = L.Class.extend({
                         var elementList = document.querySelectorAll(mainElement+' .'+L.NMenu.N_MENU_MAIN_MENU_ACCORDIAN_ITEM);
                         Array.prototype.forEach.call(elementList, function (event) {
                             event.classList.remove('active');
+                            L.NMenu.map.fire(L.NMenu.N_MENU_CHILD_ITEM_CLOSE, {item: event});
                         });
                     }            
                     event.target.parentElement.classList.add('active');
+                    L.NMenu.map.fire(L.NMenu.N_MENU_PARENT_ITEM_OPEN, {item: event.target.parentElement});
                 }else{
                     event.target.parentElement.classList.remove('active');
+                    L.NMenu.map.fire(L.NMenu.N_MENU_PARENT_ITEM_CLOSED, {item: event.target.parentElement});
                 }
             }
         });
@@ -441,6 +400,9 @@ L.NMenu = L.Class.extend({
 
 
 L.Map.addInitHook(function () {
+
+L.setOptions(this.options, this);
+
     console.log("NMENU!! -- L.Map.addInitHook @@ : this ==", this);
     console.log("NMENU!! -- L.Map.addInitHook @@ : L.NMenu ==", L.NMenu);
 

@@ -1,20 +1,35 @@
 L.Util.URL = L.Util.extend({
 
     includes: L.Mixin.Events,
-    options: {
-        showInURL: true,
-        showInAttribution: true
+    defaults: {
+        showParameters: {
+            zoom: true,
+            lat: true,
+            lng: true,
+            lon: false,
+            mapID: true
+        },
+        parameterOptions: {
+            locale: undefined,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 4,
+            showInURL: true,
+            showInAttribution: true,
+            truncateInAttribution: true,
+            truncatedWidth: '300px'
+        }
     },
+    settings: {},
+    options: {},
     statics: {
         GET_PARAMETERS_ARRAY_FROM: 'arrayFrom',
         GET_PARAMETERS_VIA_REGEX: 'viaRegex'
     },
 
-    myPublicVariable: 'Just a string',
-    myOtherPublicVariable: ['an', 'array'],
-    myFinalPublicVariable: {
-        some: 'weird',
-        unknown: 'object'
+    changeDefaults: function (options) {
+        // this.settings = {...this.defaults, ...options};
+        this.settings = Object.assign(this.defaults, options);
+        console.log("this.settings", this.settings);
     },
     gotoRandomHistoryItem: function () {
         var historyItems = L.Util.URL.location.history;
@@ -113,8 +128,8 @@ L.Util.URL = L.Util.extend({
         //update url
         //update url
 
-        //update url
-        if (this.map.url.options.showInURL) {
+        //update url defaults.parameterOptions.showInURL
+        if (this.defaults.parameterOptions.showInURL) {
             history.replaceState({
                 parameter: value
             }, document.title, locationSearchToUpdateTo + location.hash);
@@ -124,7 +139,7 @@ L.Util.URL = L.Util.extend({
         // attribution
         // console.log("this.map.url.options.showInAttribution", this.map.url.options.showInAttribution);
 
-        if (this.map.url.options.showInAttribution) {
+        if (this.defaults.parameterOptions.showInAttribution) {
             let attHTML = "<a id='attributionPrefix' href='#'>" + location.origin + location.pathname + locationSearchToUpdateTo + location.hash + "</a>";
             // console.log(attHTML);
             L.Util.URL.map.attributionControl.setPrefix(attHTML);
@@ -172,8 +187,8 @@ L.Util.URL = L.Util.extend({
         } else if (ev.type == 'moveend') {
             // console.log(consoleText + "moveend ev.target._lastCenter ~", ev);
 
-            L.Util.URL.updateParameter('lat', ev.target.getCenter().lat, 5);
-            L.Util.URL.updateParameter('lng', ev.target.getCenter().lng, 5);
+            L.Util.URL.updateParameter('lat', ev.target.getCenter().lat);
+            L.Util.URL.updateParameter('lng', ev.target.getCenter().lng);
 
         } else if (ev.type == 'zoomend') {
             // console.log(consoleText + "zoomend ev.target._zoom ~", ev.target._zoom);
@@ -208,13 +223,13 @@ L.Util.URL = L.Util.extend({
         // console.log(consoleText + " -- L.Util.URL.parameters -- ", L.Util.URL.parameters);
     },
     changeHandler: function (ev) {
-        // console.log("changeHandler -- ev.target ~", ev.target);
+        console.log("changeHandler -- ev.target ~", ev.target);
         //
     },
-    formatNumber: function (num, decimals) {
-        return num.toLocaleString({
-            minimumFractionDigits: decimals ? decimals : 3,
-            maximumFractionDigits: decimals ? decimals : 3
+    formatNumber: function (num, min, max) {
+        return num.toLocaleString(this.defaults.parameterOptions.locale, {
+            minimumFractionDigits: min ? min : this.defaults.parameterOptions.minimumFractionDigits,
+            maximumFractionDigits: max ? max : this.defaults.parameterOptions.maximumFractionDigits
         });
     }
 
@@ -223,27 +238,6 @@ L.Util.URL = L.Util.extend({
 });
 
 
-
-
-
-
-var URLUtil = L.Class.extend({
-    statics: {
-        GET_PARAMETERS_ARRAY_FROM: 'arrayFrom',
-        GET_PARAMETERS_VIA_REGEX: 'viaRegex'
-    }
-});
-
-
-
-L.Class.addInitHook(function () {
-    // Setting some initial parameters, functions, etc
-    console.log("UTIL.URL!! -- L.Class.addInitHook @@ : ", this);
-    L.Util.URL.isActive = true;
-    this.on('zoomlevelschange', L.Util.URL.eventHandler, this); // Fired when the number of zoomlevels on the map is changed due to adding or removing a layer.
-    // this.setAttribute("id", "leaflet-util-url-id-" + L.stamp(this));
-
-});
 
 
 
@@ -277,6 +271,7 @@ L.Map.addInitHook(function () {
     // L.Util.URL.parameters = L.Util.URL.getURLParameters();
     L.Util.URL.url = L.Util.URL._createURL();
     L.Util.URL.parameters = L.Util.URL.getURLParameters();
+    console.log("L.Util.URL.parameters", L.Util.URL.parameters);
     L.Util.URL.hash = '#';
     // L.Util.URL.location.changeBaseLayeronInitialLoad = false;
     // L.Util.URL.urlSearchParams = L.Util.URL._createURLSearchParams();
@@ -296,12 +291,12 @@ L.Map.addInitHook(function () {
     this.on('popupopen', L.Util.URL.eventHandler, this); // Fired when a popup is opened in the map
     this.on('popupclose', L.Util.URL.eventHandler, this); // Fired when a popup in the map is closed
 
-    this.addEventListener('click', L.Util.URL.eventHandler);
+    this.addEventListener('onload', L.Util.URL.changeHandler);
 
 
     this.url = L.Util.URL;
 
-
+    console.log("@@ L.Util.URL -- L.Map.addInitHook @@ : ", this.url); // this refers to the map in the scope
 });
 
 
@@ -311,8 +306,8 @@ L.Map.addInitHook(function () {
 // sessionStorage.setItem("lng", ev.latlng.lng);
 
 
-// L.util.url = function (opts) {
-//     return new L.Util.URL(opts);
-// }
+L.Util.url = function (opts) {
+    return new L.Util.URL(opts);
+}
 
 // export default L.map.urlparameters
