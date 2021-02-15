@@ -254,7 +254,7 @@ L.TileLayer.ImagePlaceholder = L.TileLayer.extend({
             font = fakeImg.font ? fakeImg.font : 'lobster'
 
 
-            tileUrl = defaultURL + '/' + tileRes + 'x' + tileRes + '/' + backgroundColour + '/' + textColour + '/' + '?text=' + text + '&font=' + font;
+            tileUrl = defaultURL + '/' + tileRes + 'x' + tileRes + '/' + backgroundColour + '/' + textColour + '/' + '?retina=1&text=' + text + '&font=' + font;
 
 
         }

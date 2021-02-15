@@ -4,8 +4,6 @@
 #map { 
     height: 100%; 
     width:100%;
-    min-width: none;
-    min-height: 500px;
 }
 
 * {
@@ -47,35 +45,31 @@ h2.header {
 }
 
 section {
-  padding-bottom: 1vw;
-  padding-top: 1vw;
+
 }
 
 
 .main.card {
   background-color: #000;
-  border-radius: 4px;
+  border-radius: 0px;
   border: 1px rgb(0, 0, 0);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
-  margin: 5px;
-  flex-grow: 1;
-  min-height: 400px;
-  min-width: 500px;
-  flex-basis: 200px;
+  margin: 0px;
+  min-height: 70vh;
   overflow: hidden;
   color: black;
+
 }
 
 .card {
   background-color: rgb(196, 196, 196);
-  border-radius: 4px;
+  border-radius: 0px;
   border: 1px rgb(0, 0, 0);
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
-  margin: 5px;
+  margin: 0px;
   flex-grow: 1;
   flex-basis: 200px;
   overflow: hidden;
   color: black;
+  
 }
 
 
@@ -87,11 +81,12 @@ section {
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr 11fr;
 }
 
 .grid .card {
-  min-width: 200px;
+  min-width: 150px;
+  margin: 2px;
 }
 
 
