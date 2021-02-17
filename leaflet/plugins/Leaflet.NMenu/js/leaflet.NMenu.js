@@ -4,7 +4,7 @@ L.NMenu = L.Class.extend({
         version: "1.0.0",
         nmenu: {
             path: 'menu-ajax.htm',
-            
+
             menuConfig: {
                 parentTrigger: 'li',
                 triggerElement: 'a',
@@ -13,7 +13,7 @@ L.NMenu = L.Class.extend({
                 location: 'left',
                 banner: 'fixed',
                 footer: 'fixed'
-    
+
             },
             toggleButton: {
                 showMenuOnLoad: true,
@@ -37,7 +37,7 @@ L.NMenu = L.Class.extend({
                     SubItem3_2: '<a href="#SubItem3_2Hash"><i class="bi bi-envelope-fill"></i>Link 3_2</a>'
                 }
             }
-    
+
         },
         containers: {
             mapDIVElement: '',
@@ -70,11 +70,13 @@ L.NMenu = L.Class.extend({
         N_MENU_CHILD_ITEM_OPEN: 'leaflet-nmenu-child-item-open',
         N_MENU_CHILD_ITEM_CLOSED: 'leaflet-nmenu-child-item-closed',
 
+        N_MENU_MAP_CREATE: 'leaflet-nmenu-map-create',
+
         NMENU_MENU_TRIGGER: 'leaflet-nmenu-menu-trigger',
         NMENU_PARENT_TRIGGER: 'leaflet-nmenu-parent-trigger',
         NMENU_CHILD_TRIGGER: 'leaflet-nmenu-child-trigger',
         NMENU_GRANDCHILD_TRIGGER: 'leaflet-nmenu-grandchild-trigger',
-        
+
         N_MENU_CONTAINER_MAP: 'leaflet-nmenu-map-container',
         N_MENU_CONTAINER_MENU: 'leaflet-nmenu-menu-container',
         N_MENU_CONTAINER_UL: 'leaflet-nmenu-ul-container',
@@ -88,12 +90,12 @@ L.NMenu = L.Class.extend({
     initialize: function (map, options) {
 
         L.setOptions(this, options);
-        
+
         this.nMenuOptions = options.nmenu ? options.nmenu : L.NMenu.prototype.options.nmenu;
         this.containers = options.containers ? options.containers : L.NMenu.prototype.options.containers;
         this.containers.mapDIVElement = L.DomUtil.get(map);
         this.defaultConfig = options.defaultConfig ? options.defaultConfig : L.NMenu.prototype.options.defaultConfig;
-        
+
         this.containers = options.containers ? options.containers : L.NMenu.prototype.options.containers;
         this.isDisposed = options.isDisposed ? options.isDisposed : L.NMenu.prototype.options.isDisposed;
         this.isTransitioning = options.isTransitioning ? options.isTransitioning : L.NMenu.prototype.options.isTransitioning;
@@ -107,14 +109,14 @@ L.NMenu = L.Class.extend({
 
 
     },
+    
     _setupComplete_Initialise: function (method) {
-        console.log("Loading or setup of '" + method + "' completed...", this);
+
+        console.log("%c Loading or setup of '" + method + "' completed...", "color:white; font-weight:bold; background:grey;", this);
 
         this.accordianToggle(L.NMenu.N_MENU_ROOT);
-
-        console.log("L.NMenu.N_MENU ", L.NMenu.N_MENU);
-        console.log("L.NMenu this", this);
     },
+
     _loadInitialItems: function (path) {
         let validate = this.options.nmenu.path;
         if (!validate) alert("no valid 'path' parameter passed in map.options.nmenu.path");
@@ -130,24 +132,21 @@ L.NMenu = L.Class.extend({
             .then(data => data.text())
             .then(data => {
                 // menu.dispose();
-                if(this.containers.menuULElement){
+                if (this.containers.menuULElement) {
                     this.containers.menuULElement.innerHTML += data;
-                }
-                else{
+                } else {
                     console.log('no "this.containers.menuULElement" defined, or correctly assigned somewhere...');
                     throw Error(`failed to add ${data} to "this.containers.menuULElement"`);
                 }
             })
             .then(() => {
                 this._setupComplete_Initialise(passedPath);
-                
+
             })
             .catch(console.error);
     },
     _checkAndSetupDOM: function () {
         let nMenuDIV, menuDIV, testContent;
-
-        // checks whether there is a div with an ID of 'menu' and sets it up, otherwise creates one and inserts into DOM;
 
         menuDIV = L.DomUtil.get('menu') ? L.DomUtil.get('menu') : document.createElement("div");
         menuDIV.id = 'nmenu-banner-container';
@@ -166,15 +165,13 @@ L.NMenu = L.Class.extend({
 
     },
     _checkNMenuOptions: function () {
-        
-
 
         let nMenuOpts = this.nMenuOptions ? this.nMenuOptions : {};
 
-        console.log("this.nMenuOptions", this.nMenuOptions);
-        
+        console.table(this.nMenuOptions);
+
         let parentTriggerElement, subMenu, toggleItems, triggerElement;
-        if(nMenuOpts.menuConfig){
+        if (nMenuOpts.menuConfig) {
             toggleItems = nMenuOpts.menuConfig.toggleItems;
             parentTriggerElement = L.DomUtil.create(nMenuOpts.menuConfig.parentTrigger);
             triggerElement = L.DomUtil.create(nMenuOpts.menuConfig.triggerElement);
@@ -185,16 +182,9 @@ L.NMenu = L.Class.extend({
 
             L.DomUtil.addClass(parentTriggerElement, L.NMenu.N_MENU_MAIN_MENU_ACCORDIAN_ITEM);
         }
-         
-
-        console.log("parentTriggerElement", parentTriggerElement);
-        console.log("nMenuOpts.menuConfig.toggleItems", toggleItems);
-
-
-
-
 
     },
+
     _createMenuDOM: function () {
 
         L.DomUtil.addClass(this.containers.menuDIVElement, L.NMenu.N_MENU_OPEN);
@@ -204,11 +194,10 @@ L.NMenu = L.Class.extend({
         L.DomUtil.addClass(this.containers.menuULElement, L.NMenu.N_MENU_ROOT);
         this.containers.menuULElement.id = 'nmenu-ul-container';
 
-
         this._menuVisibleStyles();
 
-
     },
+
     _checkMenuDOM: function () {
 
         let ulC = this.containers.menuULElement;
@@ -232,7 +221,7 @@ L.NMenu = L.Class.extend({
                             console.log(">>>Grandchild " + k + "--", ulC.children[k].tagName);
                             console.log(">>End Grandchild " + k + " ---------------------------------------");
                         }
-                        
+
                     }
                     console.log(">>End Child " + j + " ---------------------------------------");
                 }
@@ -253,11 +242,9 @@ L.NMenu = L.Class.extend({
 
         tCmeDS.height = '100%';
         tCmeDS.display = 'block';
-        // tCmeDS.backgroundColor = "#FF0";
         tCmeDS.position = 'absolute';
         tCmeDS.overflowY = 'auto';
         tCmeDS.overflowX = 'hidden';
-        // tCmeDS.transitionTimingFunction = 'ease-in-out';
         tCmeDS.transition = 'width 0.1s ease-in-out';
         tCmeDS.width = '250px';
 
@@ -267,13 +254,11 @@ L.NMenu = L.Class.extend({
         tCmaDS.height = '100%';
         tCmaDS.transition = 'width 0.1s ease-in-out';
         tCmaDS.width = 'calc(100% - 250px)';
-        // tCmeDS.transitionTimingFunction = 'ease-in-out';
 
 
         tCmaDS.left = '250px';
 
         let tCmeUS = this.containers.menuULElement.style;
-    //    tCmeUS.marginLeft = '10px';
         tCmeUS.padding = 0;
         tCmeUS.listStyle = 'none';
 
@@ -283,7 +268,6 @@ L.NMenu = L.Class.extend({
         let tCmeDS = this.containers.menuDIVElement.style;
         tCmeDS.height = '100%';
         tCmeDS.display = 'block';
-        // tCmeDS.backgroundColor = "#FF0";
         tCmeDS.position = 'absolute';
         tCmeDS.overflowY = 'auto';
         tCmeDS.overflowX = 'hidden';
@@ -308,9 +292,8 @@ L.NMenu = L.Class.extend({
 
     _createButton: function (title, className, content, container, fn, context) {
 
-        
+
         let button = L.DomUtil.create('a', className, container);
-        // button = L.DomUtil.create('a', className, container);
         button.href = '#';
         button.title = title;
         button.innerHTML = content;
@@ -327,51 +310,61 @@ L.NMenu = L.Class.extend({
 
         return button;
     },
-    toggleMenu: function (ev) {
 
-        // console.log("TOGGLE ev", ev);
-        // console.log("TOGGLE this", this);
+    toggleMenu: function (ev) {
 
         if (this.isVisible) {
 
             this.nMenu._menuVisibleStyles();
 
             this.isVisible = false;
-            this.nMenu.map.fire(L.NMenu.N_MENU_OPEN, {menu: this.nMenu});
+            this.nMenu.map.fire(L.NMenu.N_MENU_OPEN, {
+                menu: this.nMenu
+            });
         } else {
 
             this.nMenu._menuHiddenStyles();
 
             this.isVisible = true;
-            this.nMenu.map.fire(L.NMenu.N_MENU_CLOSED, {menu: this.nMenu});
+            this.nMenu.map.fire(L.NMenu.N_MENU_CLOSED, {
+                menu: this.nMenu
+            });
         }
 
         this.invalidateSize();
 
     },
-    accordianToggle: function (mainElement, toggle){
+
+    accordianToggle: function (mainElement, toggle) {
         let defaultToggle = toggle ? toggle : false;
         document.addEventListener('click', function (event) {
-         // alert(mainElement+' .a-btn');
-            if (!event.target.matches('.'+mainElement+' .'+L.NMenu.N_MENU_ACCORDIAN_TRIGGER)) return;
-            else{
-                if(!event.target.parentElement.classList.contains('active')){
-                    if(defaultToggle==true){
-                        var elementList = document.querySelectorAll(mainElement+' .'+L.NMenu.N_MENU_MAIN_MENU_ACCORDIAN_ITEM);
+            // alert(mainElement+' .a-btn');
+            if (!event.target.matches('.' + mainElement + ' .' + L.NMenu.N_MENU_ACCORDIAN_TRIGGER)) return;
+            else {
+                if (!event.target.parentElement.classList.contains('active')) {
+                    if (defaultToggle == true) {
+                        var elementList = document.querySelectorAll(mainElement + ' .' + L.NMenu.N_MENU_MAIN_MENU_ACCORDIAN_ITEM);
                         Array.prototype.forEach.call(elementList, function (event) {
                             event.classList.remove('active');
-                            L.NMenu.map.fire(L.NMenu.N_MENU_CHILD_ITEM_CLOSE, {item: event});
+                            L.NMenu.map.fire(L.NMenu.N_MENU_CHILD_ITEM_CLOSE, {
+                                item: event
+                            });
                         });
-                    }            
+                    }
                     event.target.parentElement.classList.add('active');
-                    L.NMenu.map.fire(L.NMenu.N_MENU_PARENT_ITEM_OPEN, {item: event.target.parentElement});
-                }else{
+                    L.NMenu.map.fire(L.NMenu.N_MENU_PARENT_ITEM_OPEN, {
+                        item: event.target.parentElement
+                    });
+                } else {
                     event.target.parentElement.classList.remove('active');
-                    L.NMenu.map.fire(L.NMenu.N_MENU_PARENT_ITEM_CLOSED, {item: event.target.parentElement});
+                    L.NMenu.map.fire(L.NMenu.N_MENU_PARENT_ITEM_CLOSED, {
+                        item: event.target.parentElement
+                    });
                 }
             }
         });
     },
+
     accordianMultiLevelToggle: function (ev) {
         console.log(ev);
         var link = ev.target;
@@ -381,30 +374,45 @@ L.NMenu = L.Class.extend({
         var link_status = closest_li.hasClass("active");
         var count = 0;
 
-        closest_ul.find("ul").slideUp(function() {
-                if (++count == closest_ul.find("ul").length)
-                        parallel_active_links.removeClass("active");
+        closest_ul.find("ul").slideUp(function () {
+            if (++count == closest_ul.find("ul").length)
+                parallel_active_links.removeClass("active");
         });
 
         if (!link_status) {
-                closest_li.children("ul").slideDown();
-                closest_li.addClass("active");
+            closest_li.children("ul").slideDown();
+            closest_li.addClass("active");
         }
     }
 
 });
 
-// L.nmenu = function (opts) {
-//     return new L.NMenu(opts);
-// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 L.Map.addInitHook(function () {
 
-L.setOptions(this.options, this);
+    L.setOptions(this.options, this);
+
+    this.fire(L.NMenu.N_MENU_MAP_CREATE, {
+        item: this
+    });
 
     console.log("NMENU!! -- L.Map.addInitHook @@ : this ==", this);
-    console.log("NMENU!! -- L.Map.addInitHook @@ : L.NMenu ==", L.NMenu);
+    // console.log("NMENU!! -- L.Map.addInitHook @@ : L.NMenu ==", L.NMenu);
 
     if (this.options.nmenu) {
         this.nMenu = new L.NMenu('map', this.options);
@@ -413,10 +421,10 @@ L.setOptions(this.options, this);
 
         let title, className, content, container, fn, context;
         if (this.zoomControl) {
-			container = this.zoomControl._container;
-		} else {
-			container = L.DomUtil.create('div', 'leaflet-bar');
-		}
+            container = this.zoomControl._container;
+        } else {
+            container = L.DomUtil.create('div', 'leaflet-bar');
+        }
 
         title = 'Menu Toggle';
         className = 'leaflet-control-zoom-menutoggle';
@@ -427,7 +435,7 @@ L.setOptions(this.options, this);
 
 
         L.NMenu.menuToggleButton = this.nMenu.menuToggleButton = this.nMenu._createButton(title, className, content, container, fn, context);
-        console.log("nMenu", this.nMenu);
+        // console.log("nMenu", this.nMenu);
     } else {
         alert("No nmenu options passed");
     }
@@ -435,3 +443,8 @@ L.setOptions(this.options, this);
 
 
 });
+
+
+L.nmenu = function (opts) {
+    return new L.NMenu(opts);
+};
