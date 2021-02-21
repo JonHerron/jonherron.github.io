@@ -63,6 +63,9 @@ L.NMenu = L.Class.extend({
     },
 
     events: {
+        N_MENU_MAP_CREATED: 'leaflet-nmenu-event-map-created',
+        N_MENU_MAP_LOADING: 'leaflet-nmenu-event-map-loading',
+        N_MENU_MAP_LOADED: 'leaflet-nmenu-event-map-loaded',
         N_MENU_EVENT_MENU_OPEN: 'leaflet-nmenu-event-menu-open',
         N_MENU_EVENT_MENU_CLOSED: 'leaflet-nmenu-event-menu-closed'
     },
@@ -70,7 +73,9 @@ L.NMenu = L.Class.extend({
     styles: {
         N_MENU_CLASS: 'leaflet-nmenu',
         N_MENU_CLASS_ACTIVE: 'leaflet-nmenu-active',
-        N_MENU_CLASS_ROOT: 'leaflet-nmenu-accordian'
+        N_MENU_CLASS_MENU_ROOT: 'leaflet-nmenu-accordian',
+        N_MENU_ITEM_CLASS: 'leaflet-nmenu-item',
+        N_MENU_ITEM_CLASS_ACTIVE: 'leaflet-nmenu-item-active'
     },
 
     statics: {
@@ -79,7 +84,7 @@ L.NMenu = L.Class.extend({
         N_MENU_CHILD_ITEM_OPEN: 'leaflet-nmenu-child-item-open',
         N_MENU_CHILD_ITEM_CLOSED: 'leaflet-nmenu-child-item-closed',
 
-        N_MENU_MAP_CREATE: 'leaflet-nmenu-map-create',
+
 
         NMENU_MENU_TRIGGER: 'leaflet-nmenu-menu-trigger',
         NMENU_PARENT_TRIGGER: 'leaflet-nmenu-parent-trigger',
@@ -96,54 +101,173 @@ L.NMenu = L.Class.extend({
         N_MENU_ACCORDIAN_TRIGGER: 'leafet-nmenu-accordian-trigger'
     },
 
+    /*
+    
+    ░▀█▀░█▀▀▄░░▀░░▀█▀░░▀░░█▀▀▄░█░░░▀░░▀▀█░█▀▀
+    ░▒█░░█░▒█░░█▀░░█░░░█▀░█▄▄█░█░░░█▀░▄▀▒░█▀▀
+    ░▄█▄░▀░░▀░▀▀▀░░▀░░▀▀▀░▀░░▀░▀▀░▀▀▀░▀▀▀░▀▀▀
+
+    */
+
     initialize: function (map, options) {
 
         L.setOptions(this, options);
         this.setupDom();
+        this.setupInitialMenuState();
+        this.setupDisplayType();
+
+       this.loadItems();
+
         console.log(this);
     },
+
+    /* 
+
+    ░▒█▀▀▄░▒█▀▀▀█░▒█▀▄▀█░░░▒█▀▄▀█░█▀▀▄░█▀▀▄░░▀░░▄▀▀▄░█░▒█░█░░█▀▀▄░▀█▀░░▀░░▄▀▀▄░█▀▀▄
+    ░▒█░▒█░▒█░░▒█░▒█▒█▒█░░░▒█▒█▒█░█▄▄█░█░▒█░░█▀░█▄▄█░█░▒█░█░░█▄▄█░░█░░░█▀░█░░█░█░▒█
+    ░▒█▄▄█░▒█▄▄▄█░▒█░░▒█░░░▒█░░▒█░▀░░▀░▀░░▀░▀▀▀░█░░░░░▀▀▀░▀▀░▀░░▀░░▀░░▀▀▀░░▀▀░░▀░░▀
+
+
+    */
 
     setupDom: function () {
         // this.containers.menuItemsElement = L.DomUtil.get('menu') ? L.DomUtil.get('menu') : document.createElement("div");
         this.containers.mainContainerElement = L.DomUtil.get('nmenu') ? L.DomUtil.get('nmenu') : document.createElement("div");
         this.containers.menuParentElement = L.DomUtil.get('menu') ? L.DomUtil.get('menu') : document.createElement("div");
         this.containers.mapParentElement = L.DomUtil.get('map') ? L.DomUtil.get('map') : document.createElement("div");
+        this.containers.menuItemsElement = L.DomUtil.get('accordian') ? L.DomUtil.get('accordian') : document.createElement("ul");
 
         this.containers.mainContainerElement.id = 'nmenu';
         this.containers.menuParentElement.id = 'menu';
-        this.containers.mapParentElement.id = 'map';
+        this.containers.menuItemsElement.id = 'accordian';
+        // this.containers.mapParentElement.id = 'map';
 
         this.containers.mapParentElement.parentNode.insertBefore(this.containers.mainContainerElement, this.containers.mapParentElement);
-        // this.containers.mainContainerElement.appendChild(this.containers.menuParentElement);
-        // this.containers.mainContainerElement.appendChild(this.containers.mapParentElement);
-        
-
+        this.containers.mainContainerElement.appendChild(this.containers.menuParentElement);
+        this.containers.mainContainerElement.appendChild(this.containers.mapParentElement);
+        this.containers.menuParentElement.appendChild(this.containers.menuItemsElement);
     },
 
+    setupInitialMenuState: function () {
+        //choose or read the intial state
+        L.DomUtil.addClass(L.NMenu.prototype.containers.menuParentElement, L.NMenu.prototype.styles.N_MENU_CLASS);
+        L.DomUtil.addClass(L.NMenu.prototype.containers.mapParentElement, L.NMenu.prototype.styles.N_MENU_CLASS);
+    },
+
+    setupDisplayType: function () {
+
+    },
+    /*
+
+    ░▒█▀▄▀█░█▀▀░█▀▀▄░█░▒█░░░▒█▀▀▀░█░▒█░█▀▀▄░█▀▄░▀█▀░░▀░░▄▀▀▄░█▀▀▄░█▀▀▄░█░░░▀░░▀█▀░█░░█
+    ░▒█▒█▒█░█▀▀░█░▒█░█░▒█░░░▒█▀▀░░█░▒█░█░▒█░█░░░░█░░░█▀░█░░█░█░▒█░█▄▄█░█░░░█▀░░█░░█▄▄█
+    ░▒█░░▒█░▀▀▀░▀░░▀░░▀▀▀░░░▒█░░░░░▀▀▀░▀░░▀░▀▀▀░░▀░░▀▀▀░░▀▀░░▀░░▀░▀░░▀░▀▀░▀▀▀░░▀░░▄▄▄▀
+
+
+    */
+
+
     toggleMenu: function (ev) {
+        let _this = L.NMenu.prototype;
         // console.log("toggleMenu", ev);
-        console.log("this.containers.mainContainerElement", this);
-        if (!this.isMenuVisible) {
+        console.log("_this", _this);
+        if (!_this.isMenuVisible) {
             //set menu to visible
-            this.isMenuVisible = true;
-            console.log("this.isMenuVisible", this.isMenuVisible);
-            L.DomUtil.addClass(L.NMenu.prototype.containers.mainContainerElement, L.NMenu.prototype.styles.N_MENU_CLASS_ACTIVE);
+            _this.isMenuVisible = true;
+            console.log("_this.isMenuVisible", _this.isMenuVisible);
+            if(L.DomUtil.hasClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS)){
+                L.DomUtil.removeClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS);
+                L.DomUtil.removeClass(_this.containers.mapParentElement, _this.styles.N_MENU_CLASS);
+            }
+            if(!L.DomUtil.hasClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS_ACTIVE)){
+                L.DomUtil.addClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS_ACTIVE);
+                L.DomUtil.addClass(_this.containers.mapParentElement, _this.styles.N_MENU_CLASS_ACTIVE);
+            }
+            L.NMenu.map.fire(_this.N_MENU_EVENT_MENU_OPEN, {
+                menu: _this
+            });
+
         } else {
-            this.isMenuVisible = false;
-            console.log("this.isMenuVisible", this.isMenuVisible);
-            L.DomUtil.removeClass(L.NMenu.prototype.containers.mainContainerElement, L.NMenu.prototype.styles.N_MENU_CLASS_ACTIVE);
+            _this.isMenuVisible = false;
+            console.log("_this.isMenuVisible", _this.isMenuVisible);
+            if(!L.DomUtil.hasClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS)){
+                L.DomUtil.addClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS);
+                L.DomUtil.addClass(_this.containers.mapParentElement, _this.styles.N_MENU_CLASS);
+            }
+            if(L.DomUtil.hasClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS_ACTIVE)){
+                L.DomUtil.removeClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS_ACTIVE);
+                L.DomUtil.removeClass(_this.containers.mapParentElement, _this.styles.N_MENU_CLASS_ACTIVE);
+            }
+            L.NMenu.map.fire(_this.N_MENU_EVENT_MENU_CLOSED, {
+                menu: _this
+            });
         }
 
     },
 
     accordianToggle: function (mainElement, toggle) {
 
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    loadItems: function (path) {
+        let validate = L.NMenu.prototype.items.path;
+        if (!validate) alert("no valid 'path' parameter passed in map.options.nmenu.path");
+        let passedPath = path ? path : L.NMenu.prototype.items.path;
+        fetch(passedPath)
+            .then(res => {
+                if (res.ok) {
+                    return res;
+                } else {
+                    throw Error(`loadInitialItems Request rejected with status ${res.status}`);
+                }
+            })
+            .then(data => data.text())
+            .then(data => {
+                // menu.dispose();
+                if (L.NMenu.prototype.containers.menuItemsElement) {
+                    L.NMenu.prototype.containers.menuItemsElement.innerHTML += data;
+                } else {
+                    console.log('no "this.containers.menuULElement" defined, or correctly assigned somewhere...');
+                    throw Error(`failed to add ${data} to "this.containers.menuULElement"`);
+                }
+            })
+            .then(() => {
+              //  this._setupComplete_Initialise(passedPath);
+
+            })
+            .catch(console.error);
     }
+
 
 });
 
 
 
+
+
+
+
+
+/*
+
+░▒█░░░░░░░▒█▀▄▀█░█▀▀▄░▄▀▀▄░░░░█▀▀▄░█▀▄░█▀▄░▀█▀░█▀▀▄░░▀░░▀█▀░▒█░▒█░▄▀▀▄░▄▀▀▄░█░▄░░
+░▒█░░░░▄▄░▒█▒█▒█░█▄▄█░█▄▄█░▄▄░█▄▄█░█░█░█░█░▒█░░█░▒█░░█▀░░█░░▒█▀▀█░█░░█░█░░█░█▀▄░░
+░▒█▄▄█░▀▀░▒█░░▒█░▀░░▀░█░░░░▀▀░▀░░▀░▀▀░░▀▀░░▄█▄░▀░░▀░▀▀▀░░▀░░▒█░▒█░░▀▀░░░▀▀░░▀░▀░░
+
+*/
 
 
 L.Map.addInitHook(function () {
@@ -152,13 +276,14 @@ L.Map.addInitHook(function () {
     L.NMenu.prototype.initialize();
 
     this.nmenu = L.NMenu;
+    L.NMenu.map = this;
 
-    L.NMenu.defaults = this.options.nmenu ? this.options.nmenu : this;
+    L.NMenu.defaults = this.options.nmenu ? this.options.nmenu : this.options;
 
     console.log("L.Map.addInitHook", this);
     console.log("L.Map.addInitHook", L.NMenu.prototype);
 
-
+    // get options for which buttons to auto-add
     this.addControl(L.control.buttonator({}));
 
 
@@ -180,6 +305,23 @@ L.nmenu = function (opts) {
 
 
 
+
+
+
+
+
+
+
+
+/*
+
+░▒█░░░░░░░▒█▀▀▄░▄▀▀▄░█▀▀▄░▀█▀░█▀▀▄░▄▀▀▄░█░░░░░▒█▀▀▄░█░▒█░▀█▀░▀█▀░▄▀▀▄░█▀▀▄░█▀▀▄░▀█▀░▄▀▀▄░█▀▀▄░░
+░▒█░░░░▄▄░▒█░░░░█░░█░█░▒█░░█░░█▄▄▀░█░░█░█░░▄▄░▒█▀▀▄░█░▒█░░█░░░█░░█░░█░█░▒█░█▄▄█░░█░░█░░█░█▄▄▀░░
+░▒█▄▄█░▀▀░▒█▄▄▀░░▀▀░░▀░░▀░░▀░░▀░▀▀░░▀▀░░▀▀░▀▀░▒█▄▄█░░▀▀▀░░▀░░░▀░░░▀▀░░▀░░▀░▀░░▀░░▀░░░▀▀░░▀░▀▀░░
+
+*/
+
+
 L.Control.Buttonator = L.Control.extend({
     options: {
         position: 'topleft'
@@ -188,7 +330,7 @@ L.Control.Buttonator = L.Control.extend({
 
         let title, className, content, container, fn, context;
 
-        context = this;
+        context = map;
 
         if (map.zoomControl) {
             container = map.zoomControl._container;
@@ -264,8 +406,7 @@ L.Control.Buttonator = L.Control.extend({
         if (!L.NMenu.prototype.isFullScreen) {
             L.Control.Buttonator.prototype.openFullScreen();
             L.NMenu.prototype.isFullScreen = true;
-        }
-        else{
+        } else {
             L.Control.Buttonator.prototype.closeFullScreen();
             L.NMenu.prototype.isFullScreen = false;
         }

@@ -1,5 +1,7 @@
 :root {
 
+    --menuWidth: 250px;
+
     --defaultBackgroundColour: rgb(211, 183, 144);
     --defaultTextColour: rgba(66, 21, 4, 1);
 
@@ -36,7 +38,7 @@
 
     --alternativeFont: 8pt var(--defaultFontFamily);
 
-    --transitionDefaults: all 0.3s ease;
+    --transitionDefaults: all 0.3s ease-in-out;
 
     --bannerImageURL: url(../img/banner.png);
 
@@ -92,143 +94,67 @@
 
 
 
-.blended {
-    /* background-image: var(bannerImageURL); */
-    background-image: url(../img/tile.png);
-    background-color: red;
-    background-blend-mode:multiply;
-    height: 120px;
-    background-size: contain;
 
+
+
+
+
+
+
+
+* {
+    /* transition: var(--transitionDefaults); */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+li {
 
 }
 
-.blended h1 {
-    font-size: 25px;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 120px;
-    color:#fff;
-    /* The same as .blended div height */
+li>a>i {
+    position: relative;
+    top: -3px;
+    left: 3px;
 }
 
-#nmenu-ul-container>li>a:hover {
-    color: #ffffff;
+
+li>div>p {
+    text-align: justify;
+}
+
+
+li>a {
+    background-color: rgb(199, 199, 199);
+    width:100%;
+    display: block;
 }
 
 #nmenu {
-    /* height: 100vh; */
+    display: flex;
     background-color: rgb(128, 128, 128);
+    height: 100%;
     transition: var(--transitionDefaults);
 }
 
-#nmenu-ul-container>li>div {
-    padding-right: 15px;
-    padding-left: 5px;
-    background-color: rgb(128, 128, 128);
-    color: rgb(209, 209, 209);
+
+#menu.leaflet-nmenu {
+    width: 0px;
 }
 
-#nmenu-ul-container>li>ul>li {
-    margin-left: 5px;
+#menu.leaflet-nmenu-active {
+    width: var(--menuWidth);
+    overflow: hidden auto;
 }
 
-#nmenu-ul-container>li>ul>li>a:hover {
-    color: #ffffff;
+#map.leaflet-nmenu {
+    width: 100%;
 }
 
-#nmenu-ul-container>li>ul {
-    background-color: rgb(128, 128, 128);
-    color: rgb(209, 209, 209);
+#map.leaflet-nmenu-active {
+    width: calc(100% - var(--menuWidth));
 }
-
-#nmenu-ul-container>li>ul>li>a {
-    color: rgb(209, 209, 209);
-}
-
-#nmenu-ul-container>li>ul>li>a:hover {
-    color: #ffffff;
-}
-
-
-
-#nmenu-ul-container>li>ul>li>ul>li>a {
-    color: rgb(209, 209, 209);
-
-}
-
-
-#nmenu-ul-container>li>ul>li>ul>li>a:hover {
-    color: #ffffff;
-
-}
-
-
-#nmenu-ul-container>li>ul>li>ul>li:not(:empty) {
-    margin-left: 0px;
-}
-
-
-
-
-
-.nmenu-accordian {
-    display: flex;
-    flex-direction: column;
-    width: 250px;
-    height: auto;
-}
-
-.nmenu-accordian .leafet-nmenu-accordian-item {
-    display: flex;
-    flex-direction: column;
-    width: 250px;
-    padding-bottom: 0px;
-}
-
-.leafet-nmenu-accordian-trigger {
-    margin: 0;
-    position: relative;
-    padding: 5px;
-    width: 250px;
-    color: #bdbdbd;
-    font-weight: 400;
-    display: block;
-    font-weight: 500;
-    background-color: #262626;
-    cursor: pointer;
-    /* transition: var(--transitionDefaults); */
-
-    left: 0px;
-}
-
-
-
-
-
-.nmenu-accordian-panel {
-    width: 250px;
-    color: #262626;
-
-    opacity: 0;
-    height: auto;
-    max-height: 0;
-    overflow: hidden;
-    padding: 0px 10px 0px 10px;
-}
-
-.nmenu-accordian .leafet-nmenu-accordian-item.active .leafet-nmenu-accordian-trigger {
-    color: #fff;
-}
-
-
-
-.nmenu-accordian .leafet-nmenu-accordian-item.active .nmenu-accordian-panel {
-    display: relative;
-    padding: 0px;
-    opacity: 1;
-    /*  height: 30px;*/
-    max-height: 900px;
-}
-
-.nmenu-accordian-panel {}
