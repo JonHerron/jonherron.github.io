@@ -38,7 +38,7 @@
 
     --alternativeFont: 8pt var(--defaultFontFamily);
 
-    --transitionDefaults: all 0.3s ease-in-out;
+    --transitionDefaults: all 0.2s ease-in-out;
 
     --bannerImageURL: url(../img/banner.png);
 
@@ -138,23 +138,40 @@ li>a {
     display: flex;
     background-color: rgb(128, 128, 128);
     height: 100%;
-    transition: var(--transitionDefaults);
+    
 }
 
 
 #menu.leaflet-nmenu {
     width: 0px;
+    opacity: 0;
+    transition: var(--transitionDefaults);
 }
 
 #menu.leaflet-nmenu-active {
     width: var(--menuWidth);
+    opacity: 1;
     overflow: hidden auto;
+    transition: var(--transitionDefaults);
 }
 
 #map.leaflet-nmenu {
     width: 100%;
+    transition: var(--transitionDefaults);
 }
 
 #map.leaflet-nmenu-active {
     width: calc(100% - var(--menuWidth));
+    transition: var(--transitionDefaults);
+}
+
+
+
+
+
+
+
+
+.leafet-nmenu-accordian-item{
+    background-color: lightgreen;
 }
