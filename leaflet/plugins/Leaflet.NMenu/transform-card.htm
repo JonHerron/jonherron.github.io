@@ -22,11 +22,18 @@
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" />
 
-    <link rel="stylesheet" href="../../../css/main.css">
+    <!-- <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="./css/style.css"> -->
 
+    <style>
+        @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+    </style>
 
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/nmenu.css">
+    <link rel="stylesheet" href="../../../css/card.css">
 
-    <title>L.URL</title>
+    <title>L.TL.FL - Transform Card</title>
 </head>
 
 <body>
@@ -34,31 +41,13 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-    <section>
-        <h2 class="header">Leaflet Plugin - L.URL</h2>
-        <div class="grid">
-            <div class="card">
-                <span class="d-flex justify-content-center"><a href="../../"><i class="bi bi-house-fill"></i>
-                    Home</a></span>
+
+    <div class='card' style='--k: 100'>
+        <div id="map"></div>
+    </div>
 
 
-            </div>
-            <div class="main card">
-                <!-- <div id="menu"></div> -->
-                <div id="map"></div>
-            </div>
-            <div class="card">
 
-
-            </div>
-            <div class="card">
-
-                <span class="d-flex justify-content-center"><a target="_blank" href="./stand-alone.htm"><i class="bi bi-fullscreen"></i>
-                    Stand Alone Example</a></span>
-
-            </div>
-        </div>
-    </section>
 
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
@@ -66,9 +55,9 @@
         crossorigin=""></script>
 
 
-
-    <script src="./js/leafet.URL.js"></script>
+    <script src="./js/leaflet.NMenu.js"></script>
     <script src="./js/script.js"></script>
+    <script src="../../../js/card.js"></script>
 </body>
 
 </html>

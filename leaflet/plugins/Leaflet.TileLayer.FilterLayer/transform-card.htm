@@ -27,28 +27,12 @@
 
     <style>
         @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
-
-        #map, body {
-            height: 100vh;
-            width: 100vw;
-
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-
-        *:focus,
-        *:active {
-            outline: none !important;
-            -webkit-tap-highlight-color: transparent;
-        }
     </style>
 
-<link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="../../../css/card.css">
 
-    <title>L.TileLayer.FilterLayer - Standalone</title>
+    <title>L.TL.FL - Transform Card</title>
 </head>
 
 <body>
@@ -56,7 +40,13 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-    <div id="map"></div>
+
+    <div class='card' style='--k: 100'>
+        <div id="map"></div>
+    </div>
+
+
+
 
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
@@ -64,8 +54,9 @@
         crossorigin=""></script>
 
 
-    <script src="./js/L.TileLayer.FilterLayerA.js"></script>
-    <script src="./js/script.js"></script>
+        <script src="./js/L.TileLayer.FilterLayerA.js"></script>
+        <script src="./js/script.js"></script>
+        <script src="../../../js/card.js"></script>
 </body>
 
 </html>

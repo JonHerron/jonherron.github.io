@@ -6,97 +6,58 @@
 */
 L.TileLayer.FilterLayer = L.TileLayer.extend({
 
-	toggleFilterSettingsButton: undefined,
+	elements: {
+		containers: {},
+		sliders: {}
+	},
+	currentButton: undefined,
 	currentFilterSettingsContainer: undefined,
+	filterSettingsContainers: {
+		brightness: 'brightness',
+		contrast: 'contrast',
+		grayscale: 'grayscale',
+		hueRotation: 'hueRotation',
+		invert: 'invert',
+		saturation: 'saturation',
+		sepia: 'sepia',
+		blur: 'blur',
+		opacity: 'opacity'
+	},
+	filterSettingsSliders: {
+		brightness: 'brightness',
+		contrast: 'contrast',
+		grayscale: 'grayscale',
+		hueRotation: 'hueRotation',
+		invert: 'invert',
+		saturation: 'saturation',
+		sepia: 'sepia',
+		blur: 'blur',
+		opacity: 'opacity'
+	},
 	currentMap: undefined,
-	currentContainer: undefined,
-	currentColorFilter: undefined,
 	currentFilter: ["some filter"],
 	showFilterSettings: false,
-	elements: {
-		containers: {
-			brightness: undefined,
-			contrast: undefined,
-			grayscale: undefined,
-			hue: undefined,
-			invert: undefined,
-			saturation: undefined,
-			sepia: undefined,
-			blur: undefined,
-			opacity: undefined
-		},
-		sliders: {
-			brightness: undefined,
-			contrast: undefined,
-			grayscale: undefined,
-			hue: undefined,
-			invert: undefined,
-			saturation: undefined,
-			sepia: undefined,
-			blur: undefined,
-			opacity: undefined
-		}
-	},
-
-	filter: {
-		values: {
-			brightness: undefined,
-			contrast: undefined,
-			grayscale: undefined,
-			hue: undefined,
-			invert: undefined,
-			saturation: undefined,
-			sepia: undefined,
-			blur: undefined,
-			opacity: undefined
-		},
-		validatedValues: {
-			brightness: undefined,
-			contrast: undefined,
-			grayscale: undefined,
-			hue: undefined,
-			invert: undefined,
-			saturation: undefined,
-			sepia: undefined,
-			blur: undefined,
-			opacity: undefined
-		}
-	},
-
-	validateFilter: {
-		brightness: function (value) { return `brightness(${value}%)` },
-		contrast: function (value) { return `contrast(${value}%)` },
-		grayscale: function (value) { return `grayscale(${value}%)` },
-		hue: function (value) { return `hue-rotate(${value}deg)` },
-		invert: function (value) { return `invert(${value}%)` },
-		saturation: function (value) { return `saturate(${value}%)` },
-		sepia: function (value) { return `sepia(${value}%)` },
-		blur: function (value) { return `blur(${value}px)` },
-		opacity: function (value) { return `opacity(${value}%)` },
-	},
-
-
 	colourFilters: {
-		brightness: undefined,
-		contrast: undefined,
-		grayscale: undefined,
-		hue: undefined,
-		invert: undefined,
-		saturation: undefined,
-		sepia: undefined,
-		blur: undefined,
-		opacity: undefined
+		brightness: 'brightness',
+		contrast: 'contrast',
+		grayscale: 'grayscale',
+		hueRotation: 'hueRotation',
+		invert: 'invert',
+		saturation: 'saturation',
+		sepia: 'sepia',
+		blur: 'blur',
+		opacity: 'opacity'
 	},
 	colourFiltersValidated: {
-		brightness: undefined,
-		contrast: undefined,
-		grayscale: undefined,
-		hue: undefined,
-		invert: undefined,
-		saturation: undefined,
-		sepia: undefined,
-		blur: undefined,
-		opacity: undefined
+		brightness: 'brightness',
+		contrast: 'contrast',
+		grayscale: 'grayscale',
+		hueRotation: 'hueRotation',
+		invert: 'invert',
+		saturation: 'saturation',
+		sepia: 'sepia',
+		blur: 'blur',
+		opacity: 'opacity'
 	},
 
 	intialize: function (url, options) {
@@ -114,7 +75,7 @@ L.TileLayer.FilterLayer = L.TileLayer.extend({
 	onRemove: function onRemove(map) {
 		L.TileLayer.prototype.onRemove.call(this, map);
 		L.TileLayer.FilterLayer.prototype.currentMap = undefined;
-		this.removeButton(this.toggleFilterSettingsButton);
+		this.removeButton(this.currentButton);
 		// if(this.showFilterSettings) this.removeFilterDisplay();
 	},
 
@@ -128,12 +89,12 @@ L.TileLayer.FilterLayer = L.TileLayer.extend({
 		if (!_this.showFilterSettings) {
 			_this.showFilterSettings = true;
 			_this.createFilterDisplay(_this.getMap());
-			// console.log("_this.currentMap.filterLayer", _this.currentMap.filterLayer);
+			console.log("_this.getMap()", _this.currentMap);
 		} else {
 			_this.showFilterSettings = false;
 			_this.removeFilterDisplay();
 		}
-		// console.log("_this.showFilterSettings", _this.showFilterSettings);
+		console.log("_this.showFilterSettings", _this.showFilterSettings);
 	},
 
 
@@ -170,7 +131,7 @@ L.TileLayer.FilterLayer = L.TileLayer.extend({
 		// Note: Negative values are not allowed.
 		return `grayscale(${value}%)`
 	},
-	hue: function (value) {
+	hueRotation: function (value) {
 		// hue-rotate(deg)	
 		// Applies a hue rotation on the image. 
 		// The value defines the number of degrees around the color circle the image samples will be adjusted. 
@@ -265,26 +226,19 @@ L.TileLayer.FilterLayer = L.TileLayer.extend({
 	},
 
 	_initContainer: function () {
-		let tile = L.TileLayer.prototype._initContainer.call(this);
 
 		L.TileLayer.prototype._initContainer.call(this);
 
-		L.TileLayer.FilterLayer.prototype.currentContainer = this._container;
+		L.TileLayer.FilterLayer.prototype.currentFilter = this._container.style.filter = this.colorFilter();
 
-		L.TileLayer.FilterLayer.prototype.currentColorFilter = this._container.style.filter = this.colorFilter();
-
-		// L.TileLayerFilterLayer.prototype.currentFilter = 
-
-		console.log("_initContainer - this", this);
-		// console.log("_initContainer - L.TileLayer.FilterLayer.prototype.currentContainer", L.TileLayer.FilterLayer.prototype.currentContainer);
-		// console.log("_initContainer - this.colorFilter()", this.colorFilter());
+		console.log("_initContainer - this.colorFilter()", this.colorFilter());
 	},
 
 	updateFilter: function (newFilter) {
 
 		this.options.filter = newFilter;
 		if (this._container) {
-			L.TileLayer.FilterLayer.prototype.currentColorFilter = this._container.style.filter = this.colorFilter();
+			L.TileLayer.FilterLayer.prototype.currentFilter = this._container.style.filter = this.colorFilter();
 		}
 
 	},
@@ -296,18 +250,21 @@ L.TileLayer.FilterLayer = L.TileLayer.extend({
 
 
 
-
+	
 
 	updateFilterDisplay: function () {
-		// console.log("updateFilterDisplay");
+		console.log("updateFilterDisplay");
 		let filterString = "";
 		let filterArray = [];
-		for (let [key, value] of Object.entries(L.TileLayer.FilterLayer.prototype.colourFilters)) {
-			filterString += L.TileLayer.FilterLayer.prototype.validateFilter[key](value) + " ";
-			filterArray.push(`${key}:${value}`);
+		for (let [key, value] of Object.entries(L.TileLayer.FilterLayer.prototype.colourFiltersValidated)) {
+			// console.log(`${key}: ${value}`);
+			filterString += value + " ";
+			filterArray.push(`${key}: ${value}`);
 		}
+		console.log("filterString", filterString);
+		console.log("filterArray", filterArray);
 
-		L.TileLayer.FilterLayer.prototype.currentContainer.style.filter = filterString;
+		this.updateFilter(filterArray);
 
 	},
 
@@ -373,7 +330,7 @@ L.TileLayer.FilterLayer = L.TileLayer.extend({
 		content = ['<i class="bi bi-filter-square-fill"></i>', '<i class="bi bi-filter-square"></i>'];
 		fn = this.toggleFilterSettings;
 
-		L.TileLayer.FilterLayer.prototype.toggleFilterSettingsButton = this.createButton(title, className, content, container, fn, context);
+		L.TileLayer.FilterLayer.prototype.currentButton = this.createButton(title, className, content, container, fn, context);
 	},
 
 	removeButton: function (button) {
@@ -388,11 +345,8 @@ L.TileLayer.FilterLayer = L.TileLayer.extend({
 	},
 
 	createFilterDisplay: function (map) {
-		// console.log("createFilterDisplay");
-		// console.log("L.TileLayer.FilterLayer.prototype.currentFilter", L.TileLayer.FilterLayer.prototype.currentFilter);
-		// console.log("this", this);
-		// console.log("map", map);
-		// console.log("this.currentFilter", this.currentFilter);
+		console.log("createFilterDisplay");
+		console.log("L.TileLayer.FilterLayer.prototype.currentFilter", L.TileLayer.FilterLayer.prototype.currentFilter);
 
 		let title, className, content, container, fn, context;
 		title = "Filter Options";
@@ -421,27 +375,17 @@ L.TileLayer.FilterLayer = L.TileLayer.extend({
 		brV = _this.brightness ? _this.brightness : 0;
 		coV = _this.contrast ? _this.contrast : 100;
 		grV = _this.grayscale ? _this.grayscale : 0;
-		huV = _this.hue ? _this.hue : 0;
+		huV = _this.hueRotation ? _this.hueRotation : 0;
 		inV = _this.invert ? _this.invert : 0;
 		saV = _this.saturation ? _this.saturation : 100;
 		seV = _this.sepia ? _this.sepia : 0;
 		blV = _this.blur ? _this.blur : 0;
 		opV = _this.opacity ? _this.opacity : 100;
 
-		console.log(brV);
-		console.log(coV);
-		console.log(grV);
-		console.log(huV);
-		console.log(inV);
-		console.log(saV);
-		console.log(seV);
-		console.log(blV);
-		console.log(opV);
-
 		this.createSliderElement('brightness', 0, 200, brV, '%');
 		this.createSliderElement('contrast', 0, 200, coV, '%');
 		this.createSliderElement('grayscale', 0, 100, grV, '%');
-		this.createSliderElement('hue', 0, 359, huV, '\u00B0');
+		this.createSliderElement('hueRotation', 0, 359, huV, '\u00B0');
 		this.createSliderElement('invert', 0, 100, inV, '%');
 		this.createSliderElement('saturation', 0, 1000, saV, '%');
 		this.createSliderElement('sepia', 0, 100, seV, '%');
@@ -453,13 +397,13 @@ L.TileLayer.FilterLayer = L.TileLayer.extend({
 
 	createSliderElement: function (slider, min, max, value, unit) {
 		let _this = L.TileLayer.FilterLayer.prototype;
-		_this.elements.containers[slider] = L.DomUtil.create('div', 'leaflet-control-filter-settings-slider leaflet-control-filter-settings-' + slider + '-slider', this.currentFilterSettingsContainer);
-		let cst = L.DomUtil.create('span', 'leaflet-control-filter-settings-title leaflet-control-filter-settings-' + slider + '-title', this.elements.containers[slider]);
+		_this.filterSettingsContainers[slider] = L.DomUtil.create('div', 'leaflet-control-filter-settings-slider leaflet-control-filter-settings-' + slider + '-slider', this.currentFilterSettingsContainer);
+		let cst = L.DomUtil.create('span', 'leaflet-control-filter-settings-title leaflet-control-filter-settings-' + slider + '-title', this.filterSettingsContainers[slider]);
 		cst.innerHTML = slider.charAt(0).toUpperCase() + slider.slice(1) + ' : ';
-		let csv = L.DomUtil.create('span', 'leaflet-control-filter-settings-value leaflet-control-filter-settings-' + slider + '-value', this.elements.containers[slider]);
+		let csv = L.DomUtil.create('span', 'leaflet-control-filter-settings-value leaflet-control-filter-settings-' + slider + '-value', this.filterSettingsContainers[slider]);
 		csv.setAttribute('id', slider + '-value');
 		csv.innerHTML = '0% </br>';
-		let ci = this.elements.sliders[slider] = L.DomUtil.create('input', 'leaflet-control-filter-settings-input leaflet-control-filter-settings-' + slider + '-input', this.elements.containers[slider]);
+		let ci = this.filterSettingsSliders[slider] = L.DomUtil.create('input', 'leaflet-control-filter-settings-input leaflet-control-filter-settings-' + slider + '-input', this.filterSettingsContainers[slider]);
 		ci.setAttribute('type', 'range');
 		ci.setAttribute('min', min);
 		ci.setAttribute('max', max);

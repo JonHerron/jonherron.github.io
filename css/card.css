@@ -1,0 +1,48 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#map,
+body {
+    display: grid;
+    height: 100vh;
+    perspective: 35em;
+    background: #333;
+}
+
+
+
+.card {
+    --hl: 0;
+    --dif-inf: clamp(0, calc(var(--k) - 15), 1);
+    --dif-sup: clamp(0, calc(100 - 15 - var(--k)), 1);
+    justify-content: space-between;
+    place-self: center;
+    overflow: hidden;
+    width: 80%;
+    /* width: max(8em, calc(80*1vw)); */
+    /* height: max(8em, calc(80*1vh)); */
+    height: 80%;
+    border-radius: 0.5em;
+    box-shadow: 4px 4px 23px;
+    filter: grayscale(calc(1 - var(--hl)));
+    transition: 0.25s;
+    transition-property: transform, filter;
+}
+
+.card:hover,
+.card:focus-within {
+    --hl: 1;
+}
+
+.card:hover {
+    transform: rotatex(calc(clamp(-.5, var(--j), .5)*10deg)) rotatey(calc(clamp(-.5, var(--i), .5)*-10deg));
+}
+
+#map {
+    overflow: hidden;
+    width: 100%;
+    height: 100%
+}

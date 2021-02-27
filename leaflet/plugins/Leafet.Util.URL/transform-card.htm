@@ -22,19 +22,31 @@
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" />
 
-    <link rel="stylesheet" href="../../../css/main.css">
+    <!-- <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="./css/style.css"> -->
+
+    <style>
+        @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+        #map, body{
+            margin:0;
+            padding:0;
+            height:100%;
+            width:100%;
+        }
+    </style>
+
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="../../../css/card.css">
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin="" defer></script>
 
-
-
     <script src="./js/leafet.Util.URL.js" defer></script>
     <script src="./js/script.js" defer></script>
+    <script src="../../../js/card.js" defer></script>
 
-    <title>L.Util.URL</title>
+    <title>L.TL.FL - Transform Card</title>
 </head>
 
 <body>
@@ -42,43 +54,10 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-    <section>
-        <h2 class="header">Leaflet Plugin - L.Util.URL</h2>
-        <div class="grid">
 
-            <div class="header card">
-                <span class="d-flex justify-content-center">
-                    <a href="../../"><i class="bi bi-house-fill"></i>Home</a>
-                </span>
-            </div>
-
-            <div class="main card">
-                <div id="map"></div>
-            </div>
-
-            <div class="another card">
-
-            </div>
-
-            <div class="footer card">
-
-                <section id='buttons'>
-                    <form action="./stand-alone.htm">
-                        <button type="submit" class="btn btn-navy btn-border">
-                            <i class="bi bi-fullscreen"></i>Full Page
-                        </button>
-                    </form>
-                    <form action="./transform-card.htm">
-                        <button type="submit" class="btn btn-navy btn-border">
-                            <i class="bi bi-card-image"></i>Transform Card
-                        </button>
-                    </form>
-
-                </section>
-
-            </div>
-        </div>
-    </section>
+    <div class='card' style='--k: 100'>
+        <div id="map"></div>
+    </div>
 
 
 

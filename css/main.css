@@ -26,18 +26,20 @@ i {
     top: -1px;
 }
 
+button > i{
+    padding-right: 5px;
+}
+
 span>a>i {
     position: relative;
     top: -3px;
     left: 3px;
+    padding-right: 5px;
 }
 
 body {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-around;
-    align-items: center;
-    justify-content: center;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -59,19 +61,21 @@ h2.header {
     color: rgb(31, 31, 31);
 }
 
-section {
-    width:100%;
-}
 
+section {
+    padding: 2px 0 2px;
+    position: relative;
+    width: 100%;
+}
 
 
 .grid {
     /* display: grid;
     grid-template-columns: 2fr 22fr; */
-    width:100%;
+    width: 100%;
 }
 
-.grid .card {
+.grid.card {
     min-width: 100px;
     margin: 0px;
 }
@@ -91,9 +95,103 @@ section {
     border-radius: 0px;
     border: 1px rgb(0, 0, 0);
     margin: 0px;
-    height: 80vh;
+    height: 75vh;
 
     color: black;
     overflow: hidden;
 
 }
+
+.footer.card{
+    height: 60px;
+}
+
+#buttons{
+
+}
+
+#buttons > form {
+    display: inline;
+}
+
+
+.animate,
+.btn-border:before,
+.btn-border:after,
+.btn {
+    transition: all 0.3s;
+}
+
+/* Main Styles */
+
+
+
+
+
+.btn {
+    display: inline-block;
+    line-height: 35px;
+    margin: 8px;
+    padding: 0 15px;
+    font-size: 15px;
+    position: relative;
+    opacity: 0.999;
+    border-radius: 3px;
+}
+
+
+.btn-border {
+    background-color: #e5e5e5;
+    border: 1px solid #e5e5e5;
+    color: #a6a6a6;
+}
+
+.btn-border:before,
+.btn-border:after {
+    content: "";
+    border-style: solid;
+    position: absolute;
+    z-index: 5;
+    border-radius: 3px;
+    box-sizing: content-box;
+}
+
+.btn-border:before {
+    width: 0;
+    height: 100%;
+    border-width: 1px 0 1px 0;
+    top: -1px;
+    left: 0;
+    transition-delay: 0.05s;
+}
+
+.btn-border:after {
+    width: 100%;
+    height: 0;
+    border-width: 0 1px 0 1px;
+    top: 0;
+    left: -1px;
+}
+
+.btn-border:hover {
+    background-color: transparent;
+}
+
+.btn-border:hover:before {
+    width: 100%;
+}
+
+.btn-border:hover:after {
+    height: 100%;
+}
+
+
+.btn-border.btn-navy:before,
+.btn-border.btn-navy:after {
+    border-color: #34495e;
+}
+
+.btn-border.btn-navy:hover {
+    color: #34495e;
+}
+

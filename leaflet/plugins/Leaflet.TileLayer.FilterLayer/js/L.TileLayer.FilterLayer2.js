@@ -6,6 +6,40 @@
 */
 L.TileLayer.FilterLayer = L.TileLayer.extend({
 
+	limitNumber: function (num, min, max) {
+		const MIN = min || 0;
+		const MAX = max || 100; //assume it's a percentage
+		const parsed = parseInt(num)
+		return Math.min(Math.max(parsed, MIN), MAX)
+	},
+
+	_blur: {
+		filter: undefined,
+		elements: {
+			container: undefined,
+			label: undefined,
+			value: undefined,
+			slider: undefined
+		},
+		value: {
+			validated: undefined,
+			number: NaN,
+			unit: undefined
+		},
+		validate: function (value, unit) {
+
+			value = L.TileLayer.FilterLayer.prototype.limitNumber(value);
+			if (unit != "px" || unit != "rem")
+			{
+				//default to "px"
+				unit = "px";
+			}
+			
+			return `blur(${value}${unit})`
+		}
+
+	},
+
 	toggleFilterSettingsButton: undefined,
 	currentFilterSettingsContainer: undefined,
 	currentMap: undefined,
@@ -64,15 +98,33 @@ L.TileLayer.FilterLayer = L.TileLayer.extend({
 	},
 
 	validateFilter: {
-		brightness: function (value) { return `brightness(${value}%)` },
-		contrast: function (value) { return `contrast(${value}%)` },
-		grayscale: function (value) { return `grayscale(${value}%)` },
-		hue: function (value) { return `hue-rotate(${value}deg)` },
-		invert: function (value) { return `invert(${value}%)` },
-		saturation: function (value) { return `saturate(${value}%)` },
-		sepia: function (value) { return `sepia(${value}%)` },
-		blur: function (value) { return `blur(${value}px)` },
-		opacity: function (value) { return `opacity(${value}%)` },
+		brightness: function (value) {
+			return `brightness(${value}%)`
+		},
+		contrast: function (value) {
+			return `contrast(${value}%)`
+		},
+		grayscale: function (value) {
+			return `grayscale(${value}%)`
+		},
+		hue: function (value) {
+			return `hue-rotate(${value}deg)`
+		},
+		invert: function (value) {
+			return `invert(${value}%)`
+		},
+		saturation: function (value) {
+			return `saturate(${value}%)`
+		},
+		sepia: function (value) {
+			return `sepia(${value}%)`
+		},
+		blur: function (value) {
+			return `blur(${value}px)`
+		},
+		opacity: function (value) {
+			return `opacity(${value}%)`
+		},
 	},
 
 
