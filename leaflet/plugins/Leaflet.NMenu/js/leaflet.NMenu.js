@@ -150,6 +150,9 @@ L.NMenu = L.Class.extend({
 
         menuDIV = L.DomUtil.get('menu') ? L.DomUtil.get('menu') : document.createElement("div");
         menuDIV.id = 'nmenu-banner-container';
+        menuDIV.style['position'] = 'sticky';
+        menuDIV.style['top'] = 0;
+        menuDIV.style['zIndex'] = 5;
         L.DomUtil.addClass(menuDIV, L.NMenu.N_MENU_BANNER_CONTAINER);
         L.DomUtil.addClass(menuDIV, 'blended');
         testContent = document.createElement("h1");

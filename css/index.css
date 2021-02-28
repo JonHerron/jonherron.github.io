@@ -91,19 +91,31 @@ body {
 }
 
 .card:nth-child(1):before {
-  background-image: url(https://loremflickr.com/g/320/240/animal,dog,cat/all?random=1);
+  background-image: url(https://loremflickr.com/320/240/map,globe,world/all?random=1);
 }
 
 .card:nth-child(2):before {
-  background-image: url(https://loremflickr.com/g/320/240/animal,dog,cat/all?random=2);
+  background-image: url(https://loremflickr.com/320/240/map,globe,world/all?random=2);
 }
 
 .card:nth-child(3):before {
-  background-image: url(https://loremflickr.com/g/320/240/animal,dog,cat/all?random=3);
+  background-image: url(https://loremflickr.com/320/240/map,globe,world/all?random=3);
 }
 
 .card:nth-child(4):before {
-  background-image: url(https://loremflickr.com/g/320/240/animal,dog,cat/all?random=4);
+  background-image: url(https://loremflickr.com/320/240/map,globe,world/all?random=4);
+}
+.card:nth-child(5):before {
+  background-image: url(https://loremflickr.com/320/240/map,globe,world/all?random=5);
+}
+.card:nth-child(6):before {
+  background-image: url(https://loremflickr.com/320/240/map,globe,world/all?random=6);
+}
+.card:nth-child(7):before {
+  background-image: url(https://loremflickr.com/320/240/map,globe,world/all?random=7);
+}
+.card:nth-child(8):before {
+  background-image: url(https://loremflickr.com/320/240/map,globe,world/all?random=8);
 }
 
 .content {
@@ -125,6 +137,7 @@ body {
   font-size: 1.3rem;
   font-weight: bold;
   line-height: 1.2;
+  text-shadow: -1px -1px 1px #111, 2px 2px 1px #363636;
 }
 
 .copy {
@@ -132,6 +145,7 @@ body {
   font-size: 1.125rem;
   font-style: italic;
   line-height: 1.35;
+  text-shadow: -1px -1px 1px #111, 2px 2px 1px #363636;
 }
 
 .btn {
