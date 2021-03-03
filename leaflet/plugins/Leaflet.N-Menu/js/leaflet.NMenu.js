@@ -112,13 +112,140 @@ L.NMenu = L.Class.extend({
     initialize: function (map, options) {
 
         L.setOptions(this, options);
-        this.setupDom();
-        this.setupInitialMenuState();
+        // this.setupDom();
+        this._setMapNMenuFrameworkStyles();
+        this._createMapNMenuFramework();
+        this._setMapNMenuFrameworkClasses();
         this.setupDisplayType();
 
-       this.loadItems();
+        this.loadItems();
 
         console.log(this);
+
+        let accVars = {
+            parentItem1: [{
+                parentItem1subItem1: ''
+            }, {
+                parentItem1subItem2: ''
+            }, {
+                parentItem1subItem3: ''
+            }, {
+                parentItem1subItem4: ''
+            }]
+        };
+
+
+        let accSubItems = [
+            {
+                name: 'parentItem1subItem1',
+                id: 'Phillie',
+                innerHTML: undefined,
+                classes: '',
+                element: {
+                    type: 'div',
+                    attributes: undefined,
+                    style: {}
+                }
+            },
+            {
+                name: 'parentItem1subItem2',
+                id: 'Jimmy',
+                innerHTML: undefined,
+                classes: '',
+                element: {
+                    type: 'div',
+                    attributes: undefined,
+                    style: {}
+                }
+            },
+            {
+                name: 'parentItem1subItem3',
+                id: 'Bobby',
+                innerHTML: undefined,
+                classes: '',
+                element: {
+                    type: 'div',
+                    attributes: undefined,
+                    style: {}
+                }
+            }
+        ]
+
+        let accItemOptions = [
+            { //parentItem1
+                name: 'parentItem1',
+                id: 'Parent1',
+                innerHTML: undefined,
+                items: accSubItems,
+                classes: '',
+                element: {
+                    type: 'div',
+                    attributes: undefined,
+                    style: {}
+                }
+            },
+            { //parentItem2
+                name: 'parentItem2',
+                id: 'Parent2',
+                innerHTML: undefined,
+                items: accSubItems,
+                classes: '',
+                element: {
+                    type: 'div',
+                    attributes: undefined,
+                    style: {}
+                }
+            },
+            { //parentItem3
+                name: 'parentItem3',
+                id: 'Parent3',
+                innerHTML: undefined,
+                items: accSubItems,
+                classes: '',
+                element: {
+                    type: 'div',
+                    attributes: undefined,
+                    style: {}
+                }
+            },
+            { //parentItem4
+                name: 'parentItem4',
+                id: 'Parent4',
+                innerHTML: undefined,
+                items: accSubItems,
+                classes: '',
+                element: {
+                    type: 'div',
+                    attributes: undefined,
+                    style: {}
+                }
+            },
+            { //parentItem5
+                name: 'parentItem5',
+                id: 'Parent5',
+                innerHTML: undefined,
+                items: accSubItems,
+                classes: '',
+                element: {
+                    type: 'div',
+                    attributes: undefined,
+                    style: {}
+                }
+            }
+
+        ];
+
+        let A = this.createAccordianItem('A', accItemOptions[0]);
+        
+        console.log("createAccordianItem()", A);
+        console.log("createAccordianItem()", this.createAccordianItem('B', accItemOptions[1]));
+        console.log("createAccordianItem()", this.createAccordianItem('C', accItemOptions[2]));
+        console.log("createAccordianItem()", this.createAccordianItem('D', accItemOptions[3]));
+        console.log("createAccordianItem()", this.createAccordianItem('E', accItemOptions[4]));
+        
+        
+        
+        A.click();
     },
 
     /* 
@@ -132,15 +259,15 @@ L.NMenu = L.Class.extend({
 
     setupDom: function () {
         // this.containers.menuItemsElement = L.DomUtil.get('menu') ? L.DomUtil.get('menu') : document.createElement("div");
-        this.containers.mainContainerElement = L.DomUtil.get('nmenu') ? L.DomUtil.get('nmenu') : document.createElement("div");
+        this.containers.mainContainerElement = L.DomUtil.get('map-n-menu') ? L.DomUtil.get('map-n-menu') : document.createElement("div");
         this.containers.menuParentElement = L.DomUtil.get('menu') ? L.DomUtil.get('menu') : document.createElement("div");
         this.containers.mapParentElement = L.DomUtil.get('map') ? L.DomUtil.get('map') : document.createElement("div");
         this.containers.menuItemsElement = L.DomUtil.get('accordian') ? L.DomUtil.get('accordian') : document.createElement("ul");
 
-        this.containers.mainContainerElement.id = 'nmenu';
-        this.containers.menuParentElement.id = 'menu';
-        this.containers.menuItemsElement.id = 'accordian';
-        // this.containers.mapParentElement.id = 'map';
+        this.containers.mainContainerElement.id = 'map-n-menu'; // just in case this isn't set as this, make sure it is
+        this.containers.menuParentElement.id = 'menu'; // same reasons as above
+        this.containers.menuItemsElement.id = 'accordian'; // same reasons as above
+        this.containers.mapParentElement.id = 'map'; // same reasons as above
 
         this.containers.mapParentElement.parentNode.insertBefore(this.containers.mainContainerElement, this.containers.mapParentElement);
         this.containers.mainContainerElement.appendChild(this.containers.menuParentElement);
@@ -148,7 +275,40 @@ L.NMenu = L.Class.extend({
         this.containers.menuParentElement.appendChild(this.containers.menuItemsElement);
     },
 
-    setupInitialMenuState: function () {
+    _setMapNMenuFrameworkStyles: function () {
+        let cssHideStyles = ".leaflet-n-menu-multi-level-accordian, " +
+            ".leaflet-n-menu-accordian-item ul, " +
+            ".leaflet-n-menu-accordian-parent input[type='checkbox'] " +
+            "{display: none;} ";
+
+        let cssShowStyles = ".leaflet-n-menu-multi-level-accordian, " +
+            ".leaflet-n-menu-accordian-item input:checked ~ ul " +
+            "{display: block;}";
+
+        let cssAll = cssHideStyles + cssShowStyles;
+        this.styleTag = this.injectCSS(cssAll);
+    },
+
+    _createMapNMenuFramework: function () {
+        // this.containers.menuItemsElement = L.DomUtil.get('menu') ? L.DomUtil.get('menu') : document.createElement("div");
+        this.containers.mainContainerElement = L.DomUtil.get('map-n-menu') ? L.DomUtil.get('map-n-menu') : document.createElement("div");
+        this.containers.menuParentElement = L.DomUtil.get('menu') ? L.DomUtil.get('menu') : document.createElement("div");
+        this.containers.mapParentElement = L.DomUtil.get('map') ? L.DomUtil.get('map') : document.createElement("div");
+        this.containers.menuItemsElement = L.DomUtil.get('accordian') ? L.DomUtil.get('accordian') : document.createElement("div");
+
+        this.containers.mainContainerElement.id = 'map-n-menu'; // just in case this isn't set as this, make sure it is
+        this.containers.menuParentElement.id = 'menu'; // same reasons as above
+        this.containers.menuItemsElement.id = 'accordian'; // same reasons as above
+        L.DomUtil.addClass(this.containers.menuItemsElement, 'leaflet-n-menu-multi-level-accordian');
+        this.containers.mapParentElement.id = 'map'; // same reasons as above
+
+        this.containers.mapParentElement.parentNode.insertBefore(this.containers.mainContainerElement, this.containers.mapParentElement);
+        this.containers.mainContainerElement.appendChild(this.containers.menuParentElement);
+        this.containers.mainContainerElement.appendChild(this.containers.mapParentElement);
+        this.containers.menuParentElement.appendChild(this.containers.menuItemsElement);
+    },
+
+    _setMapNMenuFrameworkClasses: function () {
         //choose or read the intial state
         L.DomUtil.addClass(L.NMenu.prototype.containers.menuParentElement, L.NMenu.prototype.styles.N_MENU_CLASS);
         L.DomUtil.addClass(L.NMenu.prototype.containers.mapParentElement, L.NMenu.prototype.styles.N_MENU_CLASS);
@@ -157,6 +317,75 @@ L.NMenu = L.Class.extend({
     setupDisplayType: function () {
 
     },
+
+    createAccordianItem: function (item, subMenuItems) {
+        // let container = L.DomUtil.create('div', 'leaflet-n-menu-multi-level-accordian', this.containers.menuItemsElement);
+        let _accordianItem = L.DomUtil.create('div', 'leaflet-n-menu-accordian-item leaflet-n-menu-accordian-parent', this.containers.menuItemsElement);
+
+        let piInput = L.DomUtil.create('input', '', _accordianItem);
+        piInput.setAttribute('type', 'checkbox');
+        piInput.id = item;
+
+        let piLabel = L.DomUtil.create('label', '', _accordianItem);
+        piLabel.setAttribute('for', item);
+        let piI = L.DomUtil.create('i', 'bi bi-menu-button-wide-fill', piLabel);
+        let = text = 'Parent Menu ' + item;
+        piLabel.innerHTML = piLabel.innerHTML + text;
+
+        let piAccordian = L.DomUtil.create('ul', 'leaflet-n-menu-accordian-parent-ul', _accordianItem);
+
+
+        // now create subMenu items, possibly just an item possibly another accordian item....
+
+        for (const [key, value] of Object.entries(subMenuItems)) {
+            //console.log(`${key}: ${value}`);
+        }
+
+            console.log(subMenuItems);
+
+
+
+
+
+
+
+        let piAccItem1 = L.DomUtil.create('li', '', piAccordian);
+        let piAccItem1a = L.DomUtil.create('a', '', piAccItem1);
+        piAccItem1a.setAttribute('href', '#');
+        let piAccItem1ai = L.DomUtil.create('i', 'bi bi-menu-button-wide', piAccItem1a);
+        piAccItem1a.innerHTML = piAccItem1a.innerHTML + 'Child Item ' + item + 1;
+
+        let piAccItem2 = L.DomUtil.create('li', '', piAccordian);
+        let piAccItem2a = L.DomUtil.create('a', '', piAccItem2);
+        piAccItem2a.setAttribute('href', '#');
+        let piAccItem2ai = L.DomUtil.create('i', 'bi bi-menu-button-wide', piAccItem2a);
+        piAccItem2a.innerHTML = piAccItem2a.innerHTML + 'Child Item ' + item + 2;
+
+        let piAccItem3 = L.DomUtil.create('li', '', piAccordian);
+        let piAccItem3a = L.DomUtil.create('a', '', piAccItem3);
+        piAccItem3a.setAttribute('href', '#');
+        let piAccItem3ai = L.DomUtil.create('i', 'bi bi-menu-button-wide', piAccItem3a);
+        piAccItem3a.innerHTML = piAccItem3a.innerHTML + 'Child Item ' + item + 3;
+
+        return _accordianItem;
+
+    },
+
+    _createAccordianSubMenuItem: function (params) {
+
+        let piAccItem3 = L.DomUtil.create('li', '', piAccordian);
+        let piAccItem3a = L.DomUtil.create('a', '', piAccItem3);
+        piAccItem3a.setAttribute('href', '#');
+        let piAccItem3ai = L.DomUtil.create('i', 'bi bi-menu-button-wide', piAccItem3a);
+        piAccItem3a.innerHTML = piAccItem3a.innerHTML + 'Child Item ' + itemName + 3;
+
+        return piAccItem3;
+    },
+
+
+
+
+
     /*
 
     ░▒█▀▄▀█░█▀▀░█▀▀▄░█░▒█░░░▒█▀▀▀░█░▒█░█▀▀▄░█▀▄░▀█▀░░▀░░▄▀▀▄░█▀▀▄░█▀▀▄░█░░░▀░░▀█▀░█░░█
@@ -175,11 +404,11 @@ L.NMenu = L.Class.extend({
             //set menu to visible
             _this.isMenuVisible = true;
             console.log("_this.isMenuVisible", _this.isMenuVisible);
-            if(L.DomUtil.hasClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS)){
+            if (L.DomUtil.hasClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS)) {
                 L.DomUtil.removeClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS);
                 L.DomUtil.removeClass(_this.containers.mapParentElement, _this.styles.N_MENU_CLASS);
             }
-            if(!L.DomUtil.hasClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS_ACTIVE)){
+            if (!L.DomUtil.hasClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS_ACTIVE)) {
                 L.DomUtil.addClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS_ACTIVE);
                 L.DomUtil.addClass(_this.containers.mapParentElement, _this.styles.N_MENU_CLASS_ACTIVE);
             }
@@ -190,11 +419,11 @@ L.NMenu = L.Class.extend({
         } else {
             _this.isMenuVisible = false;
             console.log("_this.isMenuVisible", _this.isMenuVisible);
-            if(!L.DomUtil.hasClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS)){
+            if (!L.DomUtil.hasClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS)) {
                 L.DomUtil.addClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS);
                 L.DomUtil.addClass(_this.containers.mapParentElement, _this.styles.N_MENU_CLASS);
             }
-            if(L.DomUtil.hasClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS_ACTIVE)){
+            if (L.DomUtil.hasClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS_ACTIVE)) {
                 L.DomUtil.removeClass(_this.containers.menuParentElement, _this.styles.N_MENU_CLASS_ACTIVE);
                 L.DomUtil.removeClass(_this.containers.mapParentElement, _this.styles.N_MENU_CLASS_ACTIVE);
             }
@@ -245,10 +474,18 @@ L.NMenu = L.Class.extend({
                 }
             })
             .then(() => {
-              //  this._setupComplete_Initialise(passedPath);
+                //  this._setupComplete_Initialise(passedPath);
 
             })
             .catch(console.error);
+    },
+
+    injectCSS: function (css) {
+        let styleTag = document.createElement("style");
+        styleTag.innerText = css;
+        document.head.appendChild(styleTag);
+
+        return styleTag;
     }
 
 

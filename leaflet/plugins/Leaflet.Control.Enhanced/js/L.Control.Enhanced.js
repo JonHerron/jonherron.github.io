@@ -149,12 +149,29 @@ L.Control.Enhanced.Button = L.Control.Enhanced.extend({
 
 	},
 
+	_initStyles: function () {
+		this.container.style['backgroundColor'] = '#FFF';
+		this.container.style['display'] = this.options.displayType || 'block';
+		// this.container.style['margin'] = '0 auto';
+		this.container.style['verticalAlign'] = 'middle';
+		this.container.style['border'] = '1px outset';
+		this.container.style['height'] = '33px';
+		this.container.style['width'] = '33px';
+		if (this.options.autoSetCursorStyle) this.container.style['cursor'] = 'pointer';
+		
+		console.log("this._initStyles");
+		for (let option in this.options.style) {
+			this.container.style[option] = this.options.style[option];
+		}
+	},
+
 	onAdd: function (map) {
 		console.log(this.options.containerParent);
 		L.Control.Enhanced.prototype.onAdd.call(this, map);
 		if (this.options.autoSetLeafletClasses) L.DomUtil.addClass(this.container, this.defaultLeafletClass);
 		// if (this.options.autoSetPaddingStyle) this.container.style['padding'] = '0.2em 0.5em 0.3em 0.5em';
-		if (this.options.autoSetCursorStyle) this.container.style['cursor'] = 'pointer';
+
+
 		return this.container;
 	},
 
@@ -203,7 +220,7 @@ L.Control.Enhanced.Messagebox = L.Control.Enhanced.extend({
 	options: {
 		autoSetCursorStyle: true,
 		timeout: 3000,
-		messagebox: false,
+		addInitHook: true,
 		containerElement: 'div',
 		icons: {
 			alert: '<i class="bi bi-exclamation-square-fill"></i>',
@@ -211,6 +228,13 @@ L.Control.Enhanced.Messagebox = L.Control.Enhanced.extend({
 			success: '<i class="bi bi-check-circle-fill"></i>',
 			warning: '<i class="bi bi-exclamation-diamond-fill"></i>',
 			close: '<i class="bi bi-x-circle-fill"></i>'
+		},
+		colors: {
+			alert: '#dc3545',
+			message: '#17a2b8',
+			success: '#28a745!important',
+			warning: '#ffc107',
+			close: '#343a40'
 		}
 	},
 	_initAdditional: function () {
@@ -268,6 +292,9 @@ L.Control.Enhanced.Messagebox = L.Control.Enhanced.extend({
 		// 	elem.style.display = 'none';
 		// }, currentTimeout);
 	},
+	onCleeek: function () {
+		this.style.display = "none";	
+	},
 	alert: function (message, timeout) {
 		var elem = L.DomUtil.create(this.options.containerElement, 'leaflet-bar', this.container);
 		elem.innerHTML = (this.options.icons.alert && this.options.icons.close)  ? this.options.icons.alert + message + this.options.icons.close : message;
@@ -276,6 +303,7 @@ L.Control.Enhanced.Messagebox = L.Control.Enhanced.extend({
 		elem.style.color = '#FFFFFF';
 		elem.style.marginBottom = '5px';
 		elem.style.padding = '5px';
+		elem.setAttribute("onClick", "this.onCleeek");
 
 		this.setTimeout(elem, timeout);
 	},
@@ -322,8 +350,11 @@ L.Control.Enhanced.Messagebox = L.Control.Enhanced.extend({
 
 
 L.Map.addInitHook(function () {
-	if (this.options.messagebox) {
-		this.messagebox = L.control.enhanced.messagebox(this.options);
+	// L.Control.Enhanced.Messagebox.prototype.alert('Aaaaaaaaaaaaaaaaaaaaargh!!');
+	console.log(this);
+	if (this.options.addInitHook) {
+		console.log("this.options.addInitHook");
+		this.messageBox = L.control.enhanced.messagebox(this.options);
 		this.addControl(this.messagebox);
 	}
 });

@@ -22,11 +22,10 @@ a:hover {
 
 i {
     font-size: 1.1rem;
-    position: relative;
     top: -1px;
 }
 
-button > i{
+section>form>button>i {
     padding-right: 5px;
 }
 
@@ -68,6 +67,18 @@ section {
     width: 100%;
 }
 
+.leaflet-control-enhanced-button-container {
+    display:inline-block;
+    text-align:center;
+    border-radius: 2px;
+    border: 2px solid salmon;;
+}
+
+.leaflet-control-enhanced-button-container>i{
+    position:absolute;
+    top: 1px;
+    right:7px;
+}
 
 .grid {
     /* display: grid;
@@ -102,15 +113,13 @@ section {
 
 }
 
-.footer.card{
+.footer.card {
     height: 60px;
 }
 
-#buttons{
+#buttons {}
 
-}
-
-#buttons > form {
+#buttons>form {
     display: inline;
 }
 
@@ -194,4 +203,3 @@ section {
 .btn-border.btn-navy:hover {
     color: #34495e;
 }
-

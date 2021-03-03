@@ -95,6 +95,10 @@ let myButton = L.control.enhanced.button({
                 console.log("I clicked it", event);
                 myMessageBox.message('This is a message to confirm ' + event.target.id + ' was clicked');
             },
+            active: function (event) {
+                console.log("I clicked it", event);
+                myMessageBox.alert('This is an Alert to confirm ' + event.target.id + ' is now active');
+            },
             mouseout: function (event) {
                 console.log("I hovered it", event);
                 myMessageBox.success('You successfully hovered over "Something"');

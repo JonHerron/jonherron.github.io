@@ -106,15 +106,49 @@
     /* transition: var(--transitionDefaults); */
 }
 
+
+
+
+#accordian>div>ul>li>a>i,
+#accordian>div>label>i,
+.leaflet-n-menu-accordian-item i {
+    padding: 0px 5px 0px 5px;
+
+}
+
+
+#accordian>div>label,
+#accordian>div>ul>li>a {
+    cursor: pointer;
+    width: 100%;
+    height:30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ul {
     list-style-type: none;
     padding: 0px;
     margin: 0px;
 }
 
-li {
-
-}
+li {}
 
 li>a>i {
     position: relative;
@@ -130,15 +164,15 @@ li>div>p {
 
 li>a {
     background-color: rgb(199, 199, 199);
-    width:100%;
+    width: 100%;
     display: block;
 }
 
-#nmenu {
+#map-n-menu {
     display: flex;
     background-color: rgb(128, 128, 128);
     height: 100%;
-    
+
 }
 
 
@@ -172,6 +206,6 @@ li>a {
 
 
 
-.leafet-nmenu-accordian-item{
+.leafet-nmenu-accordian-item {
     background-color: lightgreen;
 }
