@@ -135,8 +135,7 @@ L.NMenu = L.Class.extend({
         };
 
 
-        let accSubItems = [
-            {
+        let accSubItems = [{
                 name: 'parentItem1subItem1',
                 id: 'Phillie',
                 innerHTML: undefined,
@@ -151,6 +150,29 @@ L.NMenu = L.Class.extend({
                 name: 'parentItem1subItem2',
                 id: 'Jimmy',
                 innerHTML: undefined,
+                items: [{
+                    name: 'parentItem1subItem2subSubItem1',
+                    id: 'Jimmies Kid',
+                    innerHTML: undefined,
+                    classes: '',
+                    element: {
+                        type: 'div',
+                        attributes: undefined,
+                        style: {}
+                    }
+                },
+                {
+                    name: 'parentItem1subItem2subSubItem2',
+                    id: 'Jimmies Second Kid',
+                    innerHTML: undefined,
+                    classes: '',
+                    element: {
+                        type: 'div',
+                        attributes: undefined,
+                        style: {}
+                    }
+                }],
+                itemsOpenByDefault: false,
                 classes: '',
                 element: {
                     type: 'div',
@@ -171,12 +193,10 @@ L.NMenu = L.Class.extend({
             }
         ]
 
-        let accItemOptions = [
-            { //parentItem1
+        let accItemOptions = [{ //parentItem1
                 name: 'parentItem1',
                 id: 'Parent1',
                 innerHTML: undefined,
-                items: accSubItems,
                 classes: '',
                 element: {
                     type: 'div',
@@ -200,7 +220,6 @@ L.NMenu = L.Class.extend({
                 name: 'parentItem3',
                 id: 'Parent3',
                 innerHTML: undefined,
-                items: accSubItems,
                 classes: '',
                 element: {
                     type: 'div',
@@ -224,7 +243,6 @@ L.NMenu = L.Class.extend({
                 name: 'parentItem5',
                 id: 'Parent5',
                 innerHTML: undefined,
-                items: accSubItems,
                 classes: '',
                 element: {
                     type: 'div',
@@ -235,17 +253,16 @@ L.NMenu = L.Class.extend({
 
         ];
 
-        let A = this.createAccordianItem('A', accItemOptions[0]);
-        
-        console.log("createAccordianItem()", A);
-        console.log("createAccordianItem()", this.createAccordianItem('B', accItemOptions[1]));
-        console.log("createAccordianItem()", this.createAccordianItem('C', accItemOptions[2]));
-        console.log("createAccordianItem()", this.createAccordianItem('D', accItemOptions[3]));
-        console.log("createAccordianItem()", this.createAccordianItem('E', accItemOptions[4]));
-        
-        
-        
-        A.click();
+
+
+        console.log("createAccordianItems()", this.createAccordianItems(accItemOptions));
+        // console.log("createAccordianItem()", this.createAccordianItem('B', accItemOptions[1]));
+        // console.log("createAccordianItem()", this.createAccordianItem('C', accItemOptions[2]));
+        // console.log("createAccordianItem()", this.createAccordianItem('D', accItemOptions[3]));
+        // console.log("createAccordianItem()", this.createAccordianItem('E', accItemOptions[4]));
+
+
+
     },
 
     /* 
@@ -318,6 +335,104 @@ L.NMenu = L.Class.extend({
 
     },
 
+
+    /* 
+
+    ░▒█▀▀▄░▒█▀▀▀█░▒█▀▄▀█░░░▒█▀▄▀█░█▀▀▄░█▀▀▄░░▀░░▄▀▀▄░█░▒█░█░░█▀▀▄░▀█▀░░▀░░▄▀▀▄░█▀▀▄
+    ░▒█░▒█░▒█░░▒█░▒█▒█▒█░░░▒█▒█▒█░█▄▄█░█░▒█░░█▀░█▄▄█░█░▒█░█░░█▄▄█░░█░░░█▀░█░░█░█░▒█
+    ░▒█▄▄█░▒█▄▄▄█░▒█░░▒█░░░▒█░░▒█░▀░░▀░▀░░▀░▀▀▀░█░░░░░▀▀▀░▀▀░▀░░▀░░▀░░▀▀▀░░▀▀░░▀░░▀
+
+
+    */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+    
+    ░▀█▀░▀█▀░█▀▀░█▀▄▀█░░░▒█▀▀▀░█░▒█░█▀▀▄░█▀▄░▀█▀░░▀░░▄▀▀▄░█▀▀▄░█▀▀▄░█░░░▀░░▀█▀░█░░█
+    ░▒█░░░█░░█▀▀░█░▀░█░░░▒█▀▀░░█░▒█░█░▒█░█░░░░█░░░█▀░█░░█░█░▒█░█▄▄█░█░░░█▀░░█░░█▄▄█
+    ░▄█▄░░▀░░▀▀▀░▀░░▒▀░░░▒█░░░░░▀▀▀░▀░░▀░▀▀▀░░▀░░▀▀▀░░▀▀░░▀░░▀░▀░░▀░▀▀░▀▀▀░░▀░░▄▄▄▀
+
+    */
+
+    createAccordianItems: function (params, subMenu) {
+        let container = L.DomUtil.create('div', '', this.containers.menuItemsElement);
+let _accordianItem;
+        for (var i = 0; i < params.length; i++) {
+
+            // {
+            //     name: 'something',
+            //     id: 'Phillie',
+            //     innerHTML: undefined,
+            //     icons: {default: '', hover: '', focus: '', selected: ''},
+            //     items: accSubItems,
+            //     itemsOpenByDefault: true,
+            //     classes: '',
+            //     element: {
+            //         type: 'div',
+            //         attributes: undefined,
+            //         style: {}
+            //     }
+            // }
+
+            _accordianItem = L.DomUtil.create('div', 'leaflet-n-menu-accordian-item leaflet-n-menu-accordian-parent', container);
+            // if (!subMenu) {
+            //     _accordianItem = L.DomUtil.create('div', 'leaflet-n-menu-accordian-item leaflet-n-menu-accordian-parent', container);
+            // } else {
+            //     _accordianItem = L.DomUtil.create('div', 'leaflet-n-menu-accordian-item leaflet-n-menu-accordian-parent');
+            // }
+
+
+            let piInput = L.DomUtil.create('input', '', _accordianItem);
+            piInput.setAttribute('type', 'checkbox');
+            piInput.id = params[i].id;
+
+            let piLabel = L.DomUtil.create('label', '', _accordianItem);
+            piLabel.setAttribute('for', params[i].id);
+            let piI = L.DomUtil.create('i', 'bi bi-menu-button-wide-fill', piLabel);
+            let = text = params[i].id;
+            piLabel.innerHTML = piLabel.innerHTML + text;
+
+            let piAccordian = L.DomUtil.create('ul', 'leaflet-n-menu-accordian-parent-ul', _accordianItem);
+
+            let subMenuParentElement = L.DomUtil.create('li', '', piAccordian);
+
+            if (params[i].items) {
+                // console.log("params[i].items", params[i].items);
+                let subMenuItem = this.createAccordianItems(params[i].items);
+                // console.log("typeof(subMenuItem)", subMenuItem);
+
+                subMenuParentElement.appendChild(subMenuItem);
+                // for (var j = 0; j < params[i].length; j++) {
+                //     this.createAccordianItems(params[i].items[j]);
+                // }
+
+            } else {
+                let subMenuParentElementTrigger = L.DomUtil.create('a', '', subMenuParentElement);
+                subMenuParentElementTrigger.setAttribute('href', '#');
+                let subMenuParentElementTriggerIcon = L.DomUtil.create('i', 'bi bi-menu-button-wide', subMenuParentElementTrigger);
+                subMenuParentElementTrigger.innerHTML = subMenuParentElementTrigger.innerHTML + '||A Child Item||';
+            }
+
+
+
+            container.appendChild(_accordianItem);
+        }
+
+        return container
+    },
+
     createAccordianItem: function (item, subMenuItems) {
         // let container = L.DomUtil.create('div', 'leaflet-n-menu-multi-level-accordian', this.containers.menuItemsElement);
         let _accordianItem = L.DomUtil.create('div', 'leaflet-n-menu-accordian-item leaflet-n-menu-accordian-parent', this.containers.menuItemsElement);
@@ -334,20 +449,32 @@ L.NMenu = L.Class.extend({
 
         let piAccordian = L.DomUtil.create('ul', 'leaflet-n-menu-accordian-parent-ul', _accordianItem);
 
-
+        let subMenuParentElement = L.DomUtil.create('li', '', piAccordian);
         // now create subMenu items, possibly just an item possibly another accordian item....
+        // for(var i =0; i<subMenuItems.items.length; i++){
+        //     subMenuParentElement.appendChild(this.createAccordianItem(subMenuItems.items[i]));
+        // }
+        if (subMenuItems) {
+            for (const [key, value] of Object.entries(subMenuItems.items)) {
+                //console.log(`${key}: ${value}`);
+                console.log(`item:${key}, ${value.name} this needs a submenu so.....  recursive call for _createAccordianSubMenuItem()?`);
 
-        for (const [key, value] of Object.entries(subMenuItems)) {
-            //console.log(`${key}: ${value}`);
+                subMenuParentElement.appendChild(this.createAccordianItem(subMenuItems.items));
+
+            }
+        } else {
+            console.log("just create an 'empty' li element");
+
+            let subMenuParentElementTrigger = L.DomUtil.create('a', '', subMenuParentElement);
+            subMenuParentElementTrigger.setAttribute('href', '#');
+            let subMenuParentElementTriggerIcon = L.DomUtil.create('i', 'bi bi-menu-button-wide', subMenuParentElementTrigger);
+            subMenuParentElementTrigger.innerHTML = subMenuParentElementTrigger.innerHTML + 'A Child Item';
         }
 
-            console.log(subMenuItems);
-
-
-
-
-
-
+        // if(subMenuItems){
+        //     console.log("subMenuItems", subMenuItems);
+        //     console.log("subMenuItems.hasOwnProperty('items')", subMenuItems.hasOwnProperty('items'));
+        // }
 
         let piAccItem1 = L.DomUtil.create('li', '', piAccordian);
         let piAccItem1a = L.DomUtil.create('a', '', piAccItem1);
@@ -371,18 +498,71 @@ L.NMenu = L.Class.extend({
 
     },
 
-    _createAccordianSubMenuItem: function (params) {
+    _createAccordianSubMenuItem: function (itemSettings) {
 
-        let piAccItem3 = L.DomUtil.create('li', '', piAccordian);
-        let piAccItem3a = L.DomUtil.create('a', '', piAccItem3);
-        piAccItem3a.setAttribute('href', '#');
-        let piAccItem3ai = L.DomUtil.create('i', 'bi bi-menu-button-wide', piAccItem3a);
-        piAccItem3a.innerHTML = piAccItem3a.innerHTML + 'Child Item ' + itemName + 3;
+        // {
+        //     name: 'parentItem1subItem1',
+        //     id: 'Phillie',
+        //     innerHTML: undefined,
+        //     icons: {default: '', hover: '', focus: '', selected: ''},
+        //     items: accSubItems,
+        //     itemsOpenByDefault: true,
+        //     classes: '',
+        //     element: {
+        //         type: 'div',
+        //         attributes: undefined,
+        //         style: {}
+        //     }
+        // }
 
-        return piAccItem3;
+        let subMenuParentElement = L.DomUtil.create('li', '');
+        // if (itemSettings contains an .items){
+        //    createAccordianItem()?
+        //}
+        // else if(itemSettings contains an .innerHTML){
+        //    Set the innerHTML;
+        //    Set the icons;
+        //    Set the classes;
+        // }
+
+
+        if (itemSettings.hasOwnProperty('items')) {
+            for (const [key, value] of Object.entries(itemSettings.items)) {
+                //console.log(`${key}: ${value}`);
+                console.log(`item:${key}, ${value.name} this needs a submenu so.....  standard call for createAccordianItem()?`);
+                this.createAccordianItem(itemSettings.items);
+            }
+        } else {
+            console.log("not _createAccordianSubMenuItem()??");
+
+            let subMenuTriggerElement = L.DomUtil.create('a', '', subMenuParentElement);
+            subMenuTriggerElement.setAttribute('href', '#');
+            let subMenuIconElement = L.DomUtil.create('i', 'bi bi-menu-button-wide', subMenuTriggerElement);
+        }
+
+
+
+        // let piAccItem3 = L.DomUtil.create('li', '', piAccordian);
+        // let piAccItem3a = L.DomUtil.create('a', '', piAccItem3);
+        // piAccItem3a.setAttribute('href', '#');
+
+
+
+
+
+        // let piAccItem3ai = L.DomUtil.create('i', 'bi bi-menu-button-wide', piAccItem3a);
+        // piAccItem3a.innerHTML = piAccItem3a.innerHTML + 'Child Item ' + itemName + 3;
+
+        return subMenuParentElement;
     },
 
+    /**
+    
+    ░▀█▀░▀█▀░█▀▀░█▀▄▀█░░░▒█▀▀▀░█░▒█░█▀▀▄░█▀▄░▀█▀░░▀░░▄▀▀▄░█▀▀▄░█▀▀▄░█░░░▀░░▀█▀░█░░█
+    ░▒█░░░█░░█▀▀░█░▀░█░░░▒█▀▀░░█░▒█░█░▒█░█░░░░█░░░█▀░█░░█░█░▒█░█▄▄█░█░░░█▀░░█░░█▄▄█
+    ░▄█▄░░▀░░▀▀▀░▀░░▒▀░░░▒█░░░░░▀▀▀░▀░░▀░▀▀▀░░▀░░▀▀▀░░▀▀░░▀░░▀░▀░░▀░▀▀░▀▀▀░░▀░░▄▄▄▀
 
+    */
 
 
 

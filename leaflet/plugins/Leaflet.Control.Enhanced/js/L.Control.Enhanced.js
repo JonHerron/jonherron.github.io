@@ -194,6 +194,77 @@ L.control.enhanced.button = function (options) {
 
 
 
+L.Control.Enhanced.SliderPane = L.Control.Enhanced.extend({
+
+
+});
+
+L.control.enhanced.sliderPane = function (options) {
+	return new L.Control.Enhanced.SliderPane(options);
+};
+
+
+
+
+
+
+
+
+
+
+
+L.Control.Enhanced.Controls = L.Control.Enhanced.extend({
+
+	initialise: function () {
+		
+	},
+
+	range: function () {
+
+	},
+
+	dropdown: function () {
+		
+	},
+
+	colorPicker: function () {
+		
+	},
+
+	progressBar: function () {
+		
+	},
+
+	radioButton: function () {
+		
+	},
+
+	checkbox: function () {
+		
+	}
+
+});
+
+L.control.enhanced.controls = function (options) {
+	return new L.Control.Enhanced.Controls(options);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -349,6 +420,14 @@ L.Control.Enhanced.Messagebox = L.Control.Enhanced.extend({
 
 
 
+
+
+
+
+L.control.enhanced.messagebox = function (options) {
+	return new L.Control.Enhanced.Messagebox(options);
+};
+
 L.Map.addInitHook(function () {
 	// L.Control.Enhanced.Messagebox.prototype.alert('Aaaaaaaaaaaaaaaaaaaaargh!!');
 	console.log(this);
@@ -358,9 +437,3 @@ L.Map.addInitHook(function () {
 		this.addControl(this.messagebox);
 	}
 });
-
-
-
-L.control.enhanced.messagebox = function (options) {
-	return new L.Control.Enhanced.Messagebox(options);
-};
