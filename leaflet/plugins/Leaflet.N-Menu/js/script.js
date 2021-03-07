@@ -4,6 +4,175 @@ function menuHandler(e) {
     console.log('Event - ', e.type, e);
 };
 
+
+
+
+
+
+
+let menuItems = [{ //parentItem1
+    name: 'parentItem1',
+    id: 'Parent1',
+    classes: '',
+    element: {
+        type: 'div',
+        attributes: {
+            'data-type': 'accordian-content' 
+        },
+        styles: {
+            padding: '5px 5px 0px 5px'
+        },
+        innerHTML: '<h5>Lorem ipsum.</h5>'+
+                '<p class="menuP">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium minima dolores assumenda id. Porro consequuntur at dolor eum, neque labore!</p>'+
+                '<h5>Dolor sit amet.</h5>'+
+                '<p class="menuP">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur non sint sequi ipsa laudantium, aiure rem vel nemo soluta temporibus, consectetur at corrupti aspernatur maxime, iusto neque blanditiis deleniti.</p>'
+    }
+},
+{ //parentItem2
+    name: 'parentItem2',
+    id: 'Parent2',
+    items: [{
+            name: 'parentItem2subItem1',
+            id: 'P2Child1',
+            classes: '',
+            element: {
+                type: 'div',
+                attributes: undefined,
+                styles: {
+                    backgroundColor: 'lightcoral'
+                },
+                innerHTML: undefined
+            }
+        },
+        {
+            name: 'parentItem2subItem2',
+            id: 'P2Child2',
+            items: [{
+                    name: 'parentItem2subItem2subSubItem1',
+                    id: 'P2C2GrandChild1',
+                    classes: '',
+                    element: {
+                        type: 'div',
+                        attributes: undefined,
+                        styles: {
+                            backgroundColor: 'orange'
+                        },
+                        innerHTML: undefined
+                    }
+                },
+                {
+                    name: 'parentItem2subItem2subSubItem2',
+                    id: 'P2C2GrandChild2',
+                    classes: '',
+                    element: {
+                        type: 'div',
+                        attributes: undefined,
+                        styles: {
+                            backgroundColor: 'orange'
+                        },
+                        innerHTML: undefined
+                    }
+                }
+            ],
+            itemsOpenByDefault: false,
+            classes: '',
+            element: {
+                type: 'div',
+                attributes: undefined,
+                styles: {
+                    backgroundColor: 'lightpurple'
+                },
+                innerHTML: undefined
+            }
+        },
+        {
+            name: 'parentItem2subItem3',
+            id: 'P2Child3',
+            classes: '',
+            element: {
+                type: 'div',
+                attributes: undefined,
+                styles: {
+                    backgroundColor: 'lightcoral'
+                },
+                innerHTML: undefined
+            }
+        }
+    ],
+    classes: '',
+    element: {
+        type: 'div',
+        attributes: undefined,
+        styles: {
+            backgroundColor: 'lightblue'
+        },
+        innerHTML: undefined
+    }
+},
+{ //parentItem3
+    name: 'parentItem3',
+    id: 'Parent3',
+    classes: '',
+    element: {
+        type: 'div',
+        attributes: undefined,
+        styles: {
+            backgroundColor: 'lime'
+        },
+        innerHTML: undefined
+    }
+},
+{ //parentItem4
+    name: 'parentItem4',
+    id: 'Parent4',
+    items: [{
+        name: 'parentItem4subItem1',
+        id: 'P4Child1',
+        classes: '',
+        element: {
+            type: 'div',
+            attributes: undefined,
+            styles: {
+                backgroundColor: 'lightcoral'
+            },
+            innerHTML: undefined
+        }
+    }],
+    classes: '',
+    element: {
+        type: 'div',
+        attributes: undefined,
+        styles: {
+            backgroundColor: 'lightblue'
+        },
+        innerHTML: undefined
+    }
+},
+{ //parentItem5
+    name: 'parentItem5',
+    id: 'Parent5',
+    classes: '',
+    element: {
+        type: 'div',
+        attributes: undefined,
+        styles: {
+            backgroundColor: 'lime'
+        },
+        innerHTML: undefined
+    }
+}
+
+];
+
+
+
+
+
+
+
+
+
+
 let nmenu = {
     path: 'menu-ajax.htm',
 
@@ -21,30 +190,37 @@ let nmenu = {
         showMenuOnLoad: true,
         openToggleContent: '<i class="bi bi-alarm-fill"></i>',
         closeToggleContent: '<i class="bi bi-alarm-fill"></i>'
-    },
-    menuItems: {
-        ParentMenuItem1: {
-            SubItem1_1: '<a href="#SubItem1_1Hash"><i class="bi bi-alarm-fill"></i>Link 1_1</a>',
-            SubItem1_2: '<a href="#SubItem1_2Hash"><i class="bi bi-envelope-fill"></i>Link 1_2</a>'
-        },
-        ParentMenuItem2: {
-            SubItem2_1: '<a href="#SubItem2_1Hash"><i class="bi bi-alarm-fill"></i>Link 2_1</a>',
-            SubItem2_2: '<a href="#SubItem2_2Hash"><i class="bi bi-envelope-fill"></i>Link 2_2</a>'
-        },
-        ParentMenuItem3: {
-            ParentMenuItem3_ChildMenuItem1: {
-                ChildMenuItem1_SubItem1_1: '<a href="#ChildMenuItem1_SubItem1_1Hash"><i class="bi bi-alarm-fill"></i>ChildMenuItem1_Link 1_1</a>',
-                ChildMenuItem1_SubItem1_2: '<a href="#ChildMenuItem1_SubItem1_2Hash"><i class="bi bi-envelope-fill"></i>ChildMenuItem1_Link 1_2</a>'
-            },
-            SubItem3_2: '<a href="#SubItem3_2Hash"><i class="bi bi-envelope-fill"></i>Link 3_2</a>'
-        }
     }
 
 };
 
 let mapOptions = {
     // nmenu: nmenu,
-    zoomControl: true
+    zoomControl: true,
+    nmenu: {
+        items: menuItems,
+        ajax: {
+            onLoad: 'menu-ajax.htm',
+            position: 'bottom'
+        },
+        onLoad: {
+            show: true
+        },
+        config: {
+            position: 'offMapLeft',
+            width: '250px',
+            height: '100%',
+            header: 'sticky',
+            footer: 'fixed',
+            icons: {
+                class: 'bi',
+                menuShow: 'bi-arrow-right-circle-fill',
+                menuHide: 'bi-arrow-left-circle-fill',
+                fullScreenEnter: 'bi-fullscreen',
+                fullScreenExit: 'bi-fullscreen-exit'
+            }
+        }
+    }
 };
 
 let mymap = L.map('map', mapOptions);
