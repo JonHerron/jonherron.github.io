@@ -118,10 +118,10 @@ L.NMenu = L.Class.extend({
         this._setMapNMenuFrameworkClasses();
         this.setupDisplayType();
 
-        this.loadItems();
+        // this.loadItems(); --> moved to map.addinithook()
 
 
-        if(this.options.items) console.log("createAccordianItems()", this.createAccordianItems(this.options.items));
+        if (this.options.items) console.log("createAccordianItems()", this.createAccordianItems(this.options.items));
 
     },
 
@@ -135,19 +135,32 @@ L.NMenu = L.Class.extend({
     */
 
     _setMapNMenuFrameworkStyles: function () {
-        let cssHideStyles = ".leaflet-n-menu-multi-level-accordian, " +
-            ".leaflet-n-menu-accordian-item ul, " +
-            ".leaflet-n-menu-accordian-parent input[type='checkbox'] " +
-            "{display: none;} ";
+        const cssHideStyles = `.leaflet-n-menu-multi-level-accordian,
+                       .leaflet-n-menu-accordian-item ul,
+                       .leaflet-n-menu-accordian-parent input[type='checkbox'] {
+                          display: none;
+                       }`;
 
-        let cssShowStyles = ".leaflet-n-menu-multi-level-accordian, " +
-            ".leaflet-n-menu-accordian-item input:checked ~ ul " +
-            "{display: block; cursor: pointer;}";
+        const cssShowStyles = `.leaflet-n-menu-multi-level-accordian,
+                        .leaflet-n-menu-accordian-item input:checked ~ ul {
+                          display: block; 
+                        }`;
 
-        let cssPointers = "label" +
-            " {cursor: pointer;}";
+        const defaultLabelStyles = `input[type=checkbox]+label {
+                            cursor: pointer;
+                            width: 100%;
+                            font-weight: bold;
+                          }`;
 
-        let cssAll = cssHideStyles + cssShowStyles + cssPointers;
+        const defaultLabelInteractions = `input[type=checkbox]:focus+label,
+                              input[type=checkbox]:hover+label,
+                              input[type=checkbox]:checked+label {
+                                font-weight: bolder;
+                              }`;
+
+        
+
+        let cssAll = cssHideStyles + cssShowStyles + defaultLabelStyles + defaultLabelInteractions;
         this.styleTag = this.injectCSS(cssAll);
     },
 
@@ -213,6 +226,7 @@ L.NMenu = L.Class.extend({
 
     createAccordianItems: function (accordianItems) {
 
+        // let container = L.DomUtil.create('div', '', this.containers.menuItemsElement);
         let container = L.DomUtil.create('div', '', this.containers.menuItemsElement);
         let _accordianItem;
 
@@ -221,6 +235,7 @@ L.NMenu = L.Class.extend({
             // {
             //     name: 'something',
             //     id: 'Phillie',
+            //     open: false, // implied
             //     icons: {default: '', hover: '', focus: '', selected: ''},
             //     items: accSubItems,
             //     itemsOpenByDefault: true,
@@ -228,7 +243,7 @@ L.NMenu = L.Class.extend({
             //     element: {
             //         type: 'div',
             //         attributes: undefined,
-            //         style: {},
+            //         styles: {},
             //         innerHTML: undefined,
             //     }
             // }
@@ -237,12 +252,14 @@ L.NMenu = L.Class.extend({
 
             let piInput = L.DomUtil.create('input', '', _accordianItem);
             piInput.setAttribute('type', 'checkbox');
+            if(accordianItems[i].open) piInput.setAttribute('checked', '');
             piInput.id = accordianItems[i].id;
 
             let piLabel = L.DomUtil.create('label', '', _accordianItem);
             piLabel.setAttribute('for', accordianItems[i].id);
+            piLabel.setAttribute('aria-expanded', 'false');
             let piI = L.DomUtil.create('i', 'bi bi-menu-button-wide-fill', piLabel);
-            let text = accordianItems[i].id;
+            let text = accordianItems[i].name;
             piLabel.innerHTML = piLabel.innerHTML + text;
 
             let piAccordian = L.DomUtil.create('ul', 'leaflet-n-menu-accordian-parent-ul', _accordianItem);
@@ -282,9 +299,8 @@ L.NMenu = L.Class.extend({
 
                 if (currentElement.innerHTML) {
                     subMenuParentElementElement.innerHTML = currentElement.innerHTML;
-                }
-                else{
-                    subMenuParentElementElement.innerHTML = subMenuParentElementElement.innerHTML + `A DIV Item`;
+                } else {
+                    subMenuParentElementElement.innerHTML += `<div class="divItem">A DIV Item</div>`;
                 }
 
 
@@ -375,9 +391,10 @@ L.NMenu = L.Class.extend({
 
 
     loadItems: function (path) {
-        let validate = L.NMenu.prototype.items.path;
-        if (!validate) alert("no valid 'path' parameter passed in map.options.nmenu.path");
-        let passedPath = path ? path : L.NMenu.prototype.items.path;
+        console.log("L.NMenu.prototype.options.ajax.onLoad", L.NMenu.prototype.options.ajax.onLoad);
+        let validate = L.NMenu.prototype.options.ajax.onLoad;
+        if (!validate) alert("no valid 'path' parameter passed in map.options.ajax.onLoad");
+        let passedPath = path ? path : L.NMenu.prototype.options.ajax.onLoad;
         fetch(passedPath)
             .then(res => {
                 if (res.ok) {
@@ -406,25 +423,23 @@ L.NMenu = L.Class.extend({
 
 
     loadHTML: function (path, container) {
-        let validate = L.NMenu.prototype.items.path;
-        if (!validate) alert("no valid 'path' parameter passed in map.options.nmenu.path");
-        let passedPath = path ? path : L.NMenu.prototype.items.path;
-        fetch(passedPath)
+
+        fetch(path)
             .then(res => {
                 if (res.ok) {
                     return res;
                 } else {
-                    throw Error(`loadInitialItems Request rejected with status ${res.status}`);
+                    throw Error(`loadHTML Request rejected with status ${res.status}`);
                 }
             })
             .then(data => data.text())
             .then(data => {
                 // menu.dispose();
-                if (L.NMenu.prototype.containers.menuItemsElement) {
-                    L.NMenu.prototype.containers.menuItemsElement.innerHTML += data;
+                if (container) {
+                    container.innerHTML += data;
                 } else {
-                    console.log('no "this.containers.menuULElement" defined, or correctly assigned somewhere...');
-                    throw Error(`failed to add ${data} to "this.containers.menuULElement"`);
+                    console.log(`'${path}' not found`);
+                    throw Error(`failed to add ${data} to ${container}`);
                 }
             })
             .then(() => {
@@ -469,7 +484,9 @@ L.Map.addInitHook(function () {
     this.nmenu = L.NMenu;
     L.NMenu.map = this;
 
-    L.NMenu.defaults = this.options.nmenu ? this.options.nmenu : this.options;
+    // L.NMenu.defaults = this.options.nmenu ? this.options.nmenu : this.options;
+
+    L.NMenu.prototype.loadItems();
 
     console.log("L.Map.addInitHook", this);
     console.log("L.Map.addInitHook", L.NMenu.prototype);

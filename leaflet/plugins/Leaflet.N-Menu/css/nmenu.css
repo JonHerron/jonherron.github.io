@@ -112,29 +112,39 @@
 
 
 input[type=checkbox]+label {
-    width:100%;
-    background-color: slategrey;
+    background-color: rgb(118, 133, 148);
     color: #ccc;
-    font-weight: bold;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+
+input[type=checkbox]:checked+label {
+    background-color: rgb(80, 117, 155);
+    color: #fff;
 }
 
 input[type=checkbox]:focus+label,
-input[type=checkbox]:hover+label,
-input[type=checkbox]:checked+label {
+input[type=checkbox]:hover+label {
+    background-color: rgb(16, 83, 150);
     color: #fff;
-    font-weight: bolder;
 }
-
-
 
 
 .menuP{
     font-size: 1rem;
-    margin-bottom: 5px;
+    margin-bottom: 0.5em;
 }
 
+h5{
+    margin-top:0.5em;
+}
 
-
+.divItem {
+    padding: 5px;
+}
 
 ul {
     list-style-type: none;

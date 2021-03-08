@@ -9,7 +9,7 @@ L.Control.Enhanced = L.Control.extend({
 		title: '',
 		content: '',
 		classes: '',
-		style: {},
+		styles: {},
 		datas: {},
 		events: {},
 		autoSetPaddingStyle: true,
@@ -17,6 +17,32 @@ L.Control.Enhanced = L.Control.extend({
 		containerElement: 'div',
 		containerParent: 'default'
 	},
+
+
+
+	onAdd: function (map) {
+		this._createContainer(map);
+		return this.container;
+	},
+
+	onRemove: function (map) {
+		for (var event in this.options.events) {
+			L.DomEvent.off(this.container, event, this.options.events[event], this.container);
+		}
+		this.container = null;
+	},
+
+    injectCSS: function (css) {
+        let styleTag = document.createElement("style");
+        styleTag.innerText = css;
+        document.head.appendChild(styleTag);
+
+        return styleTag;
+    },
+
+
+
+
 	_createContainer: function (map) {
 
 		this.container = L.DomUtil.create(this.options.containerElement);
@@ -48,8 +74,8 @@ L.Control.Enhanced = L.Control.extend({
 		this.container.style['backgroundColor'] = '#FFF';
 		this.container.style['display'] = this.options.displayType || 'block';
 		console.log("this._initStyles");
-		for (let option in this.options.style) {
-			this.container.style[option] = this.options.style[option];
+		for (let option in this.options.styles) {
+			this.container.style[option] = this.options.styles[option];
 		}
 	},
 	_initData: function () {
@@ -69,19 +95,9 @@ L.Control.Enhanced = L.Control.extend({
 		for (var event in this.options.events) {
 			L.DomEvent.on(this.container, event, this.options.events[event], this.container);
 		}
-	},
-
-	onAdd: function (map) {
-		this._createContainer(map);
-		return this.container;
-	},
-
-	onRemove: function (map) {
-		for (var event in this.options.events) {
-			L.DomEvent.off(this.container, event, this.options.events[event], this.container);
-		}
-		this.container = null;
 	}
+
+
 });
 
 L.control.enhanced = function (options) {
@@ -194,17 +210,74 @@ L.control.enhanced.button = function (options) {
 
 
 
-L.Control.Enhanced.SliderPane = L.Control.Enhanced.extend({
+L.Control.Enhanced.Modal = L.Control.Enhanced.extend({
 
+	onAdd: function (map) {
+		L.Control.Enhanced.prototype.onAdd.call(this, map);
+		if (this.options.autoSetLeafletClasses) L.DomUtil.addClass(this.container, this.defaultLeafletClass);
+
+		return this.container;
+	},
+
+	onRemove: function (map) {
+		L.Control.Enhanced.prototype.onRemove.call(this, map);
+
+	}
 
 });
 
-L.control.enhanced.sliderPane = function (options) {
-	return new L.Control.Enhanced.SliderPane(options);
+L.control.enhanced.modal = function (options) {
+	return new L.Control.Enhanced.Modal(options);
 };
 
 
 
+L.Control.Enhanced.Carousel = L.Control.Enhanced.extend({
+	version: '0.0.1',
+	defaultLeafletClass: 'leaflet-control-enhanced-carousel',
+	options: {
+		position: 'bottomleft',
+		containerElement: 'div',
+		containerParent: 'default'
+	},
+
+	onAdd: function (map) {
+		L.Control.Enhanced.prototype.onAdd.call(this, map);
+		if (this.options.autoSetLeafletClasses) L.DomUtil.addClass(this.container, this.defaultLeafletClass);
+
+		return this.container;
+	},
+
+	onRemove: function (map) {
+		L.Control.Enhanced.prototype.onRemove.call(this, map);
+
+	},
+
+	next: function (slide) {
+
+	},
+
+	previous: function (slide) {
+
+	},
+
+	moveTo: function (slide) {
+		
+	},
+
+	_reset: function () {
+		
+	},
+
+	_updateNavigationItems: function (event) {
+		
+	}
+
+});
+
+L.control.enhanced.carousel = function (options) {
+	return new L.Control.Enhanced.Carousel(options);
+};
 
 
 

@@ -61,6 +61,7 @@ let myMessageBox = L.control.enhanced.messagebox(myMessageBoxOptions).addTo(myma
 
 let HTMLContent = '<em><i class="bi bi-check-square-fill"></i>Something</em>';
 let HTMLContent2 = '<i id="myButton" class="bi bi-table"></i>';
+let carouselHTMLContent = '<i id="myCarousel" class="bi bi-file-slides-fill"></i>Wooo A Carousel';
 
 
 
@@ -82,6 +83,31 @@ let myRandomControl = L.control.enhanced({
 
 
 
+let myControlCarousel = L.control.enhanced.carousel({
+        position: 'bottomright',
+        content: carouselHTMLContent,
+        styles: {
+            padding: '5px 10px'
+        },
+        carousel: {
+            items: [{
+                title: 'item1',
+                innerHTML: ''
+            }, {
+                title: 'item2',
+                innerHTML: ''
+            }],
+            icons: {
+                previous: '',
+                next: '',
+                navigation: ''
+            }
+        }
+    })
+    .addTo(mymap);
+
+
+
 let myButton = L.control.enhanced.button({
         id: 'myButtonContainer',
         position: 'topleft',
@@ -89,7 +115,7 @@ let myButton = L.control.enhanced.button({
         classes: [],
         events: {
             input: function (event) {
-                
+
             },
             click: function (event) {
                 console.log("I clicked it", event);
@@ -109,9 +135,8 @@ let myButton = L.control.enhanced.button({
 
 
 
-    var delayInMilliseconds = 2000; //2 second
+var delayInMilliseconds = 2000; //2 second
 
-    setTimeout(function() {
-        myMessageBox.alert('This is an automated Alert with a timeout of 5000ms', 5000);
-    }, delayInMilliseconds);
-
+setTimeout(function () {
+    myMessageBox.alert('This is an automated Alert with a timeout of 5000ms', 5000);
+}, delayInMilliseconds);
