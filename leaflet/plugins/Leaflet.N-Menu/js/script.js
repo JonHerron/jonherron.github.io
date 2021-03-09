@@ -237,6 +237,23 @@ let mapOptions = {
     zoomControl: true,
     nmenu: {
         items: menuItems,
+        header: {
+            position: 'sticky',
+            id: 'header',
+            classes: '',
+            element: {
+                type: 'div',
+                attributes: undefined,
+                styles: {
+                    backgroundColor: 'lime'
+                },
+                innerHTML: undefined
+            }
+
+        },
+        footer: {
+
+        },
         ajax: {
             onLoad: 'menu-ajax.htm',
             position: 'bottom'

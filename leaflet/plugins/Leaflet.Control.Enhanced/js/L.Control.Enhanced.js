@@ -32,13 +32,13 @@ L.Control.Enhanced = L.Control.extend({
 		this.container = null;
 	},
 
-    injectCSS: function (css) {
-        let styleTag = document.createElement("style");
-        styleTag.innerText = css;
-        document.head.appendChild(styleTag);
+	injectCSS: function (css) {
+		let styleTag = document.createElement("style");
+		styleTag.innerText = css;
+		document.head.appendChild(styleTag);
 
-        return styleTag;
-    },
+		return styleTag;
+	},
 
 
 
@@ -174,7 +174,7 @@ L.Control.Enhanced.Button = L.Control.Enhanced.extend({
 		this.container.style['height'] = '33px';
 		this.container.style['width'] = '33px';
 		if (this.options.autoSetCursorStyle) this.container.style['cursor'] = 'pointer';
-		
+
 		console.log("this._initStyles");
 		for (let option in this.options.style) {
 			this.container.style[option] = this.options.style[option];
@@ -210,6 +210,14 @@ L.control.enhanced.button = function (options) {
 
 
 
+
+
+
+
+
+
+
+
 L.Control.Enhanced.Modal = L.Control.Enhanced.extend({
 
 	onAdd: function (map) {
@@ -229,6 +237,24 @@ L.Control.Enhanced.Modal = L.Control.Enhanced.extend({
 L.control.enhanced.modal = function (options) {
 	return new L.Control.Enhanced.Modal(options);
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -253,6 +279,207 @@ L.Control.Enhanced.Carousel = L.Control.Enhanced.extend({
 
 	},
 
+	_initAdditional: function () {
+
+		let carouselContent = this.options.carousel;
+
+		let carouselContainer = L.DomUtil.create('div', 'leaflet-control-enhanced-carousel-container', this.container);
+		let carousel = L.DomUtil.create('ul', 'leaflet-control-enhanced-carousel is-set', carouselContainer);
+
+		for (var i = 0; i < carouselContent.items.length; i++) {
+			// console.log(carouselContent.items[i]);
+
+			let liItem = L.DomUtil.create('li', 'leaflet-control-enhanced-carousel-seat', carousel);
+			liItem.innerHTML = carouselContent.items[i].innerHTML;
+
+		}
+
+		let controlsContainer = L.DomUtil.create('div', 'controls', this.container);
+		let prevButton = L.DomUtil.create('button', 'toggle', controlsContainer);
+		prevButton.setAttribute('data-toggle', 'prev');
+		prevButton.innerHTML = 'PREV';
+
+		let nextButton = L.DomUtil.create('button', 'toggle', controlsContainer);
+		nextButton.setAttribute('data-toggle', 'next');
+		nextButton.innerHTML = 'NEXT';
+
+
+
+		const css = `.leaflet-control-enhanced-carousel-container {
+			width: 80%;
+			margin: 0 auto;
+			overflow: hidden;
+		  }
+		  
+		  .leaflet-control-enhanced-carousel {
+			display: flex;
+			left: -100%;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			position: relative;
+			transform: translateX(100%);
+		  }
+		  
+		  @media (min-width: 30em) {
+			.leaflet-control-enhanced-carousel {
+			  left: -50%;
+			  transform: translateX(50%);
+			}
+		  }
+		  
+		  @media (min-width: 40em) {
+			.leaflet-control-enhanced-carousel {
+			  left: -33.33333%;
+			  transform: translateX(33.33333%);
+			}
+		  }
+		  
+		  .leaflet-control-enhanced-carousel.is-reversing {
+			transform: translateX(-100%);
+		  }
+		  
+		  @media (min-width: 30em) {
+			.leaflet-control-enhanced-carousel.is-reversing {
+			  transform: translateX(-50%);
+			}
+		  }
+		  
+		  @media (min-width: 40em) {
+			.leaflet-control-enhanced-carousel.is-reversing {
+			  transform: translateX(-33.33333%);
+			}
+		  }
+		  
+		  .leaflet-control-enhanced-carousel.is-set {
+			transform: none;
+			transition: transform 0.5s ease-in-out;
+		  }
+		  
+		  .leaflet-control-enhanced-carousel-seat {
+			background: #ddd;
+			flex: 1 0 100%;
+			order: 2;
+		  }
+		  
+		  .leaflet-control-enhanced-carousel-seat:nth-child(even) {
+			background: #d5d5d5;
+		  }
+		  
+		  @media (min-width: 30em) {
+			.leaflet-control-enhanced-carousel-seat {
+			  flex-basis: 50%;
+			}
+		  }
+		  
+		  @media (min-width: 40em) {
+			.leaflet-control-enhanced-carousel-seat {
+			  flex-basis: 33.33333%;
+			}
+		  }
+		  
+		  .leaflet-control-enhanced-carousel-seat.is-ref {
+			order: 1;
+		  }
+		  
+
+		  
+		  .controls {
+			padding: 1em;
+			text-align: center;
+		  }
+		  
+		  .controls button {
+			background: #aaa;
+			border: 0;
+			border-radius: 0.25em;
+			color: #eee;
+			padding: 0.5em 1em;
+		  }
+		  
+		  .controls button:hover,
+		  .controls button:focus {
+			background: orange;
+		  }
+		  `;
+
+		  this.injectCSS(css);
+		  document.addEventListener("click", this.delegate(this.toggleFilter, this.toggleHandler));
+
+	},
+
+	delegate: function (criteria, listener) {
+		return function (e) {
+			const el = e.target;
+			do {
+				if (!criteria(el)) {
+					continue;
+				}
+				e.delegateTarget = el;
+				listener.call(this, e);
+				return;
+			} while ((el = el.parentNode));
+		};
+	},
+
+	toggleFilter: function (elem) {
+		return (elem instanceof HTMLElement) && elem.matches(".toggle");
+		// OR
+		// For < IE9
+		// return elem.classList && elem.classList.contains('btn');
+	},
+
+	toggleHandler: function (e) {
+
+				// http://madewithenvy.com/ecosystem/articles/2015/exploring-order-flexbox-carousel/
+				const $carousel = document.querySelector('.leaflet-control-enhanced-carousel');
+				const $seats = document.querySelectorAll('.leaflet-control-enhanced-carousel-seat');
+				const $toggle = document.querySelectorAll('.toggle');
+		
+				
+		var $newSeat;
+		const $el = document.querySelector('.is-ref');
+		const $currSliderControl = e.delegateTarget;
+		// Info: e.target is what triggers the event dispatcher to trigger and e.currentTarget is what you assigned your listener to.
+
+		$el.classList.remove('is-ref');
+		if ($currSliderControl.getAttribute('data-toggle') === 'next') {
+			$newSeat = next($el);
+			$carousel.classList.remove('is-reversing');
+		} else {
+			$newSeat = prev($el);
+			$carousel.classList.add('is-reversing');
+		}
+
+		$newSeat.classList.add('is-ref');
+		$newSeat.style.order = 1;
+		for (var i = 2; i <= $seats.length; i++) {
+			$newSeat = next($newSeat);
+			$newSeat.style.order = i;
+		}
+
+		$carousel.classList.remove('is-set');
+		return setTimeout(function () {
+			return $carousel.classList.add('is-set');
+		}, 50);
+
+		function next($el) {
+			if ($el.nextElementSibling) {
+				return $el.nextElementSibling;
+			} else {
+				return $carousel.firstElementChild;
+			}
+		}
+
+		function prev($el) {
+			if ($el.previousElementSibling) {
+				return $el.previousElementSibling;
+			} else {
+				return $carousel.lastElementChild;
+			}
+		}
+	},
+
 	next: function (slide) {
 
 	},
@@ -262,15 +489,15 @@ L.Control.Enhanced.Carousel = L.Control.Enhanced.extend({
 	},
 
 	moveTo: function (slide) {
-		
+
 	},
 
 	_reset: function () {
-		
+
 	},
 
 	_updateNavigationItems: function (event) {
-		
+
 	}
 
 });
@@ -289,7 +516,7 @@ L.control.enhanced.carousel = function (options) {
 L.Control.Enhanced.Controls = L.Control.Enhanced.extend({
 
 	initialise: function () {
-		
+
 	},
 
 	range: function () {
@@ -297,23 +524,23 @@ L.Control.Enhanced.Controls = L.Control.Enhanced.extend({
 	},
 
 	dropdown: function () {
-		
+
 	},
 
 	colorPicker: function () {
-		
+
 	},
 
 	progressBar: function () {
-		
+
 	},
 
 	radioButton: function () {
-		
+
 	},
 
 	checkbox: function () {
-		
+
 	}
 
 });
@@ -400,7 +627,7 @@ L.Control.Enhanced.Messagebox = L.Control.Enhanced.extend({
 		//		this.container.className = this.options.classes;
 		L.DomUtil.addClass(this.container, this.defaultLeafletClass);
 		L.DomUtil.addClass(this.container, 'leaflet-interactive');
-		
+
 		if (Array.isArray(this.options.classes)) this.options.classes.forEach(controlClass => L.DomUtil.addClass(this.container, controlClass));
 	},
 	_initStyles: function () {
@@ -437,11 +664,11 @@ L.Control.Enhanced.Messagebox = L.Control.Enhanced.extend({
 		// }, currentTimeout);
 	},
 	onCleeek: function () {
-		this.style.display = "none";	
+		this.style.display = "none";
 	},
 	alert: function (message, timeout) {
 		var elem = L.DomUtil.create(this.options.containerElement, 'leaflet-bar', this.container);
-		elem.innerHTML = (this.options.icons.alert && this.options.icons.close)  ? this.options.icons.alert + message + this.options.icons.close : message;
+		elem.innerHTML = (this.options.icons.alert && this.options.icons.close) ? this.options.icons.alert + message + this.options.icons.close : message;
 		elem.style.flex = 1;
 		elem.style.backgroundColor = '#FF0000';
 		elem.style.color = '#FFFFFF';

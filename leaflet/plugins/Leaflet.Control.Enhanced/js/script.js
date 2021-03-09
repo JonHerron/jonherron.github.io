@@ -61,7 +61,7 @@ let myMessageBox = L.control.enhanced.messagebox(myMessageBoxOptions).addTo(myma
 
 let HTMLContent = '<em><i class="bi bi-check-square-fill"></i>Something</em>';
 let HTMLContent2 = '<i id="myButton" class="bi bi-table"></i>';
-let carouselHTMLContent = '<i id="myCarousel" class="bi bi-file-slides-fill"></i>Wooo A Carousel';
+
 
 
 
@@ -85,17 +85,30 @@ let myRandomControl = L.control.enhanced({
 
 let myControlCarousel = L.control.enhanced.carousel({
         position: 'bottomright',
-        content: carouselHTMLContent,
         styles: {
-            padding: '5px 10px'
+            padding: '5px 10px',
+            width: '300px',
+            height: '200px'
         },
         carousel: {
             items: [{
                 title: 'item1',
-                innerHTML: ''
+                innerHTML: '<h2>1</h2>'
             }, {
                 title: 'item2',
-                innerHTML: ''
+                innerHTML: '<h2>2</h2>'
+            }, {
+                title: 'item3',
+                innerHTML: '<h2>3</h2>'
+            }, {
+                title: 'item4',
+                innerHTML: '<h2>4</h2>'
+            }, {
+                title: 'item5',
+                innerHTML: '<h2>5</h2>'
+            }, {
+                title: 'item6',
+                innerHTML: '<h2>6</h2>'
             }],
             icons: {
                 previous: '',
