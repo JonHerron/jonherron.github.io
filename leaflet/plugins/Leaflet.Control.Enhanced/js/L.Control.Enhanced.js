@@ -10,6 +10,7 @@ L.Control.Enhanced = L.Control.extend({
 		content: '',
 		classes: '',
 		styles: {},
+		attributes: {},
 		datas: {},
 		events: {},
 		autoSetPaddingStyle: true,

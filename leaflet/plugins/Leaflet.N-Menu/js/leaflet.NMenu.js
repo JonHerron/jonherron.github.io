@@ -35,32 +35,20 @@ L.NMenu = L.Class.extend({
         menuToggleButton: undefined,
         fullScreenToggleButton: undefined
     },
-    items: {
-        path: 'menu-ajax.htm',
-        from: {
-            theDOM: {},
-            ajax: {},
-            passedObjects: {},
-            createdObjects: {}
-        },
-        template: {
-            ParentMenuItem1: {
-                SubItem1_1: '<a href="#SubItem1_1Hash"><i class="bi bi-alarm-fill"></i>Link 1_1</a>',
-                SubItem1_2: '<a href="#SubItem1_2Hash"><i class="bi bi-envelope-fill"></i>Link 1_2</a>'
-            },
-            ParentMenuItem2: {
-                SubItem2_1: '<a href="#SubItem2_1Hash"><i class="bi bi-alarm-fill"></i>Link 2_1</a>',
-                SubItem2_2: '<a href="#SubItem2_2Hash"><i class="bi bi-envelope-fill"></i>Link 2_2</a>'
-            },
-            ParentMenuItem3: {
-                ParentMenuItem3_ChildMenuItem1: {
-                    ChildMenuItem1_SubItem1_1: '<a href="#ChildMenuItem1_SubItem1_1Hash"><i class="bi bi-alarm-fill"></i>ChildMenuItem1_Link 1_1</a>',
-                    ChildMenuItem1_SubItem1_2: '<a href="#ChildMenuItem1_SubItem1_2Hash"><i class="bi bi-envelope-fill"></i>ChildMenuItem1_Link 1_2</a>'
-                },
-                SubItem3_2: '<a href="#SubItem3_2Hash"><i class="bi bi-envelope-fill"></i>Link 3_2</a>'
-            }
+    items: [{ 
+        name: 'Template Item',
+        id: 'template1',
+        open: true,
+        classes: '',
+        items: undefined,
+        element: {
+            type: undefined,
+            attributes: undefined,
+            styles: undefined,
+            innerHTML: undefined
         }
-    },
+    }],
+
 
     events: {
         N_MENU_MAP_CREATED: 'leaflet-nmenu-event-map-created',
@@ -86,10 +74,10 @@ L.NMenu = L.Class.extend({
 
 
 
-        NMENU_MENU_TRIGGER: 'leaflet-nmenu-menu-trigger',
-        NMENU_PARENT_TRIGGER: 'leaflet-nmenu-parent-trigger',
-        NMENU_CHILD_TRIGGER: 'leaflet-nmenu-child-trigger',
-        NMENU_GRANDCHILD_TRIGGER: 'leaflet-nmenu-grandchild-trigger',
+        N_MENU_MENU_TRIGGER: 'leaflet-nmenu-menu-trigger',
+        N_MENU_PARENT_TRIGGER: 'leaflet-nmenu-parent-trigger',
+        N_MENU_CHILD_TRIGGER: 'leaflet-nmenu-child-trigger',
+        N_MENU_GRANDCHILD_TRIGGER: 'leaflet-nmenu-grandchild-trigger',
 
         N_MENU_CONTAINER_MAP: 'leaflet-nmenu-map-container',
         N_MENU_CONTAINER_MENU: 'leaflet-nmenu-menu-container',
@@ -116,6 +104,7 @@ L.NMenu = L.Class.extend({
         this._setMapNMenuFrameworkStyles();
         this._createMapNMenuFramework();
         this._setMapNMenuFrameworkClasses();
+        this._createBanner();
         this.setupDisplayType();
 
         // this.loadItems(); --> moved to map.addinithook()
@@ -144,12 +133,14 @@ L.NMenu = L.Class.extend({
         const cssShowStyles = `.leaflet-n-menu-multi-level-accordian,
                         .leaflet-n-menu-accordian-item input:checked ~ ul {
                           display: block; 
+                          transition: display 1s ease-in-out;
                         }`;
 
         const defaultLabelStyles = `input[type=checkbox]+label {
                             cursor: pointer;
                             width: 100%;
                             font-weight: bold;
+                            user-select: none;
                           }`;
 
         const defaultLabelInteractions = `input[type=checkbox]:focus+label,
@@ -193,6 +184,48 @@ L.NMenu = L.Class.extend({
 
     },
 
+    _createBanner: function () {
+
+        /*         
+        header: {
+            position: 'sticky',
+            id: 'n_menu_header',
+            classes: 'leaflet-n-menu-banner-container',
+            element: {
+                type: 'div',
+                attributes: undefined,
+                styles: {
+                    //position: 'sticky', // same endpoint as nmenu>header>position therefore not required, will override nmenu>header>position
+                    top: 0,
+                    zIndex: 5,
+                    backgroundImage: 'url(./img/tile.png)',
+                    backgroundColor: 'rgb(16, 83, 150)',
+                    backgroundBlendMode: 'multiply',
+                    height: '80px',
+                    backgroundSize: 'contain',
+                    userSelect: 'none'
+                },
+                innerHTML: `<h2>LEAFET 'N' MENU</h2>`
+            }
+
+        } 
+        */
+
+        let bannerContainerElement = this.options.header.element.type ? this.options.header.element.type : 'div';
+        let bannerContainerClasses = this.options.header.classes ? this.options.header.classes : '';
+        let bannerContainer = L.DomUtil.create(bannerContainerElement, bannerContainerClasses, this.containers.menuItemsElement);
+        if (this.options.header.position) bannerContainer.style['position'] = this.options.header.position;
+
+        let headerStyles = this.options.header.element.styles;
+        for (let option in headerStyles) {
+			bannerContainer.style[option] = headerStyles[option];
+		}
+
+        if (this.options.header.element.innerHTML) bannerContainer.innerHTML += this.options.header.element.innerHTML; 
+
+
+    },
+
 
     /* 
 
@@ -226,7 +259,6 @@ L.NMenu = L.Class.extend({
 
     createAccordianItems: function (accordianItems) {
 
-        // let container = L.DomUtil.create('div', '', this.containers.menuItemsElement);
         let container = L.DomUtil.create('div', '', this.containers.menuItemsElement);
         let _accordianItem;
 
@@ -239,14 +271,16 @@ L.NMenu = L.Class.extend({
             //     icons: {default: '', hover: '', focus: '', selected: ''},
             //     items: accSubItems,
             //     itemsOpenByDefault: true,
-            //     classes: '',
             //     element: {
             //         type: 'div',
+            //         classes: undefined,
             //         attributes: undefined,
-            //         styles: {},
+            //         styles: undefined,
             //         innerHTML: undefined,
             //     }
             // }
+
+            
 
             _accordianItem = L.DomUtil.create('div', 'leaflet-n-menu-accordian-item leaflet-n-menu-accordian-parent', container);
 
@@ -277,6 +311,7 @@ L.NMenu = L.Class.extend({
                 //     element: {
                 //         type: 'div',
                 //         attributes: undefined,
+                //         classes: '',
                 //         styles: {},
                 //         innerHTML: undefined,
                 //     }
@@ -295,6 +330,10 @@ L.NMenu = L.Class.extend({
                     for (const [key, value] of Object.entries(currentElement.styles)) {
                         subMenuParentElementElement.style[key] = value;
                     }
+                }
+
+                if(currentElement.classes) {
+                    L.DomUtil.addClass(this.container, currentElement.classes);
                 }
 
                 if (currentElement.innerHTML) {
@@ -377,9 +416,6 @@ L.NMenu = L.Class.extend({
 
     },
 
-    accordianToggle: function (mainElement, toggle) {
-
-    },
 
 
 
@@ -482,6 +518,9 @@ L.Map.addInitHook(function () {
     L.NMenu.prototype.initialize(this, this.options);
 
     this.nmenu = L.NMenu;
+    this.nmenu.options = this.options.nmenu;
+    this.nmenu.containers = L.NMenu.prototype.containers;
+    this.nmenu.createAccordianItems = L.NMenu.prototype.createAccordianItems.bind(this.nmenu)
     L.NMenu.map = this;
 
     // L.NMenu.defaults = this.options.nmenu ? this.options.nmenu : this.options;

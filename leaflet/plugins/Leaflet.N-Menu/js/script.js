@@ -5,14 +5,10 @@ function menuHandler(e) {
 
 
 
-
-
-
 let menuItems = [{ //parentItem1
         name: 'Menu 1',
         id: 'P1',
         open: true,
-        classes: '',
         element: {
             type: 'div',
             attributes: {
@@ -21,6 +17,7 @@ let menuItems = [{ //parentItem1
             styles: {
                 padding: '5px 5px 0px 5px'
             },
+            classes: '',
             innerHTML: '<h5>Lorem ipsum.</h5>' +
                 '<p class="menuP">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium minima dolores assumenda id. Porro consequuntur at dolor eum, neque labore!</p>' +
                 '<h5>Dolor sit amet.</h5>' +
@@ -33,13 +30,13 @@ let menuItems = [{ //parentItem1
         items: [{
                 name: 'Menu 2.1',
                 id: 'P2C1',
-                classes: '',
                 element: {
                     type: 'div',
                     attributes: undefined,
                     styles: {
                         backgroundColor: 'lightcoral'
                     },
+                    classes: '',
                     innerHTML: undefined
                 }
             },
@@ -50,88 +47,60 @@ let menuItems = [{ //parentItem1
                 items: [{
                         name: 'Menu 2.2.1',
                         id: 'P2C2GC1',
-                        classes: '',
                         element: {
                             type: 'div',
                             attributes: undefined,
                             styles: {
                                 backgroundColor: 'orange'
                             },
+                            classes: '',
                             innerHTML: undefined
                         }
                     },
                     {
                         name: 'Menu 2.2.2',
                         id: 'P2C2GC2',
-                        classes: '',
                         items: [{
                             name: 'Menu 2.2.2.1',
                             id: 'P2C2GC2GGC1',
-                            classes: '',
                             element: {
                                 type: 'div',
                                 attributes: undefined,
                                 styles: {
                                     backgroundColor: 'grey'
                                 },
+                                classes: '',
                                 innerHTML: undefined
                             }
-                        }],
-                        element: {
-                            type: 'div',
-                            attributes: undefined,
-                            styles: {
-                                backgroundColor: 'orange'
-                            },
-                            innerHTML: undefined
-                        }
+                        }]
                     }
-                ],
-                itemsOpenByDefault: false,
-                classes: '',
-                element: {
-                    type: 'div',
-                    attributes: undefined,
-                    styles: {
-                        backgroundColor: 'lightpurple'
-                    },
-                    innerHTML: undefined
-                }
+                ]
             },
             {
                 name: 'Menu 2.3',
                 id: 'P2C3',
-                classes: '',
                 element: {
                     type: 'div',
                     attributes: undefined,
                     styles: {
                         backgroundColor: 'lightcoral'
                     },
+                    classes: '',
                     innerHTML: undefined
                 }
             }
-        ],
-        classes: '',
-        element: {
-            type: 'div',
-            attributes: undefined,
-            styles: {
-                backgroundColor: 'lightblue'
-            },
-            innerHTML: undefined
-        }
+        ]
     },
     { //parentItem3
         name: 'Menu 3',
         id: 'P3',
-        classes: '',
         element: {
             type: 'div',
             attributes: undefined,
             styles: {
                 backgroundColor: 'lime'
             },
+            classes: '',
             innerHTML: undefined
         }
     },
@@ -141,50 +110,32 @@ let menuItems = [{ //parentItem1
         items: [{
             name: 'Menu 4.1',
             id: 'P4C1',
-            classes: '',
             element: {
                 type: 'div',
                 attributes: undefined,
                 styles: {
                     backgroundColor: 'lightcoral'
                 },
+                classes: '',
                 innerHTML: undefined
             }
-        }],
-        classes: '',
-        element: {
-            type: 'div',
-            attributes: undefined,
-            styles: {
-                backgroundColor: 'lightblue'
-            },
-            innerHTML: undefined
-        }
+        }]
     },
     { //parentItem5
         name: 'Menu 5',
         id: 'P5',
-        classes: '',
         element: {
             type: 'div',
             attributes: undefined,
             styles: {
                 backgroundColor: 'lime'
             },
+            classes: '',
             innerHTML: undefined
         }
     }
 
 ];
-
-
-
-
-
-
-
-
-
 
 
 
@@ -239,15 +190,23 @@ let mapOptions = {
         items: menuItems,
         header: {
             position: 'sticky',
-            id: 'header',
-            classes: '',
+            id: 'n_menu_header',
+            classes: 'leaflet-n-menu-banner-container',
             element: {
                 type: 'div',
                 attributes: undefined,
                 styles: {
-                    backgroundColor: 'lime'
+                    //position: 'sticky', // same endpoint as nmenu>header>position therefore not required, will override nmenu>header>position
+                    // top: 0,
+                    // zIndex: 5,
+                    // backgroundImage: 'url(./img/tile.png)',
+                    // backgroundColor: 'rgb(16, 83, 150)',
+                    // backgroundBlendMode: 'multiply',
+                    // height: '80px',
+                    // backgroundSize: 'contain',
+                    userSelect: 'none'
                 },
-                innerHTML: undefined
+                innerHTML: `<h2>LEAFET 'N' MENU</h2>`
             }
 
         },
@@ -289,4 +248,32 @@ darkmatterLayer.addTo(mymap);
 
 
 
-mymap.setView([54.91418099296834, -1.3817024230957031], 15);
+mymap.setView([54.91633843491853, -1.38848304748535], 15);
+
+let moreMenuItems = [{ //parentItem1
+    name: 'Additional Menu',
+    id: 'A1',
+    items: [{ //parentItem1
+        name: 'Additional SubMenu',
+        id: 'A2',
+        open: true,
+        element: {
+            type: 'div',
+            attributes: {
+                'data-type': 'accordian-content'
+            },
+            styles: {
+                padding: '5px 5px 0px 5px'
+            },
+            classes: '',
+            innerHTML: '<h5>Lorem ipsum.</h5>' +
+                '<p class="menuP">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium minima dolores assumenda id. Porro consequuntur at dolor eum, neque labore!</p>' +
+                '<h5>Dolor sit amet.</h5>' +
+                '<p class="menuP">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur non sint sequi ipsa laudantium, aiure rem vel nemo soluta temporibus, consectetur at corrupti aspernatur maxime, iusto neque blanditiis deleniti.</p>'
+        }
+    }]
+}];
+
+mymap.nmenu.createAccordianItems(moreMenuItems);
+
+// nmenu.createAccordianItems

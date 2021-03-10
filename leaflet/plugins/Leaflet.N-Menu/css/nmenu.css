@@ -38,7 +38,7 @@
 
     --alternativeFont: 8pt var(--defaultFontFamily);
 
-    --transitionDefaults: all 0.2s ease-in-out;
+    --transitionDefaults: all 0s ease-in-out;
 
     --bannerImageURL: url(../img/banner.png);
 
@@ -93,17 +93,32 @@
 }
 
 
+.leaflet-n-menu-banner-container {
+    top: 0;
+    z-index: 5;
+    background-image: url(../img/tile.png);
+    background-color: rgb(16, 83, 150);
+    background-blend-mode: multiply;
+    height: 80px;
+    background-size: contain;
+    user-select: none;
+}
 
-
-
-
+#accordian>div.leaflet-n-menu-banner-container>h2 {
+    font-size: 25px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 80px;
+    color: #fff;
+    /* The same as .blended div height */
+}
 
 
 
 
 
 * {
-    /* transition: var(--transitionDefaults); */
+    transition: var(--transitionDefaults);
 }
 
 
@@ -112,7 +127,7 @@
 
 
 input[type=checkbox]+label {
-    background-color: rgb(118, 133, 148);
+    background-color: rgba(21, 50, 78, 0.4);
     color: #ccc;
     height: 50px;
     display: flex;
@@ -122,24 +137,24 @@ input[type=checkbox]+label {
 
 
 input[type=checkbox]:checked+label {
-    background-color: rgb(80, 117, 155);
+    background-color: rgba(21, 50, 78, 0.7);
     color: #fff;
 }
 
 input[type=checkbox]:focus+label,
 input[type=checkbox]:hover+label {
-    background-color: rgb(16, 83, 150);
+    background-color: rgba(21, 50, 78, 1);
     color: #fff;
 }
 
 
-.menuP{
+.menuP {
     font-size: 1rem;
     margin-bottom: 0.5em;
 }
 
-h5{
-    margin-top:0.5em;
+h5 {
+    margin-top: 0.5em;
 }
 
 .divItem {
@@ -161,6 +176,7 @@ li>a>i {
     top: -3px;
     left: 3px;
     padding: 0px 10px 0px 5px;
+    
 }
 
 
