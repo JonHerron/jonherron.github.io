@@ -115,45 +115,6 @@ L.control.enhanced = function (options) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 L.Control.Enhanced.Button = L.Control.Enhanced.extend({
 	version: '0.0.1',
 	defaultLeafletClass: 'leaflet-control-enhanced-button-container',
@@ -202,55 +163,6 @@ L.Control.Enhanced.Button = L.Control.Enhanced.extend({
 L.control.enhanced.button = function (options) {
 	return new L.Control.Enhanced.Button(options);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-L.Control.Enhanced.Modal = L.Control.Enhanced.extend({
-
-	onAdd: function (map) {
-		L.Control.Enhanced.prototype.onAdd.call(this, map);
-		if (this.options.autoSetLeafletClasses) L.DomUtil.addClass(this.container, this.defaultLeafletClass);
-
-		return this.container;
-	},
-
-	onRemove: function (map) {
-		L.Control.Enhanced.prototype.onRemove.call(this, map);
-
-	}
-
-});
-
-L.control.enhanced.modal = function (options) {
-	return new L.Control.Enhanced.Modal(options);
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -513,6 +425,41 @@ L.control.enhanced.carousel = function (options) {
 
 
 
+L.Control.Enhanced.ContextMenu = L.Control.Enhanced.extend({
+	version: '0.0.1',
+	defaultLeafletClass: 'leaflet-control-enhanced-context-menu',
+	options: {
+		position: 'none',
+		containerElement: 'div',
+		containerParent: 'default'
+	},
+
+	onAdd: function (map) {
+		L.Control.Enhanced.prototype.onAdd.call(this, map);
+		if (this.options.autoSetLeafletClasses) L.DomUtil.addClass(this.container, this.defaultLeafletClass);
+
+		return this.container;
+	},
+
+	onRemove: function (map) {
+		L.Control.Enhanced.prototype.onRemove.call(this, map);
+
+	}
+
+});
+
+L.control.enhanced.contextMenu = function (options) {
+	return new L.Control.Enhanced.ContextMenu(options);
+};
+
+
+
+
+
+
+
+
+
 
 L.Control.Enhanced.Controls = L.Control.Enhanced.extend({
 
@@ -549,34 +496,6 @@ L.Control.Enhanced.Controls = L.Control.Enhanced.extend({
 L.control.enhanced.controls = function (options) {
 	return new L.Control.Enhanced.Controls(options);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -721,13 +640,39 @@ L.Control.Enhanced.Messagebox = L.Control.Enhanced.extend({
 
 
 
-
-
-
-
 L.control.enhanced.messagebox = function (options) {
 	return new L.Control.Enhanced.Messagebox(options);
 };
+
+
+
+
+
+
+L.Control.Enhanced.Modal = L.Control.Enhanced.extend({
+
+	onAdd: function (map) {
+		L.Control.Enhanced.prototype.onAdd.call(this, map);
+		if (this.options.autoSetLeafletClasses) L.DomUtil.addClass(this.container, this.defaultLeafletClass);
+
+		return this.container;
+	},
+
+	onRemove: function (map) {
+		L.Control.Enhanced.prototype.onRemove.call(this, map);
+
+	}
+
+});
+
+L.control.enhanced.modal = function (options) {
+	return new L.Control.Enhanced.Modal(options);
+};
+
+
+
+
+
 
 L.Map.addInitHook(function () {
 	// L.Control.Enhanced.Messagebox.prototype.alert('Aaaaaaaaaaaaaaaaaaaaargh!!');

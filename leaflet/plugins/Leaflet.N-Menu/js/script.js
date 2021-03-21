@@ -1,3 +1,6 @@
+console.clear();
+
+
 function menuHandler(e) {
     console.log('Event - ', e.type, e);
 };
@@ -54,7 +57,7 @@ let menuItems = [{ //parentItem1
                                 backgroundColor: 'orange'
                             },
                             classes: '',
-                            innerHTML: undefined
+                            innerHTML: `<a href="https://jonherron.github.io/"><img src="https://via.placeholder.com/250"></a>`
                         }
                     },
                     {
@@ -214,7 +217,7 @@ let mapOptions = {
 
         },
         ajax: {
-            onLoad: 'menu-ajax.htm',
+            onLoad: 'menu-ajax-2.htm',
             position: 'bottom'
         },
         onLoad: {
@@ -254,7 +257,7 @@ let moreMenuItems = [{ //parentItem1
     name: 'Additional Menu',
     id: 'A1',
     items: [{ //parentItem1
-        name: 'Additional SubMenu',
+        name: 'A SubMenu',
         id: 'A2',
         open: true,
         element: {
@@ -266,14 +269,29 @@ let moreMenuItems = [{ //parentItem1
                 padding: '5px 5px 0px 5px'
             },
             classes: '',
-            innerHTML: '<h5>Lorem ipsum.</h5>' +
-                '<p class="menuP">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium minima dolores assumenda id. Porro consequuntur at dolor eum, neque labore!</p>' +
-                '<h5>Dolor sit amet.</h5>' +
-                '<p class="menuP">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur non sint sequi ipsa laudantium, aiure rem vel nemo soluta temporibus, consectetur at corrupti aspernatur maxime, iusto neque blanditiis deleniti.</p>'
+            innerHTML: `<div id="replaceMe">
+                        <h5>Lorem ipsum.</h5>
+                        <p class="menuP">
+                            Lorem ipsum dolor, 
+                            sit amet consectetur adipisicing elit. 
+                            Laudantium minima dolores assumenda id. 
+                            Porro consequuntur at dolor eum, neque labore!
+                        </p>
+                        <h5>Dolor sit amet.</h5>
+                        <p class="menuP">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                            Tenetur non sint sequi ipsa laudantium, 
+                            aiure rem vel nemo soluta temporibus, 
+                            consectetur at corrupti aspernatur maxime, 
+                            iusto neque blanditiis deleniti.
+                        </p>
+                    </div>'`
         }
     }]
 }];
 
 mymap.nmenu.createAccordianItems(moreMenuItems);
+
+mymap.nmenu.loadHTML('./menu-content.htm', 'replaceMe', true);
 
 // nmenu.createAccordianItems

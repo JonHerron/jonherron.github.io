@@ -1,3 +1,5 @@
+console.clear();
+
 let mapOptions = {};
 
 let mymap = L.map('map', mapOptions);
@@ -117,7 +119,7 @@ let myControlCarousel = L.control.enhanced.carousel({
             }
         }
     })
-    .addTo(mymap);
+    // .addTo(mymap);
 
 
 

@@ -268,43 +268,42 @@ L.NMenu = L.Class.extend({
             //     name: 'something',
             //     id: 'Phillie',
             //     open: false, // implied
-            //     icons: {default: '', hover: '', focus: '', selected: ''},
-            //     items: accSubItems,
-            //     itemsOpenByDefault: true,
+            //     items: [],
             //     element: {
             //         type: 'div',
             //         classes: undefined,
             //         attributes: undefined,
             //         styles: undefined,
             //         innerHTML: undefined,
-            //     }
+            //     },
+            //     level: 'child' //gets modified/added automatically by this function to calculate current 'depth' in the menu
             // }
 
             
 
             _accordianItem = L.DomUtil.create('div', 'leaflet-n-menu-accordian-item leaflet-n-menu-accordian-parent', container);
 
-            let piInput = L.DomUtil.create('input', '', _accordianItem);
-            piInput.setAttribute('type', 'checkbox');
-            if(accordianItems[i].open) piInput.setAttribute('checked', '');
-            piInput.id = accordianItems[i].id;
+            let accordianItemInput = L.DomUtil.create('input', '', _accordianItem);
+            accordianItemInput.setAttribute('type', 'checkbox');
+            if(accordianItems[i].open) accordianItemInput.setAttribute('checked', '');
+            accordianItemInput.id = accordianItems[i].id;
 
-            let piLabel = L.DomUtil.create('label', '', _accordianItem);
-            piLabel.setAttribute('for', accordianItems[i].id);
-            piLabel.setAttribute('aria-expanded', 'false');
-            let piI = L.DomUtil.create('i', 'bi bi-menu-button-wide-fill', piLabel);
-            let text = accordianItems[i].name;
-            piLabel.innerHTML = piLabel.innerHTML + text;
+            let accordianItemLabel = L.DomUtil.create('label', '', _accordianItem);
+            accordianItemLabel.setAttribute('for', accordianItems[i].id);
+            accordianItemLabel.setAttribute('aria-expanded', 'false');
+            let accordianItemIElement = L.DomUtil.create('i', 'bi bi-menu-button-wide-fill', accordianItemLabel);
+            let accordianItemLabelText = accordianItems[i].name;
+            accordianItemLabel.innerHTML = accordianItemLabel.innerHTML + accordianItemLabelText;
 
-            let piAccordian = L.DomUtil.create('ul', 'leaflet-n-menu-accordian-parent-ul', _accordianItem);
+            let accordianItemULElement = L.DomUtil.create('ul', 'leaflet-n-menu-accordian-parent-ul', _accordianItem);
 
-            let subMenuParentElement = L.DomUtil.create('li', 'leaflet-n-menu-accordian-parent-li', piAccordian);
+            let accordianItemLIElement = L.DomUtil.create('li', 'leaflet-n-menu-accordian-parent-li', accordianItemULElement);
 
             if (accordianItems[i].items) {
 
                 let subMenuItem = this.createAccordianItems(accordianItems[i].items);
 
-                subMenuParentElement.appendChild(subMenuItem);
+                accordianItemLIElement.appendChild(subMenuItem);
 
             } else if (accordianItems[i].element) {
 
@@ -318,7 +317,7 @@ L.NMenu = L.Class.extend({
                 let currentElement = accordianItems[i].element;
 
                 if (!currentElement.type) currentElement.type = 'div';
-                let subMenuParentElementElement = L.DomUtil.create((currentElement.type), 'leaflet-n-menu-accordian-parent-div', subMenuParentElement);
+                let subMenuParentElementElement = L.DomUtil.create((currentElement.type), 'leaflet-n-menu-accordian-parent-div', accordianItemLIElement);
 
                 if (currentElement.attributes) {
                     for (const [key, value] of Object.entries(currentElement.attributes)) {
@@ -346,7 +345,7 @@ L.NMenu = L.Class.extend({
 
 
             } else {
-                let subMenuParentElementTrigger = L.DomUtil.create('a', '', subMenuParentElement);
+                let subMenuParentElementTrigger = L.DomUtil.create('a', '', accordianItemLIElement);
                 subMenuParentElementTrigger.setAttribute('href', '#');
                 let subMenuParentElementTriggerIcon = L.DomUtil.create('i', 'bi bi-menu-button-wide', subMenuParentElementTrigger);
                 subMenuParentElementTrigger.innerHTML = subMenuParentElementTrigger.innerHTML + `A Child Item`;
@@ -458,8 +457,8 @@ L.NMenu = L.Class.extend({
 
 
 
-    loadHTML: function (path, container) {
-
+    loadHTML: function (path, elementID, replace) {
+        console.log("Hi, loadHTML here, you may remember me from....");
         fetch(path)
             .then(res => {
                 if (res.ok) {
@@ -471,11 +470,21 @@ L.NMenu = L.Class.extend({
             .then(data => data.text())
             .then(data => {
                 // menu.dispose();
-                if (container) {
-                    container.innerHTML += data;
+                if (elementID) {
+                    if(L.DomUtil.get(elementID)) {
+                        console.log("Yup getting here....", L.DomUtil.get(elementID));
+                        if(replace){
+                            L.DomUtil.get(elementID).innerHTML = data;
+                        }
+                        else{
+                            L.DomUtil.get(elementID).innerHTML += data;
+                        }
+                    }else{
+                        throw Error(`failed to find ${elementID}`);
+                    }
                 } else {
                     console.log(`'${path}' not found`);
-                    throw Error(`failed to add ${data} to ${container}`);
+                    throw Error(`failed to add ${data} to ${elementID}`);
                 }
             })
             .then(() => {
@@ -520,12 +529,13 @@ L.Map.addInitHook(function () {
     this.nmenu = L.NMenu;
     this.nmenu.options = this.options.nmenu;
     this.nmenu.containers = L.NMenu.prototype.containers;
-    this.nmenu.createAccordianItems = L.NMenu.prototype.createAccordianItems.bind(this.nmenu)
+    this.nmenu.createAccordianItems = L.NMenu.prototype.createAccordianItems.bind(this.nmenu);
+    this.nmenu.loadHTML = L.NMenu.prototype.loadHTML.bind(this.nmenu);
     L.NMenu.map = this;
 
     // L.NMenu.defaults = this.options.nmenu ? this.options.nmenu : this.options;
 
-    L.NMenu.prototype.loadItems();
+    if (L.NMenu.prototype.options.ajax.onLoad) L.NMenu.prototype.loadItems();
 
     console.log("L.Map.addInitHook", this);
     console.log("L.Map.addInitHook", L.NMenu.prototype);
