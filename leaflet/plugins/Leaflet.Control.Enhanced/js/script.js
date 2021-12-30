@@ -56,7 +56,7 @@ mymap.setView([lat, lng], zm);
 
 let myMessageBoxOptions = {
     position: 'topright',
-    timeout: 5000,
+    timeout: 5000
 }
 let myMessageBox = L.control.enhanced.messagebox(myMessageBoxOptions).addTo(mymap);
 
@@ -85,41 +85,6 @@ let myRandomControl = L.control.enhanced({
 
 
 
-let myControlCarousel = L.control.enhanced.carousel({
-        position: 'bottomright',
-        styles: {
-            padding: '5px 10px',
-            width: '300px',
-            height: '200px'
-        },
-        carousel: {
-            items: [{
-                title: 'item1',
-                innerHTML: '<h2>1</h2>'
-            }, {
-                title: 'item2',
-                innerHTML: '<h2>2</h2>'
-            }, {
-                title: 'item3',
-                innerHTML: '<h2>3</h2>'
-            }, {
-                title: 'item4',
-                innerHTML: '<h2>4</h2>'
-            }, {
-                title: 'item5',
-                innerHTML: '<h2>5</h2>'
-            }, {
-                title: 'item6',
-                innerHTML: '<h2>6</h2>'
-            }],
-            icons: {
-                previous: '',
-                next: '',
-                navigation: ''
-            }
-        }
-    })
-    // .addTo(mymap);
 
 
 
@@ -147,6 +112,149 @@ let myButton = L.control.enhanced.button({
         }
     })
     .addTo(mymap);
+
+
+
+let myControlCarousel = L.control.enhanced.carousel({
+        position: 'bottomleft',
+        styles: {
+            padding: '0px',
+            width: '640px',
+            height: '480px'
+        },
+        carousel: {
+            items: [{
+                title: 'item1',
+                innerHTML: '<img alt="" src="https://placeimg.com/640/480/any"/>'
+            }, {
+                title: 'item2',
+                innerHTML: '<img alt="" src="https://placeimg.com/640/480/animals"/>'
+            }, {
+                title: 'item3',
+                innerHTML: '<img alt="" src="https://placeimg.com/640/480/arch"/>'
+            }, {
+                title: 'item4',
+                innerHTML: '<img alt="" src="https://placeimg.com/640/480/nature"/>'
+            }, {
+                title: 'item5',
+                innerHTML: '<img alt="" src="https://placeimg.com/640/480/people"/>'
+            }],
+            icons: {
+                previous: '',
+                next: '',
+                navigation: ''
+            }
+        }
+    })
+    .addTo(mymap);
+
+let carouselCSS = `
+    .leaflet-control-enhanced-carousel-container {
+        width: 100%;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    
+    .leaflet-control-enhanced-carousel {
+        display: flex;
+        left: -100%;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        transform: translateX(100%);
+    }
+    
+    @media (min-width: 30em) {
+        .leaflet-control-enhanced-carousel {
+        left: -50%;
+        transform: translateX(50%);
+        }
+    }
+    
+    @media (min-width: 40em) {
+        .leaflet-control-enhanced-carousel {
+        left: -33.33333%;
+        transform: translateX(33.33333%);
+        }
+    }
+    
+    .leaflet-control-enhanced-carousel.is-reversing {
+        transform: translateX(-100%);
+    }
+    
+    @media (min-width: 30em) {
+        .leaflet-control-enhanced-carousel.is-reversing {
+        transform: translateX(-50%);
+        }
+    }
+    
+    @media (min-width: 40em) {
+        .leaflet-control-enhanced-carousel.is-reversing {
+        transform: translateX(-33.33333%);
+        }
+    }
+    
+    .leaflet-control-enhanced-carousel.is-set {
+        transform: none;
+        transition: transform 0.5s ease-in-out;
+    }
+    
+    .leaflet-control-enhanced-carousel-seat {
+        background: #ddd;
+        flex: 1 0 100%;
+        order: 2;
+    }
+    
+    .leaflet-control-enhanced-carousel-seat:nth-child(even) {
+        background: #d5d5d5;
+    }
+    
+    @media (min-width: 30em) {
+        .leaflet-control-enhanced-carousel-seat {
+        flex-basis: 50%;
+        }
+    }
+    
+    @media (min-width: 40em) {
+        .leaflet-control-enhanced-carousel-seat {
+        flex-basis: 33.33333%;
+        }
+    }
+    
+    .leaflet-control-enhanced-carousel-seat.is-ref {
+        order: 1;
+    }
+    
+    
+    .controls {
+        padding: 1em;
+        text-align: center;
+    }
+    
+    .controls button {
+        background: #eee;
+        border: 0;
+        border-radius: 0.25em;
+        color: #aaa;
+        padding: 0.5em 1em;
+    }
+    
+    .controls button:hover,
+    .controls button:focus {
+        background: #aaa;
+        border: 0;
+        border-radius: 0.25em;
+        color: #eee;
+        padding: 0.5em 1em;
+    }
+  `;
+
+myControlCarousel.injectCSS(carouselCSS);
+
+
+
+
 
 
 

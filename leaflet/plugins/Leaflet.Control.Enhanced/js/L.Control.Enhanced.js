@@ -34,8 +34,10 @@ L.Control.Enhanced = L.Control.extend({
 	},
 
 	injectCSS: function (css) {
+		let strippedHTML = css.replace(/(<([^>]+)>)/gi, "");
+		let strippedLineBreaks = strippedHTML.replace(/(\r\n|\n|\r)/gm, "");
 		let styleTag = document.createElement("style");
-		styleTag.innerText = css;
+		styleTag.innerText = strippedLineBreaks;
 		document.head.appendChild(styleTag);
 
 		return styleTag;
@@ -180,10 +182,24 @@ L.Control.Enhanced.Carousel = L.Control.Enhanced.extend({
 		containerParent: 'default'
 	},
 
+	carouselContainer: undefined,
+	slider: undefined,
+	controls: undefined,
+	previousItem: undefined,
+	nextItem: undefined,
+	carouselItems: [],
+
+	trackContainer: undefined,
+	carouselImage: undefined,
+	btnPrev: undefined,
+	btnNext: undefined,
+	amountToMove: undefined,
+
+
 	onAdd: function (map) {
 		L.Control.Enhanced.prototype.onAdd.call(this, map);
 		if (this.options.autoSetLeafletClasses) L.DomUtil.addClass(this.container, this.defaultLeafletClass);
-
+		// this.setupCarousel();
 		return this.container;
 	},
 
@@ -194,130 +210,41 @@ L.Control.Enhanced.Carousel = L.Control.Enhanced.extend({
 
 	_initAdditional: function () {
 
-		let carouselContent = this.options.carousel;
+		console.log("Overwritten _initAdditional for L.Control.Enhanced.Carousel");
+		// this._initCarousel();
+		this._initFlexboxCarousel(this.options.carousel);
 
-		let carouselContainer = L.DomUtil.create('div', 'leaflet-control-enhanced-carousel-container', this.container);
-		let carousel = L.DomUtil.create('ul', 'leaflet-control-enhanced-carousel is-set', carouselContainer);
+	},
 
-		for (var i = 0; i < carouselContent.items.length; i++) {
-			// console.log(carouselContent.items[i]);
+	_initFlexboxCarousel: function (options) {
+		let carouselOptions = options;
 
-			let liItem = L.DomUtil.create('li', 'leaflet-control-enhanced-carousel-seat', carousel);
-			liItem.innerHTML = carouselContent.items[i].innerHTML;
+		this.carouselContainer = L.DomUtil.create('div', 'leaflet-control-enhanced-carousel-container', this.container);
+		this.slider = L.DomUtil.create('ul', 'leaflet-control-enhanced-carousel is-set', this.carouselContainer);
+		this.controls = L.DomUtil.create('div', 'controls', this.carouselContainer);
 
-		}
+		this.previousItem = L.DomUtil.create('button', 'toggle', this.controls);
+		this.previousItem.setAttribute('data-toggle', 'prev');
+		this.previousItem.innerHTML = '&#10094;';
+		this.nextItem = L.DomUtil.create('button', 'btn--next', this.controls);
+		this.nextItem.setAttribute('data-toggle', 'next');
+		this.nextItem.innerHTML = '&#10095;';
 
-		let controlsContainer = L.DomUtil.create('div', 'controls', this.container);
-		let prevButton = L.DomUtil.create('button', 'toggle', controlsContainer);
-		prevButton.setAttribute('data-toggle', 'prev');
-		prevButton.innerHTML = 'PREV';
-
-		let nextButton = L.DomUtil.create('button', 'toggle', controlsContainer);
-		nextButton.setAttribute('data-toggle', 'next');
-		nextButton.innerHTML = 'NEXT';
+		carouselOptions.items.forEach(element => {
+			let cur = L.DomUtil.create('li', 'leaflet-control-enhanced-carousel-seat', this.slider);
+			cur.innerHTML = element.innerHTML;
+		});
 
 
 
-		const css = `.leaflet-control-enhanced-carousel-container {
-			width: 80%;
-			margin: 0 auto;
-			overflow: hidden;
-		  }
-		  
-		  .leaflet-control-enhanced-carousel {
-			display: flex;
-			left: -100%;
-			list-style: none;
-			margin: 0;
-			padding: 0;
-			position: relative;
-			transform: translateX(100%);
-		  }
-		  
-		  @media (min-width: 30em) {
-			.leaflet-control-enhanced-carousel {
-			  left: -50%;
-			  transform: translateX(50%);
-			}
-		  }
-		  
-		  @media (min-width: 40em) {
-			.leaflet-control-enhanced-carousel {
-			  left: -33.33333%;
-			  transform: translateX(33.33333%);
-			}
-		  }
-		  
-		  .leaflet-control-enhanced-carousel.is-reversing {
-			transform: translateX(-100%);
-		  }
-		  
-		  @media (min-width: 30em) {
-			.leaflet-control-enhanced-carousel.is-reversing {
-			  transform: translateX(-50%);
-			}
-		  }
-		  
-		  @media (min-width: 40em) {
-			.leaflet-control-enhanced-carousel.is-reversing {
-			  transform: translateX(-33.33333%);
-			}
-		  }
-		  
-		  .leaflet-control-enhanced-carousel.is-set {
-			transform: none;
-			transition: transform 0.5s ease-in-out;
-		  }
-		  
-		  .leaflet-control-enhanced-carousel-seat {
-			background: #ddd;
-			flex: 1 0 100%;
-			order: 2;
-		  }
-		  
-		  .leaflet-control-enhanced-carousel-seat:nth-child(even) {
-			background: #d5d5d5;
-		  }
-		  
-		  @media (min-width: 30em) {
-			.leaflet-control-enhanced-carousel-seat {
-			  flex-basis: 50%;
-			}
-		  }
-		  
-		  @media (min-width: 40em) {
-			.leaflet-control-enhanced-carousel-seat {
-			  flex-basis: 33.33333%;
-			}
-		  }
-		  
-		  .leaflet-control-enhanced-carousel-seat.is-ref {
-			order: 1;
-		  }
-		  
+		const $carousel = document.querySelector('.leaflet-control-enhanced-carousel');
+		const $seats = document.querySelectorAll('.leaflet-control-enhanced-carousel-seat');
+		const $toggle = document.querySelectorAll('.toggle');
+		
+		document.addEventListener("click", this.delegate(this.toggleFilter, this.toggleHandler));
 
-		  
-		  .controls {
-			padding: 1em;
-			text-align: center;
-		  }
-		  
-		  .controls button {
-			background: #aaa;
-			border: 0;
-			border-radius: 0.25em;
-			color: #eee;
-			padding: 0.5em 1em;
-		  }
-		  
-		  .controls button:hover,
-		  .controls button:focus {
-			background: orange;
-		  }
-		  `;
 
-		  this.injectCSS(css);
-		  document.addEventListener("click", this.delegate(this.toggleFilter, this.toggleHandler));
+
 
 	},
 
@@ -343,18 +270,11 @@ L.Control.Enhanced.Carousel = L.Control.Enhanced.extend({
 	},
 
 	toggleHandler: function (e) {
-
-				// http://madewithenvy.com/ecosystem/articles/2015/exploring-order-flexbox-carousel/
-				const $carousel = document.querySelector('.leaflet-control-enhanced-carousel');
-				const $seats = document.querySelectorAll('.leaflet-control-enhanced-carousel-seat');
-				const $toggle = document.querySelectorAll('.toggle');
-		
-				
 		var $newSeat;
 		const $el = document.querySelector('.is-ref');
 		const $currSliderControl = e.delegateTarget;
 		// Info: e.target is what triggers the event dispatcher to trigger and e.currentTarget is what you assigned your listener to.
-
+	
 		$el.classList.remove('is-ref');
 		if ($currSliderControl.getAttribute('data-toggle') === 'next') {
 			$newSeat = next($el);
@@ -363,19 +283,19 @@ L.Control.Enhanced.Carousel = L.Control.Enhanced.extend({
 			$newSeat = prev($el);
 			$carousel.classList.add('is-reversing');
 		}
-
+	
 		$newSeat.classList.add('is-ref');
 		$newSeat.style.order = 1;
 		for (var i = 2; i <= $seats.length; i++) {
 			$newSeat = next($newSeat);
 			$newSeat.style.order = i;
 		}
-
+	
 		$carousel.classList.remove('is-set');
 		return setTimeout(function () {
 			return $carousel.classList.add('is-set');
 		}, 50);
-
+	
 		function next($el) {
 			if ($el.nextElementSibling) {
 				return $el.nextElementSibling;
@@ -383,7 +303,7 @@ L.Control.Enhanced.Carousel = L.Control.Enhanced.extend({
 				return $carousel.firstElementChild;
 			}
 		}
-
+	
 		function prev($el) {
 			if ($el.previousElementSibling) {
 				return $el.previousElementSibling;
@@ -393,25 +313,99 @@ L.Control.Enhanced.Carousel = L.Control.Enhanced.extend({
 		}
 	},
 
-	next: function (slide) {
+
+
+
+
+
+
+
+
+	_initCarousel: function () {
+		let carouselContent = this.options.carousel;
+
+		this.carouselContainer = L.DomUtil.create('div', 'tour__gallery', this.container);
+		this.slider = L.DomUtil.create('ul', 'picture__slider', this.carouselContainer);
+		this.controls = L.DomUtil.create('div', 'controls', this.carouselContainer);
+
+		this.previousItem = L.DomUtil.create('button', 'btn--prev is-hidden', this.controls);
+		this.previousItem.innerHTML = '&#10094;';
+		this.nextItem = L.DomUtil.create('button', 'btn--next', this.controls);
+		this.nextItem.innerHTML = '&#10095;';
+
+		carouselContent.items.forEach(element => {
+			let cur = L.DomUtil.create('li', 'carousel__image', this.slider);
+			cur.innerHTML = element.innerHTML;
+		});
+
+		// this.setupCarousel();
+	},
+
+	setupCarousel: function () {
+		this.trackContainer = document.querySelector('.picture__slider');
+		this.carouselImage = document.querySelectorAll('.carousel__image');
+		this.btnPrev = document.querySelector('.btn--prev');
+		this.btnNext = document.querySelector('.btn--next');
+		this.amountToMove = this.carouselImage[0].offsetWidth;
+		
+		window.addEventListener('resize',() => {
+			this.amountToMove = this.carouselImage[0].offsetWidth;
+		})
+		
+		let count = 0;
+		this.btnNext.addEventListener('click', function() {
+			if(count >= carouselImage.length-1 ) return;
+			count++;
+			let imgSrc = carouselImage[count].firstElementChild;
+			if(imgSrc.getAttribute('src') === "") {
+				imgSrc.setAttribute('src',imgSrc.dataset.src);
+			}
+			trackContainer.style.transition = "transform 0.5s ease-in-out"
+			trackContainer.style.transform = 'translateX(-' + amountToMove * count + 'px)';
+			L.Control.Enhanced.Carousel.prototype.btnShowHide(count);
+		});
+		
+		window.addEventListener('resize',() => {
+			const widthGallery = document.querySelector('.tour__gallery').offsetWidth;
+			trackContainer.style.transition = "none"
+			trackContainer.style.transform = 'translateX(-' + amountToMove * count + 'px)';
+			/*if(count === carouselImage.length-1) {
+				trackContainer.style.transform = 'translateX(-' + amountToMove * count + 'px)';
+			}*/
+		});
+		
+		this.btnPrev.addEventListener('click', function() {
+			if(count === 0 ) return;
+			count--;
+			trackContainer.style.transition = "transform 0.5s ease-in-out"
+			trackContainer.style.transform = 'translateX(-' + amountToMove * count + 'px)';
+			L.Control.Enhanced.Carousel.prototype.btnShowHide(count);
+		});
+		
+		
+		
+		
+
+
 
 	},
 
-	previous: function (slide) {
-
-	},
-
-	moveTo: function (slide) {
-
-	},
-
-	_reset: function () {
-
-	},
-
-	_updateNavigationItems: function (event) {
-
+	btnShowHide: function(count) {
+		if(count === 0) {
+			btnPrev.classList.add('is-hidden');
+			btnNext.classList.remove('is-hidden');
+		}
+		else if(count === carouselImage.length-1) {
+			btnPrev.classList.remove('is-hidden');
+			btnNext.classList.add('is-hidden');
+		}
+		else {
+			btnPrev.classList.remove('is-hidden');
+			btnNext.classList.remove('is-hidden');
+		}
 	}
+
+
 
 });
 
