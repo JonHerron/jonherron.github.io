@@ -36,7 +36,7 @@ let paramOptions = {
     },
     parameterOptions: {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 14, // max 16,
+        maximumFractionDigits: 5, // max 16,
         showInURL: true,
         showInAttribution: true
     }
